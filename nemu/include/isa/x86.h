@@ -18,12 +18,48 @@
  */
 
 typedef struct {
-  struct {
-    uint32_t _32;
-    uint16_t _16;
-    uint8_t _8[2];
-  } gpr[8];
-
+  union{
+    struct {
+      uint32_t _32;
+      uint16_t _16;
+      uint8_t _8[2];
+    }gpr[8];
+    struct {
+      uint32_t EAX;
+      uint16_t AX;
+      uint8_t AH,AL; 
+    };
+    struct {
+      uint32_t EDX;
+      uint16_t DX;
+      uint8_t DH,DL;
+    };
+    struct {
+      uint32_t ECX;
+      uint16_t CX;
+      uint8_t CH,CL; 
+    };
+    struct {
+      uint32_t EBX;
+      uint16_t BX;
+      uint8_t BH,BL; 
+    };
+    struct {
+      uint32_t EBP;
+      uint16_t BP; 
+    };
+    struct {
+      uint32_t ESI;
+      uint16_t SI; 
+    };
+    struct {
+      uint32_t EDI;
+      uint16_t DI; 
+    };
+    struct {
+      uint32_t ESP;
+      uint16_t SP; 
+    };
   /* Do NOT change the order of the GPRs' definitions. */
 
   /* In NEMU, rtlreg_t is exactly uint32_t. This makes RTL instructions
@@ -32,6 +68,7 @@ typedef struct {
   rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 
   vaddr_t pc;
+  };
 } x86_CPU_state;
 
 // decode
