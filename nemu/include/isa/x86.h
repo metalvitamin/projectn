@@ -30,19 +30,23 @@ typedef struct {
       uint8_t AH:8,AL:8;} ;
     };
     struct {
-      uint32_t EDX:32;
-      union{uint16_t DX:16;
-      uint8_t DH:8,DL:8;};
-    };
-    struct {
       uint32_t ECX:32;
       union{uint16_t CX:16;
-      uint8_t CH:8,CL:8;} ;
+      uint8_t CH:8,CL:8;};
+    };
+    struct {
+      uint32_t EDX:32;
+      union{uint16_t DX:16;
+      uint8_t DH:8,DL:8;} ;
     };
     struct {
       uint32_t EBX:32;
       union{uint16_t BX:16;
       uint8_t BH:8,BL:8;} ;
+    };
+    struct {
+      uint32_t ESP:32;
+      uint16_t SP:16; 
     };
     struct {
       uint32_t EBP:32;
@@ -55,10 +59,6 @@ typedef struct {
     struct {
       uint32_t EDI:32;
       uint16_t DI:16; 
-    };
-    struct {
-      uint32_t ESP:32;
-      uint16_t SP:16; 
     };
   /* Do NOT change the order of the GPRs' definitions. */
 
