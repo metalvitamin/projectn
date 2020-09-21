@@ -26,23 +26,23 @@ typedef struct {
     }gpr[8];
     struct {
       uint32_t EAX:32;
-      uint16_t AX:16;
-      uint8_t AH:8,AL:8; 
+      union{uint16_t AX:16;
+      uint8_t AH:8,AL:8;} ;
     };
     struct {
       uint32_t EDX:32;
-      uint16_t DX:16;
-      uint8_t DH:8,DL:8;
+      union{uint16_t DX:16;
+      uint8_t DH:8,DL:8;};
     };
     struct {
       uint32_t ECX:32;
-      uint16_t CX:16;
-      uint8_t CH:8,CL:8; 
+      union{uint16_t CX:16;
+      uint8_t CH:8,CL:8;} ;
     };
     struct {
       uint32_t EBX:32;
-      uint16_t BX:16;
-      uint8_t BH:8,BL:8; 
+      union{uint16_t BX:16;
+      uint8_t BH:8,BL:8;} ;
     };
     struct {
       uint32_t EBP:32;
