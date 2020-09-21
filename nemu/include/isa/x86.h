@@ -29,34 +29,40 @@ typedef struct {
         uint32_t EAX:32;
         union{
           uint16_t AX:16;
-          uint8_t AH:8,AL:8;
+          struct{
+            uint8_t AL:8,AH:8;
+            };
+          };
         };
       };
-    };
     struct {
       union{
         uint32_t ECX:32;
         union{
           uint16_t CX:16;
-          uint8_t CH:8,CL:8;
+          struct{
+            uint8_t CL:8,CH:8;
+            };
+          };
         };
       };
-    };
     struct {
       union{
         uint32_t EDX:32;
         union{
           uint16_t DX:16;
-          uint8_t DH:8,DL:8;
+          struct{
+            uint8_t DL:8,DH:8;
+            };
+          };
         };
       };
-    };
     struct {
       union{
         uint32_t EBX:32;
         union{
           uint16_t BX:16;
-          uint8_t BH:8,BL:8;
+          uint8_t BL:8,BH:8;
         };
       };
     };
