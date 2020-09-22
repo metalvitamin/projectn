@@ -42,6 +42,9 @@ void reg_test() {
 }
 
 void isa_reg_display() {
+  for (int i = R_EAX; i <= R_EDI; i++){
+    printf("%u\n",reg_l(i));
+  }
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {

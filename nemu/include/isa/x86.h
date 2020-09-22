@@ -15,7 +15,8 @@
  * access cpu.gpr[3]._16, we will get the `bx' register; if we access
  * cpu.gpr[1]._8[1], we will get the 'ch' register. Hint: Use `union'.
  * For more details about the register encoding scheme, see i386 manual.
- */
+ */ 
+ //done
 
 typedef struct {
   union{
