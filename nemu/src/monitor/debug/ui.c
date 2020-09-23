@@ -52,7 +52,7 @@ static int cmd_x(char* args){
   paddr_t p;
   strtok(NULL," ");
   p = atoi(strtok(NULL," "));
-  
+  printf("%x\n",p);
   int  n = atoi(args);
   for (int i = 0; i < n; i ++)
     printf("%x\n",paddr_read(p+i,4));
