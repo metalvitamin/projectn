@@ -50,11 +50,14 @@ static int cmd_info(char*args){
 }
 static int cmd_x(char* args){
   paddr_t p;
-  p = atoi(strtok(NULL," "));
+  strtok(NULL," ");
+  char *q;
+  q = strtok(NULL," ");
+  sscanf(q,"%x",&p);//how to change 0x100000?
   printf("%x\n",p);
   int  n = atoi(args);
   for (int i = 0; i < n; i ++)
-    printf("%x\n",paddr_read(p+i,4));
+    printf("%x\n",paddr_read(p+4*i,4));
   return 0;
 }
 static struct {
