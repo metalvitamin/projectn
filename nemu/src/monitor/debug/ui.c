@@ -57,7 +57,7 @@ static int cmd_x(char* args){
   printf("%x\n",p);
   int  n = atoi(args);
   for (int i = 0; i < n; i ++)
-    printf("%x\n",paddr_read(p+4*i,4));
+    printf("%x\n",paddr_read(p+4*i,1));
   return 0;
 }
 static struct {
