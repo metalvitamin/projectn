@@ -50,7 +50,6 @@ static int cmd_info(char*args){
 }
 static int cmd_x(char* args){
   paddr_t p;
-  strtok(NULL," ");
   p = atoi(strtok(NULL," "));
   printf("%x\n",p);
   int  n = atoi(args);
