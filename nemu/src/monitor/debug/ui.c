@@ -1,7 +1,7 @@
 #include <isa.h>
 #include "expr.h"
 #include "watchpoint.h"
-
+#include <memory/paddr.h>
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -48,7 +48,16 @@ static int cmd_info(char*args){
     isa_reg_display();
   return 0;
 }
-
+static int cmd_x(char* args){
+  paddr_t p;
+  strtok(NULL," ");
+  p = atoi(strtok(NULL," "));
+  
+  int  n = atoi(args);
+  for (int i = 0; i < n; i ++)
+    printf("%u\n",paddr_read(p+i,4));
+  return 0;
+}
 static struct {
   char *name;
   char *description;
@@ -59,7 +68,7 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
   { "si","Execute the program n line",cmd_si},
   { "info","Print GPRs",cmd_info},
-
+  { "x","Output constantly N 4bits from the EXPR",cmd_x}
   /* TODO: Add more commands */
 
 };
