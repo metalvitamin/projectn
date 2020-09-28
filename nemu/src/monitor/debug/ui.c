@@ -43,21 +43,28 @@ static int cmd_si(char *args){
   cpu_exec(atoi(args));
   return 0;
 }
-static int cmd_info(char*args){
+static int cmd_info(char*args){   //todo: expand info w
   if (*args == 'r')
     isa_reg_display();
   return 0;
 }
-static int cmd_x(char* args){
+static int cmd_x(char* args){   //todo: change this to a complete one
   paddr_t p;
   strtok(NULL," ");
   char *q;
   q = strtok(NULL," ");
-  sscanf(q,"%x",&p);//how to change 0x100000?
+  sscanf(q,"%x",&p);
   int  n = atoi(args);
   for (int i = 0; i < n; i ++)
     printf("%x\n",paddr_read(p+4*i,1));
   return 0;
+}
+static int cmd_p(char*args){
+  bool success = true;
+  int n = expr(args, &success);
+  if (success) return n;
+  printf("Wrong expression\n");
+  return -1;
 }
 static struct {
   char *name;
@@ -69,9 +76,10 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
   { "si","Execute the program n line",cmd_si},
   { "info","Print GPRs",cmd_info},
-  { "x","Output constantly N 4bits from the EXPR",cmd_x}
+  { "x","Output constantly N 4bits from the EXPR",cmd_x},
+  { "p","Calculate the result of the expr given", cmd_p}
   /* TODO: Add more commands */
-
+  
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
