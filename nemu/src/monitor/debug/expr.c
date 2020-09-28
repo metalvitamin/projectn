@@ -156,7 +156,7 @@ static int main_operator_index(int p, int q){
       if ((ty == '+') || (ty == '-')) continue ;
       else {
         ty = tokens[i].type;
-        ind = 1;
+        ind = i;
       }
     }
   }
@@ -167,7 +167,7 @@ static uint32_t eval(int p, int q){
   if(!legal_exp(p,q)) {printf("the input is illegal.\n"); assert(0);}
   if (p > q) assert(0);
   else if (p == q)  return atoi(tokens[p].str);
-  else if (check_paternheses(p,q) == true) return eval(p+1, q-1);
+  else if (check_paternheses(p,q)) return eval(p+1, q-1);
   else {
     int op = main_operator_index(p,q);
     uint32_t val1 = eval(p , op - 1), val2 = eval( op + 1 , q);
