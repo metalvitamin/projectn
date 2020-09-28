@@ -187,6 +187,7 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
   printf("%d\n",tokens[0].type);
+  printf("%d\n",tokens[1].type);
   //printf("%d\n",nr_token);
   /* TODO: Insert codes to evaluate the expression. */
  
