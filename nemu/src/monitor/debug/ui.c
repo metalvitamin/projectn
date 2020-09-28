@@ -62,7 +62,7 @@ static int cmd_x(char* args){   //todo: change this to a complete one
 static int cmd_p(char*args){
   bool success = true;
   int n = expr(args, &success);
-  if (success) return n;
+  if (success) {printf("%d\n",n); return 0;}
   printf("Wrong expression\n");
   return -1;
 }
