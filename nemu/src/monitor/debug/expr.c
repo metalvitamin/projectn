@@ -178,6 +178,7 @@ static uint32_t eval(int p, int q){
       case('/'):return (uint32_t) val1/val2;
     }
   }
+  return 0;
 }
 
 word_t expr(char *e, bool *success) {
@@ -186,7 +187,7 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+ 
 
   return eval(0,nr_token);
 }
