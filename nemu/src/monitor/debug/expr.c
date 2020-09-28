@@ -126,9 +126,9 @@ static bool legal_exp(int p,int q){
   }
   if(j != 0) return false;
   for (i = p; i < q; i ++){
-    if(tokens[i].type == TK_NUMBER && tokens[i+1].type == TK_NUMBER)
+    if(((tokens[i].type == TK_NUMBER)||(tokens[i].type == ')')) && ((tokens[i+1].type == TK_NUMBER) ||(tokens[i+1].type == '(')))
       return false;
-    else if (tokens[i].type < TK_NOTYPE && tokens[i+1].type < TK_NOTYPE)
+    else if (tokens[i].type < TK_NOTYPE && tokens[i].type > ')' && tokens[i+1].type < TK_NOTYPE && tokens[i+1].type >')' )
       return false;
   }
   return true;
