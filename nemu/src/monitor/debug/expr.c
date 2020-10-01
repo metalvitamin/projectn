@@ -101,6 +101,7 @@ static bool make_token(char *e) {
           case ('/'):{ tokens[nr_token].type = '/'; nr_token ++; break;}
           case ('('):{ tokens[nr_token].type = '('; nr_token ++; break;}
           case (')'):{ tokens[nr_token].type = ')'; nr_token ++; break;}
+          case (TK_NOTYPE):{ break;}
           default: TODO();
         }
 
