@@ -168,7 +168,7 @@ static int main_operator_index(int p, int q){
   return ind;
 }
 
-/*static uint32_t eval(int p, int q){
+static uint32_t eval(int p, int q){
   if(!legal_exp(p,q)) {printf("the input is illegal.\n"); assert(0);}
   if (p > q) assert(0);
   else if (p == q)  return atoi(tokens[p].str);
@@ -184,17 +184,17 @@ static int main_operator_index(int p, int q){
     }
   }
   return 0;
-}*/
+}
 
-static int eval(int p, int q){
+static __attribute__((used)) int eval_d(int p, int q){
   if(!legal_exp(p,q)) {printf("the input is illegal.\n"); assert(0);}
   if (p > q) assert(0);
   else if (p == q)  return atoi(tokens[p].str);
   else if (p == (q - 1)) return atoi(tokens[q].str)*(-1);
-  else if (check_paternheses(p,q)) return eval(p+1, q-1);
+  else if (check_paternheses(p,q)) return eval_d(p+1, q-1);
   else {
     int op = main_operator_index(p,q);
-    int val1 = eval(p , op - 1), val2 = eval( op + 1 , q);
+    int val1 = eval_d(p , op - 1), val2 = eval_d( op + 1 , q);
     switch(tokens[op].type){
       case('+'):return val1+val2;
       case('-'):return val1-val2;
