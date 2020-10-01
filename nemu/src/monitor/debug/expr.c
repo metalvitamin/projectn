@@ -129,6 +129,10 @@ static bool legal_exp(int p,int q){
   for (i = p; i < q; i ++){
     if(((tokens[i].type == TK_NUMBER)||(tokens[i].type == ')')) && ((tokens[i+1].type == TK_NUMBER) ||(tokens[i+1].type == '(')))
       return false;
+    else if (tokens[i].type < TK_NOTYPE && tokens[i].type != ')' && tokens[i+1].type == '-'){
+      tokens[i+1].type = '-'-1;
+      continue;
+      }
     else if (tokens[i].type < TK_NOTYPE && tokens[i].type > ')' && tokens[i+1].type < TK_NOTYPE && tokens[i+1].type >')' )
       return false;
   }
@@ -164,7 +168,7 @@ static int main_operator_index(int p, int q){
   return ind;
 }
 
-static uint32_t eval(int p, int q){
+/*static uint32_t eval(int p, int q){
   if(!legal_exp(p,q)) {printf("the input is illegal.\n"); assert(0);}
   if (p > q) assert(0);
   else if (p == q)  return atoi(tokens[p].str);
@@ -180,6 +184,25 @@ static uint32_t eval(int p, int q){
     }
   }
   return 0;
+}*/
+
+static int eval(int p, int q){
+  if(!legal_exp(p,q)) {printf("the input is illegal.\n"); assert(0);}
+  if (p > q) assert(0);
+  else if (p == q)  return atoi(tokens[p].str);
+  else if (p == (q - 1)) return atoi(tokens[q].str)*(-1);
+  else if (check_paternheses(p,q)) return eval(p+1, q-1);
+  else {
+    int op = main_operator_index(p,q);
+    int val1 = eval(p , op - 1), val2 = eval( op + 1 , q);
+    switch(tokens[op].type){
+      case('+'):return val1+val2;
+      case('-'):return val1-val2;
+      case('*'):return val1*val2;
+      case('/'):return val1/val2;
+    }
+  }
+  return 0;
 }
 
 word_t expr(char *e, bool *success) {
@@ -191,7 +214,7 @@ word_t expr(char *e, bool *success) {
   //printf("%d\n",tokens[1].type);
   //printf("%d\n",nr_token);
   /* TODO: Insert codes to evaluate the expression. */
- 
+  //done 
 
   return eval(0,nr_token-1);
 }
