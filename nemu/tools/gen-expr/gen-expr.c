@@ -16,19 +16,29 @@ static char *code_format =
 "  return 0; "
 "}";
 static uint32_t x = 0;
+static uint32_t len = 0;
 static uint32_t choose(uint32_t n){
   return rand()%n;
 }
-
-static void gen(char c){
-  buf[x] = c;
+static void gen_random_space(){
+  assert(x < 65536);
+  buf[x] = ' ';
   x++;
   buf[x] = '\0';
 }
+static void gen(char c){
+  assert(x < 65536);
+  buf[x] = c;
+  x++;
+  buf[x] = '\0';
+  if (!choose(5)) gen_random_space();
+}
 static void gen_num(){
-  for (int i = 0; i < 4; i ++ , x ++)
-    buf[x] = '0'+(rand()%10);
-    buf[x] = '\0';
+  for (int i = 0; i < 2; i ++ , x ++) 
+    if (x < 65536)  buf[x] = '0'+(rand()%8);
+    else assert(0);
+  if (!choose(10)) gen_random_space();
+  buf[x] = '\0';
 }
 
 static void gen_rand_op(){
@@ -42,11 +52,13 @@ static void gen_rand_op(){
 }
 
 static inline void gen_rand_expr() {
-  switch(choose(3)){
-    case(0):{gen_num();break;}
-    case(1):{gen('(');gen_rand_expr();gen(')');break;}
-    default:{gen_rand_expr();gen_rand_op();gen_rand_expr(); break;}
-  }
+  if (len >100) gen_num();
+  else 
+    switch(choose(3)){
+      case(0):{gen_num();break;}
+      case(1):{gen('(');gen_rand_expr();gen(')');len ++;break;}
+      default:{gen_rand_expr();gen_rand_op();gen_rand_expr();len++;len++; break;}
+    }
 }
 
 int main(int argc, char *argv[]) {
@@ -57,7 +69,7 @@ int main(int argc, char *argv[]) {
     sscanf(argv[1], "%d", &loop);
   }
   int i;
-  for (i = 0; i < loop; i ++) {
+  for (i = 0; i < loop; ) {
     gen_rand_expr();
 
     sprintf(code_buf, code_format, buf);
@@ -74,10 +86,14 @@ int main(int argc, char *argv[]) {
     assert(fp != NULL);
 
     int result;
-    fscanf(fp, "%d", &result);
+    static int  __attribute__((used)) q ;
+    q = fscanf(fp, "%d", &result);
     pclose(fp);
 
     printf("%u %s\n", result, buf);
+    for (;x > 0; x --) buf[x] = '\0';
+    len = 0;
+    i ++;
   }
   return 0;
 }

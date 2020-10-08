@@ -94,6 +94,7 @@ static bool make_token(char *e) {
               return false;
             }
             strncpy(tokens[nr_token].str,substr_start,substr_len);
+            tokens[nr_token].str[31] = '\0';
             nr_token ++;break;}
           case ('+'):{ tokens[nr_token].type = '+'; nr_token ++; break;}
           case ('-'):{ tokens[nr_token].type = '-'; nr_token ++; break;}
@@ -157,8 +158,16 @@ static int main_operator_index(int p, int q){
       ty = tokens[i].type;
       ind = i;
     }
+    else if (tokens[i].type == '-' -1)  {
+       if ((ty == '+') || (ty == '-')) continue;
+       else {
+         ty = tokens[i].type;
+         ind = i;
+       }
+    }
+    
     else if ((tokens[i].type == '*') || (tokens[i].type == '/')) {
-      if ((ty == '+') || (ty == '-')) continue ;
+      if ((ty == '+') || (ty == '-')|| (ty == '-'-1)) continue ;
       else {
         ty = tokens[i].type;
         ind = i;
@@ -175,6 +184,18 @@ static uint32_t eval(int p, int q){
   else if (check_paternheses(p,q)) return eval(p+1, q-1);
   else {
     int op = main_operator_index(p,q);
+    if (op == '-'-1){
+      for (;op > p;op -- ){
+        int temp = tokens[op-1].type;
+        if (temp == TK_NUMBER) 
+          strcpy(tokens[op].str,tokens[op-1].str);
+        tokens[op-1].type = tokens[op].type;
+        tokens[op].type = temp;
+        }
+      uint32_t val1 = eval(op+1,q)*(-1);
+      return val1;
+      }
+    else { 
     uint32_t val1 = eval(p , op - 1), val2 = eval( op + 1 , q);
     switch(tokens[op].type){
       case('+'):return val1+val2;
@@ -183,10 +204,11 @@ static uint32_t eval(int p, int q){
       case('/'):return (uint32_t) val1/val2;
     }
   }
+  }
   return 0;
 }
 
-static __attribute__((used)) int eval_d(int p, int q){
+/*static __attribute__((used)) int eval_d(int p, int q){
   if(!legal_exp(p,q)) {printf("the input is illegal.\n"); assert(0);}
   if (p > q) assert(0);
   else if (p == q)  return atoi(tokens[p].str);
@@ -203,7 +225,7 @@ static __attribute__((used)) int eval_d(int p, int q){
     }
   }
   return 0;
-}
+}*/
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
