@@ -34,7 +34,7 @@ static int cmd_c(char *args) {
 
 
 static int cmd_q(char *args) {
-  return -1;
+  return 0;
 }
 
 static int cmd_help(char *args);
@@ -64,7 +64,7 @@ static int cmd_p(char*args){
   int n = expr(args, &success);
   if (success) {printf("%u\n",n); return 0;}
   printf("Wrong expression\n");
-  return -1;
+  return 0;
 }
 static struct {
   char *name;
