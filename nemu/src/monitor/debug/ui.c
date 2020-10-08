@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-
+#include <monitor/monitor.h>
 void cpu_exec(uint64_t);
 int is_batch_mode();
 
@@ -34,6 +34,7 @@ static int cmd_c(char *args) {
 
 
 static int cmd_q(char *args) {
+  nemu_state.state = NEMU_QUIT;
   return 0;
 }
 
