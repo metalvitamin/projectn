@@ -86,7 +86,7 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-        assert (nr_token <= 32);
+        assert ( tokens +sizeof(Token)*substr_len != NULL);
 
         switch (rules[i].token_type) {
           case(TK_NUMBER):{ 
@@ -96,7 +96,7 @@ static bool make_token(char *e) {
               return false;
             }
             strncpy(tokens[nr_token].str,substr_start,substr_len);
-            assert(substr_len <= 32);
+            assert ( tokens +sizeof(Token)*substr_len != NULL);
             tokens[nr_token].str[substr_len] = '\0';
             nr_token ++;break;}
           case ('+'):{ tokens[nr_token].type = '+'; nr_token ++; break;}
@@ -126,7 +126,7 @@ static bool make_token(char *e) {
 static bool legal_pat(int p, int q){
   int i,j = 0;
   for (i = p; i <= q; i ++){
-    assert(i<=32);
+    assert ( tokens +sizeof(Token)*i != NULL);
     if (tokens[i].type == '(') j ++;
     else if (tokens[i].type ==')') j --;
     if (j < 0) return false;
@@ -136,15 +136,15 @@ static bool legal_pat(int p, int q){
 }
 static bool legal_exp(int p,int q){
   int i;
-  assert(q <= 32);
-  assert(p <= 32);
+  assert ( tokens +sizeof(Token)*q != NULL);
+  assert ( tokens +sizeof(Token)*p != NULL);
   if(!legal_pat(p,q)) return false;
   if (tokens[0].type == '-') tokens[0].type =TK_MINUS;
   else if ( tokens[0].type == '*') tokens[0].type = TK_MINUS;
   if (tokens[q].type != TK_NUMBER && tokens[q].type !=')') return false;
   for (i = p; i < q; i ++){
-    assert(i <=32);
-    assert(i+1 <=32);
+    assert ( tokens +sizeof(Token)*i != NULL);
+    assert ( tokens +sizeof(Token)*(i+1) != NULL);
     if(((tokens[i].type == TK_NUMBER)||(tokens[i].type == ')')) && ((tokens[i+1].type == TK_NUMBER) ||(tokens[i+1].type == '(')))
       return false;
     else if (tokens[i].type < TK_NUMBER && tokens[i].type != ')' && tokens[i+1].type == '-'){
@@ -162,8 +162,8 @@ static bool legal_exp(int p,int q){
 }
 
 static bool check_paternheses(int p ,int q){
-  assert(q <=32);
-  assert(p <=32);
+  assert ( tokens +sizeof(Token)*q != NULL);
+  assert ( tokens +sizeof(Token)*p != NULL);
   if ((tokens[p].type != '(' )|| (tokens[q].type != ')')){
     return false;
   }
@@ -173,7 +173,7 @@ static bool check_paternheses(int p ,int q){
 static int main_operator_index(int p, int q){
   int j = 0, ty = 0, ind = 0;
   for (int i = p; i <= q; i ++){
-    assert(i <=32);
+    assert ( tokens +sizeof(Token)*i != NULL);
     if (tokens[i].type == TK_NUMBER) continue;
     else if (tokens[i].type == '(') j ++;
     else if (tokens[i].type == ')') j --;
@@ -225,13 +225,13 @@ static int main_operator_index(int p, int q){
 }
 
 static uint32_t eval(int p, int q){   
-  assert(p <= 32);   
+  assert ( tokens +sizeof(Token)*p != NULL); 
   if (p > q) assert(0);
-  else if (p == q)  {assert(p <= 32);return atoi(tokens[p].str);}
+  else if (p == q)  return atoi(tokens[p].str);
   else if (check_paternheses(p,q)) return eval(p+1, q-1);
   else {
     int op = main_operator_index(p,q);
-    assert(op <= 32);
+    assert ( tokens +sizeof(Token)*op != NULL);
     if (tokens[op].type == TK_MINUS){
       uint32_t val1 = eval(op+1,q)*(-1);
       return val1;
