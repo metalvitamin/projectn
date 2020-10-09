@@ -95,8 +95,8 @@ static bool make_token(char *e) {
               printf("substr_len = %d >= 32, it is overflowed.\n",substr_len); 
               return false;
             }*/
-            strncpy(tokens[nr_token].str,substr_start,substr_len);
             assert(substr_len <= 32);
+            strncpy(tokens[nr_token].str,substr_start,substr_len);
             tokens[nr_token].str[substr_len] = '\0';
             nr_token ++;break;}
           case ('+'):{ tokens[nr_token].type = '+'; nr_token ++; break;}
