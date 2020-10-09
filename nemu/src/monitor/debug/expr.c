@@ -212,7 +212,6 @@ static int main_operator_index(int p, int q){
 }
 
 static uint32_t eval(int p, int q){      //change assert(0)
-  if(!legal_exp(p,q)) {printf("the input is illegal.\n"); assert(0);}
   if (p > q) assert(0);
   else if (p == q)  return atoi(tokens[p].str);
   else if (check_paternheses(p,q)) return eval(p+1, q-1);
@@ -278,6 +277,8 @@ word_t expr(char *e, bool *success) {
   //printf("%d\n",nr_token);
   /* TODO: Insert codes to evaluate the expression. */
   //done 
-
-  return eval(0,nr_token-1);
+  if(legal_exp(0,nr_token-1)) return eval(0,nr_token-1);
+  else {
+    *success = false; 
+    return 0;}
 }
