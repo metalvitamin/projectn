@@ -86,7 +86,7 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-        //if (nr_token >= 32)  assert(0);
+        assert (nr_token <= 32);
 
         switch (rules[i].token_type) {
           case(TK_NUMBER):{ 
@@ -125,6 +125,7 @@ static bool make_token(char *e) {
 static bool legal_pat(int p, int q){
   int i,j = 0;
   for (i = p; i <= q; i ++){
+    assert(i<=32);
     if (tokens[i].type == '(') j ++;
     else if (tokens[i].type ==')') j --;
     if (j < 0) return false;
@@ -134,11 +135,15 @@ static bool legal_pat(int p, int q){
 }
 static bool legal_exp(int p,int q){
   int i;
+  assert(q <= 32);
+  assert(p <= 32);
   if(!legal_pat(p,q)) return false;
   if (tokens[0].type == '-') tokens[0].type =TK_MINUS;
   else if ( tokens[0].type == '*') tokens[0].type = TK_MINUS;
   if (tokens[q].type != TK_NUMBER && tokens[q].type !=')') return false;
   for (i = p; i < q; i ++){
+    assert(i <=32);
+    assert(i+1 <=32);
     if(((tokens[i].type == TK_NUMBER)||(tokens[i].type == ')')) && ((tokens[i+1].type == TK_NUMBER) ||(tokens[i+1].type == '(')))
       return false;
     else if (tokens[i].type < TK_NUMBER && tokens[i].type != ')' && tokens[i+1].type == '-'){
@@ -156,15 +161,18 @@ static bool legal_exp(int p,int q){
 }
 
 static bool check_paternheses(int p ,int q){
+  assert(q <=32);
+  assert(p <=32);
   if ((tokens[p].type != '(' )|| (tokens[q].type != ')')){
     return false;
   }
-  else return legal_exp(p+1,q-1);
+  else return legal_pat(p+1,q-1);
 }
 
 static int main_operator_index(int p, int q){
   int j = 0, ty = 0, ind = 0;
   for (int i = p; i <= q; i ++){
+    assert(i <=32);
     if (tokens[i].type == TK_NUMBER) continue;
     else if (tokens[i].type == '(') j ++;
     else if (tokens[i].type == ')') j --;
@@ -205,22 +213,24 @@ static int main_operator_index(int p, int q){
       }
     }
     else if (tokens[i].type == TK_MINUS)  {
-       if ( ty == TK_LOG_AND || ty == TK_EQ || ty == '+' || ty == '-' || ty =='*' || ty == '/' || ty == TK_POINTER || ty == TK_MINUS) continue;
-       else {
-         ty = tokens[i].type;
-         ind = i;
-       }
+      if ( ty == TK_LOG_AND || ty == TK_EQ || ty == '+' || ty == '-' || ty =='*' || ty == '/' || ty == TK_POINTER || ty == TK_MINUS) continue;
+      else {
+        ty = tokens[i].type;
+        ind = i;
+      }
     }
   }
   return ind;
 }
 
-static uint32_t eval(int p, int q){      
+static uint32_t eval(int p, int q){   
+  assert(p <= 32);   
   if (p > q) assert(0);
   else if (p == q)  return atoi(tokens[p].str);
   else if (check_paternheses(p,q)) return eval(p+1, q-1);
   else {
     int op = main_operator_index(p,q);
+    assert(op <= 32);
     if (tokens[op].type == TK_MINUS){
       uint32_t val1 = eval(op+1,q)*(-1);
       return val1;
@@ -251,7 +261,7 @@ word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
     return 0;
-  }
+    }
   //printf("%d\n",tokens[0].type);
   //printf("%d\n",tokens[1].type);
   //printf("%d\n",nr_token);
@@ -260,5 +270,6 @@ word_t expr(char *e, bool *success) {
   if(legal_exp(0,nr_token-1)) return eval(0,nr_token-1);
   else {
     *success = false; 
-    return 0;}
+    return 0;
+    }
 }
