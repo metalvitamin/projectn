@@ -198,7 +198,7 @@ static int main_operator_index(int p, int q){
     }
     
     else if (tokens[i].type == TK_POINTER){
-      if (ty == TK_LOG_AND || ty ==TK_EQ || ty =='+' || ty=='-' || ty == '*' || ty == '/' ) continue;
+      if (ty == TK_LOG_AND || ty ==TK_EQ || ty =='+' || ty=='-' || ty == '*' || ty == '/' || ty == TK_POINTER) continue;
       else {
         ty = tokens[i].type;
         ind = i;
