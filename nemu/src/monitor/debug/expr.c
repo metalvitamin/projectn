@@ -96,7 +96,7 @@ static bool make_token(char *e) {
               return false;
             }
             strncpy(tokens[nr_token].str,substr_start,substr_len);
-            tokens[nr_token].str[31] = '\0';
+            tokens[nr_token].str[substr_len] = '\0';
             nr_token ++;break;}
           case ('+'):{ tokens[nr_token].type = '+'; nr_token ++; break;}
           case ('-'):{ tokens[nr_token].type = '-'; nr_token ++; break;}
