@@ -215,7 +215,7 @@ static int main_operator_index(int p, int q){
   return ind;
 }
 
-static uint32_t eval(int p, int q){      //change assert(0)
+static uint32_t eval(int p, int q){      
   if (p > q) assert(0);
   else if (p == q)  return atoi(tokens[p].str);
   else if (check_paternheses(p,q)) return eval(p+1, q-1);
@@ -225,13 +225,13 @@ static uint32_t eval(int p, int q){      //change assert(0)
       uint32_t val1 = eval(op+1,q)*(-1);
       return val1;
       }
-    else if (tokens[op].type == TK_POINTER){
+    /*else if (tokens[op].type == TK_POINTER){
       bool s;
       uint32_t val ;
       val = isa_reg_str2val(tokens[op+1].str, &s);
       if (s) return val;
       else assert(0);
-    }
+    }*/
     else { 
     uint32_t val1 = eval(p , op - 1), val2 = eval( op + 1 , q);
     switch(tokens[op].type){
@@ -246,25 +246,6 @@ static uint32_t eval(int p, int q){      //change assert(0)
   }
   return 0;
 }
-
-/*static __attribute__((used)) int eval_d(int p, int q){
-  if(!legal_exp(p,q)) {printf("the input is illegal.\n"); assert(0);}
-  if (p > q) assert(0);
-  else if (p == q)  return atoi(tokens[p].str);
-  else if (p == (q - 1)) return atoi(tokens[q].str)*(-1);
-  else if (check_paternheses(p,q)) return eval_d(p+1, q-1);
-  else {
-    int op = main_operator_index(p,q);
-    int val1 = eval_d(p , op - 1), val2 = eval_d( op + 1 , q);
-    switch(tokens[op].type){
-      case('+'):return val1+val2;
-      case('-'):return val1-val2;
-      case('*'):return val1*val2;
-      case('/'):return val1/val2;
-    }
-  }
-  return 0;
-}*/
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
