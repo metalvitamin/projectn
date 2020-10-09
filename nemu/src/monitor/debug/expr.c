@@ -96,6 +96,7 @@ static bool make_token(char *e) {
               return false;
             }
             strncpy(tokens[nr_token].str,substr_start,substr_len);
+            assert(substr_len <= 32);
             tokens[nr_token].str[substr_len] = '\0';
             nr_token ++;break;}
           case ('+'):{ tokens[nr_token].type = '+'; nr_token ++; break;}
@@ -226,7 +227,7 @@ static int main_operator_index(int p, int q){
 static uint32_t eval(int p, int q){   
   assert(p <= 32);   
   if (p > q) assert(0);
-  else if (p == q)  return atoi(tokens[p].str);
+  else if (p == q)  {assert(p <= 32);return atoi(tokens[p].str);}
   else if (check_paternheses(p,q)) return eval(p+1, q-1);
   else {
     int op = main_operator_index(p,q);
