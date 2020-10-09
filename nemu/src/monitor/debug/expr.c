@@ -86,7 +86,7 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-        if (nr_token ==32)  assert(0);
+        if (nr_token == 32)  assert(0);
 
         switch (rules[i].token_type) {
           case(TK_NUMBER):{ 
@@ -281,6 +281,7 @@ word_t expr(char *e, bool *success) {
   //printf("%d\n",nr_token);
   /* TODO: Insert codes to evaluate the expression. */
   //done 
+  printf("%d\n",tokens[31].type);
   if(legal_exp(0,nr_token-1)) return eval(0,nr_token-1);
   else {
     *success = false; 
