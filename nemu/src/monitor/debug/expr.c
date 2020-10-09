@@ -86,7 +86,7 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-        // if (nr_token >=32) assert(0);
+        if (nr_token ==32)  assert(0);
 
         switch (rules[i].token_type) {
           case(TK_NUMBER):{ 
