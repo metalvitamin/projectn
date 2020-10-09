@@ -91,10 +91,10 @@ static bool make_token(char *e) {
         switch (rules[i].token_type) {
           case(TK_NUMBER):{ 
             tokens[nr_token].type = TK_NUMBER;
-            if (substr_len >= 32){
+            /*if (substr_len >= 32){
               printf("substr_len = %d >= 32, it is overflowed.\n",substr_len); 
               return false;
-            }
+            }*/
             strncpy(tokens[nr_token].str,substr_start,substr_len);
             assert(substr_len <= 32);
             tokens[nr_token].str[substr_len] = '\0';
