@@ -243,7 +243,8 @@ static uint32_t eval(int p, int q){      //change assert(0)
       case('-'):return val1-val2;
       case('*'):return val1*val2;
       case('/'):return (uint32_t) val1/val2;
-      case(TK_EQ): return val1==val2?1:0;
+      case(TK_EQ): return val1==val2;
+      case(TK_LOG_AND): return val1&&val2;
     }
   }
   }
