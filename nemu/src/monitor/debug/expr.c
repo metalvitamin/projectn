@@ -187,27 +187,29 @@ static int main_operator_index(int p, int q){
         ind = i;
       }
     }
+    
+    
+    else if ((tokens[i].type == '*') || (tokens[i].type == '/')) {
+      if (ty == TK_EQ || ty == TK_LOG_AND || (ty == '+') || (ty == '-')) continue ;
+      else {
+        ty = tokens[i].type;
+        ind = i;
+      }
+    }
+    
+    else if (tokens[i].type == TK_POINTER){
+      if (ty == TK_LOG_AND || ty ==TK_EQ || ty =='+' || ty=='-' || ty == '*' || ty == '/' ) continue;
+      else {
+        ty = tokens[i].type;
+        ind = i;
+      }
+    }
     else if (tokens[i].type == TK_MINUS)  {
-       if ( ty == TK_LOG_AND || ty == TK_EQ || ty == '+' || ty == '-') continue;
+       if ( ty == TK_LOG_AND || ty == TK_EQ || ty == '+' || ty == '-' || ty =='*' || ty == '/' || ty == TK_POINTER) continue;
        else {
          ty = tokens[i].type;
          ind = i;
        }
-    }
-    
-    else if ((tokens[i].type == '*') || (tokens[i].type == '/')) {
-      if (ty == TK_EQ || ty == TK_LOG_AND || (ty == '+') || (ty == '-')|| (ty == TK_MINUS)) continue ;
-      else {
-        ty = tokens[i].type;
-        ind = i;
-      }
-    }
-    else if (tokens[i].type == TK_POINTER){
-      if (ty == TK_LOG_AND || ty ==TK_EQ || ty =='+' || ty=='-' || ty ==TK_MINUS || ty == '*' || ty == '/' ) continue;
-      else {
-        ty = tokens[i].type;
-        ind = i;
-      }
     }
   }
   return ind;
@@ -220,14 +222,7 @@ static uint32_t eval(int p, int q){      //change assert(0)
   else {
     int op = main_operator_index(p,q);
     if (tokens[op].type == TK_MINUS){
-      for (;op > p;op -- ){
-        int temp = tokens[op-1].type;
-        if (temp == TK_NUMBER) 
-          strcpy(tokens[op].str,tokens[op-1].str);
-        tokens[op-1].type = tokens[op].type;
-        tokens[op].type = temp;
-        }
-      uint32_t val1 = eval(p+1,q)*(-1);
+      uint32_t val1 = eval(op+1,q)*(-1);
       return val1;
       }
     else if (tokens[op].type == TK_POINTER){
