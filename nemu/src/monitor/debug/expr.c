@@ -6,7 +6,7 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NUMBER,
+  TK_NOTYPE = 256, TK_EQ, TK_LOG_AND, TK_MINUS, TK_POINTER ,TK_NUMBER,
 
   /* TODO: Add more token types */
 
@@ -29,6 +29,7 @@ static struct rule {
   {"\\*", '*'},         // multify
   {"/", '/'},           // divide
   {"==", TK_EQ},        // equal
+  {"&&", TK_LOG_AND},   // logical and
   {"\\(", '('},         // left bracket
   {"\\)", ')'},         // right bracket
 };
@@ -102,6 +103,8 @@ static bool make_token(char *e) {
           case ('/'):{ tokens[nr_token].type = '/'; nr_token ++; break;}
           case ('('):{ tokens[nr_token].type = '('; nr_token ++; break;}
           case (')'):{ tokens[nr_token].type = ')'; nr_token ++; break;}
+          case (TK_LOG_AND):{ tokens[nr_token].type = TK_LOG_AND; nr_token ++; break;}
+          case (TK_EQ):{ tokens[nr_token].type = TK_EQ; nr_token ++; break;}
           case (TK_NOTYPE):{ break;}
           default: TODO();
         }
@@ -130,11 +133,15 @@ static bool legal_exp(int p,int q){
   for (i = p; i < q; i ++){
     if(((tokens[i].type == TK_NUMBER)||(tokens[i].type == ')')) && ((tokens[i+1].type == TK_NUMBER) ||(tokens[i+1].type == '(')))
       return false;
-    else if (tokens[i].type < TK_NOTYPE && tokens[i].type != ')' && tokens[i+1].type == '-'){
-      tokens[i+1].type = '-'-1;
+    else if (tokens[i].type < TK_NUMBER && tokens[i].type != ')' && tokens[i+1].type == '-'){
+      tokens[i+1].type = TK_MINUS;
       continue;
-      }
-    else if (tokens[i].type < TK_NOTYPE && tokens[i].type > ')' && tokens[i+1].type < TK_NOTYPE && tokens[i+1].type >')' )
+    }
+    else if (tokens[i].type < TK_NUMBER && tokens[i].type != ')' && tokens[i+1].type == '*'){
+      tokens[i+1].type = TK_POINTER;
+      continue;
+    }
+    else if (tokens[i].type <= TK_LOG_AND && tokens[i].type > ')' && tokens[i+1].type <= TK_LOG_AND && tokens[i+1].type >')' )
       return false;
   }
   return true;
@@ -154,12 +161,26 @@ static int main_operator_index(int p, int q){
     else if (tokens[i].type == '(') j ++;
     else if (tokens[i].type == ')') j --;
     else if (j != 0) continue;
-    else if ((tokens[i].type == '+') || (tokens[i].type == '-')) {
-      ty = tokens[i].type;
+    else if (tokens[i].type ==TK_LOG_AND) {
+      ty = TK_LOG_AND;
       ind = i;
     }
-    else if (tokens[i].type == '-' -1)  {
-       if ((ty == '+') || (ty == '-')) continue;
+    else if (tokens[i].type == TK_EQ){
+      if (ty == TK_LOG_AND) continue;
+      else {
+        ty = TK_EQ;
+        ind = i;
+      } 
+    }
+    else if ((tokens[i].type == '+') || (tokens[i].type == '-')) {
+      if(ty == TK_LOG_AND || ty == TK_EQ)continue;
+      else {
+        ty = tokens[i].type;
+        ind = i;
+      }
+    }
+    else if (tokens[i].type == TK_MINUS)  {
+       if ( ty == TK_LOG_AND || ty == TK_EQ || ty == '+' || ty == '-') continue;
        else {
          ty = tokens[i].type;
          ind = i;
@@ -167,7 +188,14 @@ static int main_operator_index(int p, int q){
     }
     
     else if ((tokens[i].type == '*') || (tokens[i].type == '/')) {
-      if ((ty == '+') || (ty == '-')|| (ty == '-'-1)) continue ;
+      if (ty == TK_EQ || ty == TK_LOG_AND || (ty == '+') || (ty == '-')|| (ty == TK_MINUS)) continue ;
+      else {
+        ty = tokens[i].type;
+        ind = i;
+      }
+    }
+    else if (tokens[i].type == TK_POINTER){
+      if (ty == TK_LOG_AND || ty ==TK_EQ || ty =='+' || ty=='-' || ty ==TK_MINUS || ty == '*' || ty == '/' ) continue;
       else {
         ty = tokens[i].type;
         ind = i;
@@ -177,14 +205,14 @@ static int main_operator_index(int p, int q){
   return ind;
 }
 
-static uint32_t eval(int p, int q){
+static uint32_t eval(int p, int q){      //change assert(0)
   if(!legal_exp(p,q)) {printf("the input is illegal.\n"); assert(0);}
   if (p > q) assert(0);
   else if (p == q)  return atoi(tokens[p].str);
   else if (check_paternheses(p,q)) return eval(p+1, q-1);
   else {
     int op = main_operator_index(p,q);
-    if (op == '-'-1){
+    if (tokens[op].type == TK_MINUS){// equal,logand should be defined
       for (;op > p;op -- ){
         int temp = tokens[op-1].type;
         if (temp == TK_NUMBER) 
@@ -195,6 +223,13 @@ static uint32_t eval(int p, int q){
       uint32_t val1 = eval(op+1,q)*(-1);
       return val1;
       }
+    else if (tokens[op].type == TK_POINTER){
+      bool s;
+      uint32_t val ;
+      val = isa_reg_str2val(tokens[op+1].str, &s);
+      if (s) return val;
+      else assert(0);
+    }
     else { 
     uint32_t val1 = eval(p , op - 1), val2 = eval( op + 1 , q);
     switch(tokens[op].type){
