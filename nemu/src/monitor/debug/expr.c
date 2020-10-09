@@ -281,7 +281,6 @@ word_t expr(char *e, bool *success) {
   //printf("%d\n",nr_token);
   /* TODO: Insert codes to evaluate the expression. */
   //done 
-  printf("%d\n",tokens[31].type);
   if(legal_exp(0,nr_token-1)) return eval(0,nr_token-1);
   else {
     *success = false; 
