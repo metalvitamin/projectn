@@ -219,7 +219,7 @@ static uint32_t eval(int p, int q){      //change assert(0)
   else if (check_paternheses(p,q)) return eval(p+1, q-1);
   else {
     int op = main_operator_index(p,q);
-    if (tokens[op].type == TK_MINUS){// equal,logand should be defined
+    if (tokens[op].type == TK_MINUS){
       for (;op > p;op -- ){
         int temp = tokens[op-1].type;
         if (temp == TK_NUMBER) 
@@ -227,7 +227,7 @@ static uint32_t eval(int p, int q){      //change assert(0)
         tokens[op-1].type = tokens[op].type;
         tokens[op].type = temp;
         }
-      uint32_t val1 = eval(op+1,q)*(-1);
+      uint32_t val1 = eval(p+1,q)*(-1);
       return val1;
       }
     else if (tokens[op].type == TK_POINTER){
