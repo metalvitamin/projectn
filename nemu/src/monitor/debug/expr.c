@@ -136,6 +136,7 @@ static bool legal_pat(int p, int q){
 }
 static bool legal_exp(int p,int q){
   int i;
+  assert ( tokens !=NULL);
   assert ( tokens +sizeof(Token)*q != NULL);
   assert ( tokens +sizeof(Token)*p != NULL);
   if(!legal_pat(p,q)) return false;
