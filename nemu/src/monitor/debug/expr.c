@@ -135,8 +135,9 @@ static bool legal_pat(int p, int q){
 static bool legal_exp(int p,int q){
   int i;
   if(!legal_pat(p,q)) return false;
-    if (tokens[0].type == '-') tokens[0].type =TK_MINUS;
-    else if ( tokens[0].type == '*') tokens[0].type = TK_MINUS;
+  if (tokens[0].type == '-') tokens[0].type =TK_MINUS;
+  else if ( tokens[0].type == '*') tokens[0].type = TK_MINUS;
+  if (tokens[q].type != TK_NUMBER) return false;
   for (i = p; i < q; i ++){
     if(((tokens[i].type == TK_NUMBER)||(tokens[i].type == ')')) && ((tokens[i+1].type == TK_NUMBER) ||(tokens[i+1].type == '(')))
       return false;
