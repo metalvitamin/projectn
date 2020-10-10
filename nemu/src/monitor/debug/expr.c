@@ -62,6 +62,11 @@ typedef struct token {
 
 static Token tokens[128] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
+static inline void make_token_type(int o){
+  tokens[nr_token].type = o;
+  tokens[nr_token].str[0] = 0;
+  nr_token ++;
+}
 
 static bool make_token(char *e) {
   int position = 0;
@@ -90,23 +95,25 @@ static bool make_token(char *e) {
 
         switch (rules[i].token_type) {
           case(TK_NUMBER):{ 
-            tokens[nr_token].type = TK_NUMBER;
+            
             /*if (substr_len >= 32){
               printf("substr_len = %d >= 32, it is overflowed.\n",substr_len); 
               return false;
             }*/
             assert(substr_len <= 32);
+            make_token_type(TK_NUMBER);
             strncpy(tokens[nr_token].str,substr_start,substr_len);
             tokens[nr_token].str[substr_len] = '\0';
-            nr_token ++;break;}
-          case ('+'):{ tokens[nr_token].type = '+'; nr_token ++; break;}
-          case ('-'):{ tokens[nr_token].type = '-'; nr_token ++; break;}
-          case ('*'):{ tokens[nr_token].type = '*'; nr_token ++; break;}
-          case ('/'):{ tokens[nr_token].type = '/'; nr_token ++; break;}
-          case ('('):{ tokens[nr_token].type = '('; nr_token ++; break;}
-          case (')'):{ tokens[nr_token].type = ')'; nr_token ++; break;}
-          case (TK_LOG_AND):{ tokens[nr_token].type = TK_LOG_AND; nr_token ++; break;}
-          case (TK_EQ):{ tokens[nr_token].type = TK_EQ; nr_token ++; break;}
+            break;
+            }
+          case ('+'):{ make_token_type('+'); break;}
+          case ('-'):{ make_token_type('-'); break;}
+          case ('*'):{ make_token_type('*'); break;}
+          case ('/'):{ make_token_type('/'); break;}
+          case ('('):{ make_token_type('('); break;}
+          case (')'):{ make_token_type(')');break;}
+          case (TK_LOG_AND):{ make_token_type(TK_LOG_AND); break;}
+          case (TK_EQ):{ make_token_type(TK_EQ); break;}
           case (TK_NOTYPE):{ break;}
           default: TODO();
         }
