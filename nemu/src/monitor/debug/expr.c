@@ -233,11 +233,22 @@ static int main_operator_index(int p, int q){
   return ind;
 }
 
+static uint32_t atou(char *ch){
+  uint32_t result = 0;
+  char *c ;
+  c = ch;
+  assert(c != NULL);
+  while (*c != '\0'){
+    result = result*10 + *c - '0';
+    c ++;
+  }
+  return result;
+}
 static uint32_t eval(int p, int q){   
   assert(p < nr_token);   
   assert(p < nr_token);
   if (p > q) assert(0);
-  else if (p == q)  {assert(p <= nr_token);printf("%d\n",atoi(tokens[p].str));return atoi(tokens[p].str);}
+  else if (p == q)  {assert(p <= nr_token);printf("%d\n",atou(tokens[p].str));return atou(tokens[p].str);}
   else if (check_paternheses(p,q)) return eval(p+1, q-1);
   else {
     int op = main_operator_index(p,q);
