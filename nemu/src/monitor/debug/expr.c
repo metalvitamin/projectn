@@ -92,6 +92,7 @@ static bool make_token(char *e) {
          * of tokens, some extra actions should be performed.
          */
         assert (nr_token < 32);
+        printf("%d\n",nr_token);
 
         switch (rules[i].token_type) {
           case(TK_NUMBER):{ 
@@ -102,6 +103,7 @@ static bool make_token(char *e) {
             }*/
             assert(substr_len <= 32);
             init_token(TK_NUMBER);
+            printf("%d  %s\n",tokens[nr_token].type,tokens[nr_token].str);
             strncpy(tokens[nr_token].str,substr_start,substr_len);
             tokens[nr_token].str[substr_len] = '\0';
             nr_token ++;
@@ -135,6 +137,7 @@ static bool legal_pat(int p, int q){
   int i,j = 0;
   for (i = p; i <= q; i ++){
     assert(i<nr_token);
+    printf("%d  %s\n",tokens[i].type,tokens[i].str);
     if (tokens[i].type == '(') j ++;
     else if (tokens[i].type ==')') j --;
     if (j < 0) return false;
@@ -149,10 +152,13 @@ static bool legal_exp(int p,int q){
   if(!legal_pat(p,q)) return false;
   /*if (tokens[0].type == '-') tokens[0].type =TK_MINUS;
   else if ( tokens[0].type == '*') tokens[0].type = TK_POINTER;*/
+  printf("%d  %s\n",tokens[q].type,tokens[q].str);
   if (tokens[q].type != TK_NUMBER && tokens[q].type !=')') return false;
   for (i = p; i < q; i ++){
     assert(i <nr_token);
     assert(i+1 <nr_token);
+    printf("%d  %s\n",tokens[i].type,tokens[i].str);
+    printf("%d  %s\n",tokens[i + 1].type,tokens[i + 1].str);
     if(((tokens[i].type == TK_NUMBER)||(tokens[i].type == ')')) && ((tokens[i+1].type == TK_NUMBER) ||(tokens[i+1].type == '(')))
       return false;
     /*else if (tokens[i].type < TK_NUMBER && tokens[i].type != ')' && tokens[i+1].type == '-'){
@@ -172,6 +178,8 @@ static bool legal_exp(int p,int q){
 static bool check_paternheses(int p ,int q){
   assert(q <nr_token);
   assert(p <nr_token);
+  printf("%d  %s\n",tokens[p].type,tokens[p].str);
+  printf("%d  %s\n",tokens[q].type,tokens[q].str);
   if ((tokens[p].type != '(' )|| (tokens[q].type != ')')){
     return false;
   }
@@ -182,6 +190,7 @@ static int main_operator_index(int p, int q){
   int j = 0, ty = 0, ind = 0;
   for (int i = p; i <= q; i ++){
     assert(i <nr_token);
+    printf("%d  %s\n",tokens[i].type,tokens[i].str);
     if (tokens[i].type == TK_NUMBER) continue;
     else if (tokens[i].type == '(') j ++;
     else if (tokens[i].type == ')') j --;
@@ -248,11 +257,12 @@ static uint32_t eval(int p, int q){
   assert(p < nr_token);   
   assert(p < nr_token);
   if (p > q) assert(0);
-  else if (p == q)  {assert(p <= nr_token);assert(tokens[p].str[0] != '\0');/*printf("%u\n",atou(tokens[p].str));*/return atou(tokens[p].str);}
+  else if (p == q)  {assert(p <= nr_token);assert(tokens[p].str[0] != '\0');printf("%d  %s\n",tokens[p].type,tokens[p].str);/*printf("%u\n",atou(tokens[p].str));*/return atou(tokens[p].str);}
   else if (check_paternheses(p,q)) return eval(p+1, q-1);
   else {
     int op = main_operator_index(p,q);
     assert(op < q);
+    printf("%d  %s\n",tokens[op].type,tokens[op].str);
     if (tokens[op].type == TK_MINUS ){
       assert(op == p);
       uint32_t val1 = eval(p+1,q);
@@ -291,6 +301,7 @@ word_t expr(char *e, bool *success) {
   /* TODO: Insert codes to evaluate the expression. */
   //done 
   for (int i = 0; i < nr_token; i ++) {
+    printf("%d  %s\n",tokens[i].type,tokens[i].str);
   if (tokens[i].type == '-' && (i == 0 || tokens[i - 1].type == '+'|| tokens[i - 1].type == '-'||tokens[i - 1].type == '*'|| tokens[i - 1].type == '/'||tokens[i - 1].type == '('|| tokens[i - 1].type == TK_MINUS) ) {
     tokens[i].type = TK_MINUS;
   }
