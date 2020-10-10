@@ -240,8 +240,9 @@ static uint32_t eval(int p, int q){
   else {
     int op = main_operator_index(p,q);
     assert(op <= 32);
-    if (tokens[op].type == TK_MINUS){
-      uint32_t val1 = eval(op+1,q)*(-1);
+    if (tokens[op].type == TK_MINUS ){
+      assert(op == p);
+      uint32_t val1 = eval(p+1,q)*(uint32_t)(-1);
       return val1;
       }
     /*else if (tokens[op].type == TK_POINTER){
