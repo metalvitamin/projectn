@@ -237,7 +237,7 @@ static uint32_t eval(int p, int q){
   assert(p < nr_token);   
   assert(p < nr_token);
   if (p > q) assert(0);
-  else if (p == q)  {assert(p <= nr_token);return atoi(tokens[p].str);}
+  else if (p == q)  {assert(p <= nr_token);printf("%d\n",atoi(tokens[p].str));return atoi(tokens[p].str);}
   else if (check_paternheses(p,q)) return eval(p+1, q-1);
   else {
     int op = main_operator_index(p,q);
