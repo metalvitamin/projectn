@@ -226,6 +226,7 @@ static int main_operator_index(int p, int q){
       else {
         ty = TK_MINUS;
         ind = i;
+        printf("%d %d\n",ty,ind);
       }
     }
   }
