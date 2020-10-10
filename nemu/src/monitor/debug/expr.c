@@ -65,7 +65,7 @@ static int nr_token __attribute__((used))  = 0;
 static inline void make_token_type(int o){
   tokens[nr_token].type = o;
   tokens[nr_token].str[0] = 0;
-  nr_token ++;
+
 }
 
 static bool make_token(char *e) {
@@ -104,16 +104,17 @@ static bool make_token(char *e) {
             make_token_type(TK_NUMBER);
             strncpy(tokens[nr_token].str,substr_start,substr_len);
             tokens[nr_token].str[substr_len] = '\0';
+            nr_token ++;
             break;
             }
-          case ('+'):{ make_token_type('+'); break;}
-          case ('-'):{ make_token_type('-'); break;}
-          case ('*'):{ make_token_type('*'); break;}
-          case ('/'):{ make_token_type('/'); break;}
-          case ('('):{ make_token_type('('); break;}
-          case (')'):{ make_token_type(')');break;}
-          case (TK_LOG_AND):{ make_token_type(TK_LOG_AND); break;}
-          case (TK_EQ):{ make_token_type(TK_EQ); break;}
+          case ('+'):{ make_token_type('+');  nr_token ++; break;}
+          case ('-'):{ make_token_type('-');  nr_token ++; break;}
+          case ('*'):{ make_token_type('*');  nr_token ++; break;}
+          case ('/'):{ make_token_type('/');  nr_token ++; break;}
+          case ('('):{ make_token_type('(');  nr_token ++; break;}
+          case (')'):{ make_token_type(')');  nr_token ++;break;}
+          case (TK_LOG_AND):{ make_token_type(TK_LOG_AND);  nr_token ++; break;}
+          case (TK_EQ):{ make_token_type(TK_EQ);  nr_token ++; break;}
           case (TK_NOTYPE):{ break;}
           default: TODO();
         }
