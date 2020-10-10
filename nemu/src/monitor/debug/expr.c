@@ -235,16 +235,17 @@ static int main_operator_index(int p, int q){
 
 static uint32_t eval(int p, int q){   
   assert(p < nr_token);   
+  assert(p < nr_token);
   if (p > q) assert(0);
   else if (p == q)  {assert(p <= nr_token);return atoi(tokens[p].str);}
   else if (check_paternheses(p,q)) return eval(p+1, q-1);
   else {
     int op = main_operator_index(p,q);
-    assert(op < nr_token);
+    assert(op < q);
     if (tokens[op].type == TK_MINUS ){
       assert(op == p);
-      uint32_t val1 = eval(p+1,q)*(uint32_t)(-1);
-      return val1;
+      uint32_t val1 = eval(p+1,q);
+      return (uint32_t) val1*-1;
       }
     /*else if (tokens[op].type == TK_POINTER){
       bool s;
