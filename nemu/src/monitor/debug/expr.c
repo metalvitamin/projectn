@@ -221,13 +221,13 @@ static int main_operator_index(int p, int q){
         ind = i;
       }
     }
-    /*else if (tokens[i].type == TK_MINUS)  {
+    else if (tokens[i].type == TK_MINUS)  {
       if ( ty == TK_LOG_AND || ty == TK_EQ || ty == '+' || ty == '-' || ty =='*' || ty == '/' || ty == TK_POINTER || ty == TK_MINUS) continue;
       else {
         ty = tokens[i].type;
         ind = i;
       }
-    }*/
+    }
   }
   return ind;
 }
@@ -240,18 +240,18 @@ static uint32_t eval(int p, int q){
   else {
     int op = main_operator_index(p,q);
     assert(op <= 32);
-    /*if (tokens[op].type == TK_MINUS){
+    if (tokens[op].type == TK_MINUS){
       uint32_t val1 = eval(op+1,q)*(-1);
       return val1;
       }
-    else if (tokens[op].type == TK_POINTER){
+    /*else if (tokens[op].type == TK_POINTER){
       bool s;
       uint32_t val ;
       val = isa_reg_str2val(tokens[op+1].str, &s);
       if (s) return val;
       else assert(0);
-    }
-    else { */
+    }*/
+    else { 
     uint32_t val1 = eval(p , op - 1), val2 = eval( op + 1 , q);
     switch(tokens[op].type){
       case('+'):return val1+val2;
@@ -261,7 +261,7 @@ static uint32_t eval(int p, int q){
       case(TK_EQ): return val1==val2;
       case(TK_LOG_AND): return val1&&val2;
     }
-  //}
+  }
   }
   return 0;
 }
@@ -276,6 +276,11 @@ word_t expr(char *e, bool *success) {
   //printf("%d\n",nr_token);
   /* TODO: Insert codes to evaluate the expression. */
   //done 
+  for (int i = 0; i < nr_token; i ++) {
+  if (tokens[i].type == '-' && (i == 0 || tokens[i - 1].type == '+'|| tokens[i - 1].type == '-'||tokens[i - 1].type == '*'|| tokens[i - 1].type == '/'||tokens[i - 1].type == '(') ) {
+    tokens[i].type = TK_MINUS;
+  }
+  }
   if(legal_exp(0,nr_token-1)) return eval(0,nr_token-1);
   else {
     *success = false; 
