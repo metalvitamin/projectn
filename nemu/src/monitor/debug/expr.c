@@ -259,7 +259,7 @@ static uint32_t atou(char *ch){
 static uint32_t eval(int p, int q){   
   //assert(p < nr_token);   
   //assert(p < nr_token);
-  if (p > q) assert(0);
+  if (p > q) ;//assert(0);
   else if (p == q)  {
     //assert(p <= nr_token);
     //assert(tokens[p].str[0] != '\0');
