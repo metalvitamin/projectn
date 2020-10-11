@@ -174,7 +174,7 @@ static bool legal_exp(int p,int q){
     else if (tokens[i].type <= TK_LOG_AND && tokens[i].type > ')' && tokens[i+1].type <= TK_LOG_AND && tokens[i+1].type >')' )
       return false;
   }
-  assert(nr_token == 1);
+  //assert(nr_token == 1);
   return true;
 }
 
@@ -260,13 +260,20 @@ static uint32_t eval(int p, int q){
   assert(p < nr_token);   
   assert(p < nr_token);
   if (p > q) assert(0);
-  else if (p == q)  {assert(p <= nr_token);assert(tokens[p].str[0] != '\0');printf("%d  %s\n",tokens[p].type,tokens[p].str);/*printf("%u\n",atou(tokens[p].str));*/return atou(tokens[p].str);}
+  else if (p == q)  {
+    assert(p <= nr_token);
+    assert(tokens[p].str[0] != '\0');
+    //printf("%d  %s\n",tokens[p].type,tokens[p].str);
+    /*printf("%u\n",atou(tokens[p].str));*/
+    return atou(tokens[p].str);
+    }
   else if (check_paternheses(p,q)) return eval(p+1, q-1);
   else {
     int op = main_operator_index(p,q);
     assert(op < q);
     printf("%d  %s\n",tokens[op].type,tokens[op].str);
     if (tokens[op].type == TK_MINUS ){
+      assert(0);
       assert(op == p);
       uint32_t val1 = eval(p+1,q);
       return (uint32_t) val1*-1;
