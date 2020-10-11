@@ -249,7 +249,7 @@ static uint32_t atou(char *ch){
   uint32_t result = 0;
   char *c ;
   c = ch;
-  assert(c != NULL);
+  //assert(c != NULL);
   while (*c != '\0'){
     result = result*10 + *c - '0';
     c ++;
