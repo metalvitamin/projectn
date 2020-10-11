@@ -101,7 +101,7 @@ static bool make_token(char *e) {
               printf("substr_len = %d >= 32, it is overflowed.\n",substr_len); 
               return false;
             }*/
-            assert(substr_len <= 32);
+            assert(substr_len < 32);
             init_token(TK_NUMBER);
             //printf("%d  %s\n",tokens[nr_token].type,tokens[nr_token].str);
             strncpy(tokens[nr_token].str,substr_start,substr_len);
@@ -181,8 +181,8 @@ static bool legal_exp(int p,int q){
 static bool check_paternheses(int p ,int q){
   assert(q <nr_token);
   assert(p <nr_token);
-  printf("%d  %s\n",tokens[p].type,tokens[p].str);
-  printf("%d  %s\n",tokens[q].type,tokens[q].str);
+  //printf("%d  %s\n",tokens[p].type,tokens[p].str);
+  //printf("%d  %s\n",tokens[q].type,tokens[q].str);
   if ((tokens[p].type != '(' )|| (tokens[q].type != ')')){
     return false;
   }
