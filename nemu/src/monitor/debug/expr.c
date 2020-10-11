@@ -307,7 +307,7 @@ word_t expr(char *e, bool *success) {
     //assert(0);
   }
   }
-  assert(0);
+  assert(nr_token == 1);
   if(legal_exp(0,nr_token-1)) return eval(0,nr_token-1);
   else {
     *success = false; 
