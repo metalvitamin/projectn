@@ -275,9 +275,9 @@ static uint32_t eval(int p, int q){
     if (tokens[op].type == TK_MINUS ){
       //assert(0);
       assert(op == p);
-      //uint32_t val1 = eval(p+1,q);
+      uint32_t val1 = eval(p+1,q);
       //assert(0);
-      return -1;
+      return -1*val1;
       }
     /*else if (tokens[op].type == TK_POINTER){
       bool s;
@@ -288,6 +288,7 @@ static uint32_t eval(int p, int q){
     }*/
     else { 
     uint32_t val1 = eval(p , op - 1), val2 = eval( op + 1 , q);
+    assert(0);
     switch(tokens[op].type){
       case('+'):return val1+val2;
       case('-'):return val1-val2;
