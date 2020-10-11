@@ -60,7 +60,7 @@ typedef struct token {
   char str[32];
 } Token;
 
-static Token tokens[128] __attribute__((used)) = {};
+static Token tokens[64] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 static inline void init_token(int o){
   tokens[nr_token].type = o;
