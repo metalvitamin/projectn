@@ -130,7 +130,7 @@ static bool make_token(char *e) {
       return false;
     }
   }
-  printf("%d\n",nr_token);
+  //printf("%d\n",nr_token);
 
   return true;
 }
@@ -193,7 +193,7 @@ static int main_operator_index(int p, int q){
   int j = 0, ty = 0, ind = 0;
   for (int i = p; i <= q; i ++){
     assert(i <nr_token);
-    printf("%d  %s\n",tokens[i].type,tokens[i].str);
+    //printf("%d  %s\n",tokens[i].type,tokens[i].str);
     if (tokens[i].type == TK_NUMBER) continue;
     else if (tokens[i].type == '(') j ++;
     else if (tokens[i].type == ')') j --;
@@ -271,7 +271,7 @@ static uint32_t eval(int p, int q){
   else {
     int op = main_operator_index(p,q);
     assert(op < q);
-    printf("%d  %s\n",tokens[op].type,tokens[op].str);
+    //printf("%d  %s\n",tokens[op].type,tokens[op].str);
     if (tokens[op].type == TK_MINUS ){
       //assert(0);
       assert(op == p);
