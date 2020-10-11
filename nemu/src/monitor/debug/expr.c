@@ -158,7 +158,7 @@ static bool legal_exp(int p,int q){
   for (i = p; i < q; i ++){
     assert(i <nr_token);
     assert(i+1 <nr_token);
-    assert(0);
+    //assert(0);
     //printf("%d  %s\n",tokens[i].type,tokens[i].str);
     //printf("%d  %s\n",tokens[i + 1].type,tokens[i + 1].str);
     if(((tokens[i].type == TK_NUMBER)||(tokens[i].type == ')')) && ((tokens[i+1].type == TK_NUMBER) ||(tokens[i+1].type == '(')))
@@ -174,6 +174,7 @@ static bool legal_exp(int p,int q){
     else if (tokens[i].type <= TK_LOG_AND && tokens[i].type > ')' && tokens[i+1].type <= TK_LOG_AND && tokens[i+1].type >')' )
       return false;
   }
+  assert(nr_token == 1);
   return true;
 }
 
