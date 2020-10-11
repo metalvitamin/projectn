@@ -92,7 +92,7 @@ static bool make_token(char *e) {
          * of tokens, some extra actions should be performed.
          */
         assert (nr_token < 32);
-        printf("%d\n",nr_token);
+        //printf("%d\n",nr_token);
 
         switch (rules[i].token_type) {
           case(TK_NUMBER):{ 
@@ -103,7 +103,7 @@ static bool make_token(char *e) {
             }*/
             assert(substr_len <= 32);
             init_token(TK_NUMBER);
-            printf("%d  %s\n",tokens[nr_token].type,tokens[nr_token].str);
+            //printf("%d  %s\n",tokens[nr_token].type,tokens[nr_token].str);
             strncpy(tokens[nr_token].str,substr_start,substr_len);
             tokens[nr_token].str[substr_len] = '\0';
             nr_token ++;
@@ -137,7 +137,7 @@ static bool legal_pat(int p, int q){
   int i,j = 0;
   for (i = p; i <= q; i ++){
     assert(i<nr_token);
-    printf("%d  %s\n",tokens[i].type,tokens[i].str);
+    //printf("%d  %s\n",tokens[i].type,tokens[i].str);
     if (tokens[i].type == '(') j ++;
     else if (tokens[i].type ==')') j --;
     if (j < 0) return false;
@@ -152,7 +152,7 @@ static bool legal_exp(int p,int q){
   if(!legal_pat(p,q)) return false;
   /*if (tokens[0].type == '-') tokens[0].type =TK_MINUS;
   else if ( tokens[0].type == '*') tokens[0].type = TK_POINTER;*/
-  printf("%d  %s\n",tokens[q].type,tokens[q].str);
+  //printf("%d  %s\n",tokens[q].type,tokens[q].str);
   if (tokens[q].type != TK_NUMBER && tokens[q].type !=')') return false;
   for (i = p; i < q; i ++){
     assert(i <nr_token);
@@ -307,7 +307,7 @@ word_t expr(char *e, bool *success) {
     //assert(0);
   }
   }
-  assert(nr_token == 1);
+  // assert(nr_token == 1);
   if(legal_exp(0,nr_token-1)) return eval(0,nr_token-1);
   else {
     *success = false; 
