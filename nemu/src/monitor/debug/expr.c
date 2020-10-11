@@ -300,7 +300,6 @@ word_t expr(char *e, bool *success) {
   //printf("%d\n",nr_token);
   /* TODO: Insert codes to evaluate the expression. */
   //done 
-  assert(0);
   for (int i = 0; i < nr_token; i ++) {
     printf("%d  %s\n",tokens[i].type,tokens[i].str);
   if (tokens[i].type == '-' && (i == 0 || tokens[i - 1].type == '+'|| tokens[i - 1].type == '-'||tokens[i - 1].type == '*'|| tokens[i - 1].type == '/'||tokens[i - 1].type == '('|| tokens[i - 1].type == TK_MINUS) ) {
