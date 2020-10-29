@@ -55,7 +55,7 @@ void make_wp(char* exp){
     WP* wp = head;
     cpu_exec(1);
     int answer = expr(wp->str, &success);
-    for(;wp->next != NULL;wp = wp->next){
+    for(;wp != NULL;wp = wp->next){
       if(wp->result != answer) {
         wp->result = answer;
         nemu_state.state = NEMU_STOP;
@@ -68,13 +68,13 @@ void make_wp(char* exp){
 }
 void delete_wp(int n){
   WP* wp = head;
-  for(;wp->next != NULL;wp = wp->next){
+  for(;wp != NULL;wp = wp->next){
     if(wp->NO == n) free_wp(wp);
   }
 }
 void show_wp(){
   WP* wp = head;
-  for(;wp->next != NULL;wp = wp->next){
+  for(;wp != NULL;wp = wp->next){
     printf("Watchpoint No.%d, %s = %d\n",wp->NO,wp->str,wp->result);
   }
 }
