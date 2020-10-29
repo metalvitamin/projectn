@@ -1,8 +1,8 @@
 #include "watchpoint.h"
 #include "expr.h"
-
+#include <monitor/monitor.h>
 #define NR_WP 32
-
+void cpu_exec(uint64_t);
 static WP wp_pool[NR_WP] = {};
 static WP *head = NULL, *free_ = NULL;
 
@@ -22,14 +22,59 @@ WP* new_wp(){
   assert (free_ != NULL);
   WP *wp = free_;
   free_ = free_->next;
-  wp->next = NULL;
+  
+  if(head == NULL) {
+    head = wp;
+    wp->next = NULL;
+    wp->NO = 1;
+  }
+  else {
+    wp->next = head;
+    wp->NO = head->NO + 1;
+    head = wp;
+  }
   return wp;
 }
 
 void free_wp(WP* wp){
+  WP* new = head;
+  for(;new->next != NULL && new->next != wp;new = new->next );
+  assert(new->next != NULL);
+  new->next = wp->next;
   wp->next = free_;
-  free_ = wp ;
+  free_ = wp;
   // change some value here
+}
+void make_wp(char* exp){
+  WP* wp = new_wp();
+  strncpy(wp->str, exp,32);
+  wp->str[31] = '\0';
+  bool success = true;
+  wp->result = expr(wp->str,&success);
+  while(true){
+    WP* wp = head;
+    cpu_exec(1);
+    int answer = expr(wp->str, &success);
+    for(;wp->next != NULL;wp = wp->next){
+      if(wp->result != answer) {
+        wp->result = answer;
+        nemu_state.state = NEMU_STOP;
+        return;
+      }
+    }
+  }
+}
+void delete_wp(int n){
+  WP* wp = head;
+  for(;wp->next != NULL;wp = wp->next){
+    if(wp->NO == n) free_wp(wp);
+  }
+}
+void show_wp(){
+  WP* wp = head;
+  for(;wp->next != NULL;wp = wp->next){
+    printf("Watchpoint No.%d, %s = %d\n",wp->NO,wp->str,wp->result);
+  }
 }
 /* TODO: Implement the functionality of watchpoint */
 

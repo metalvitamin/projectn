@@ -8,7 +8,9 @@
 #include <monitor/monitor.h>
 void cpu_exec(uint64_t);
 int is_batch_mode();
-
+void show_wp();
+void make_wp(char*);
+void delete_wp(int);
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
   static char *line_read = NULL;
@@ -48,6 +50,8 @@ static int cmd_si(char *args){
 static int cmd_info(char*args){   //todo: expand info w
   if (*args == 'r')
     isa_reg_display();
+  else if (*args == 'w')
+    show_wp();
   return 0;
 }
 static int cmd_x(char* args){   //todo: change this to a complete one
@@ -55,11 +59,17 @@ static int cmd_x(char* args){   //todo: change this to a complete one
   strtok(NULL," ");
   char *q;
   q = strtok(NULL," ");
-  sscanf(q,"%x",&p);
-  int  n = atoi(args);
-  for (int i = 0; i < n; i ++)
-    printf("%x\n",paddr_read(p+4*i,1));
+  bool success = true;
+  p = expr(q,&success);
+  if (success){
+    int  n = atoi(args);
+    for (int i = 0; i < n; i ++)
+      printf("%x\n",paddr_read(p+4*i,1));
+    return 0;
+  }
+  else printf("invalid expr\n");
   return 0;
+  
 }
 static int cmd_p(char*args){
   bool success = true;
@@ -68,12 +78,14 @@ static int cmd_p(char*args){
   printf("Wrong expression\n");
   return 0;
 }
-/*static int cmd_w(char* args){// todo
+static int cmd_w(char* args){
+  make_wp(args);
   return 0;
 }
 static int cmd_d(char* args){
+  delete_wp(atoi(args));
   return 0;
-}*/
+}
 static struct {
   char *name;
   char *description;
@@ -83,9 +95,11 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si","Execute the program n line",cmd_si},
-  { "info","Print GPRs",cmd_info},
+  { "info","Print GPRs or Watchpoints",cmd_info},
   { "x","Output constantly N 4bits from the EXPR",cmd_x},
-  { "p","Calculate the result of the expr given", cmd_p}
+  { "p","Calculate the result of the expr given", cmd_p},
+  { "w", "Make a Watchpoint", cmd_w},
+  { "d", "Delete a Watchpoint", cmd_d}
   /* TODO: Add more commands */
   
 };
