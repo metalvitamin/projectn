@@ -29,8 +29,8 @@ static struct rule {
   //done
 
   {" +", TK_NOTYPE},    // spaces
-  {"[0-9]+",TK_NUMBER}, // numbers
-  {"0x[0-9]+",TK_H_NUMBER},// hex numbers
+  {"0x[0-9]+",TK_H_NUMBER}, // hex numbers
+  {"[0-9]+",TK_NUMBER},// numbers
   {"$[a-zA-Z]+",TK_DOLARS},// $ dollars
   {"\\+", TK_SUB},           // minus
   {"\\*", TK_MUL},         // multify
