@@ -42,7 +42,7 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args){
   if(args == NULL) cpu_exec(1);
-  cpu_exec(atoi(args));
+  else cpu_exec(atoi(args));
   return 0;
 }
 static int cmd_info(char*args){   //todo: expand info w
