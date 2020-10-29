@@ -42,9 +42,9 @@ void free_wp(WP* wp){
     head = NULL; 
   }
   else {
-  for(;new->next != NULL && new->next != wp;new = new->next );
-  assert(new->next != NULL);
-  new->next = wp->next;
+    for(;new->next != NULL && new->next != wp; new = new->next );
+    assert(new->next != NULL);
+    new->next = wp->next;
   }
   wp->next = free_;
   free_ = wp;
