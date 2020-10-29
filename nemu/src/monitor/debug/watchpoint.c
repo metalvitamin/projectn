@@ -62,6 +62,8 @@ void make_wp(char* exp){
         return;
       }
     }
+    if(nemu_state.state == NEMU_END || nemu_state.state == NEMU_ABORT) 
+      return;
   }
 }
 void delete_wp(int n){
