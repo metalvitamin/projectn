@@ -38,17 +38,26 @@ WP* new_wp(){
 
 void free_wp(WP* wp){
   WP* new = head;
-  if(wp == new) {
-    head = NULL; 
+  if(head->next == NULL){
+    head = NULL;
+    wp->next = free_;
+    free_ = wp;
+  }
+  else if (wp == head){
+    head = head->next;
+    wp->next = free_;
+    free_ = wp;
   }
   else {
-    for(;new->next != NULL && new->next != wp; new = new->next );
-    assert(new->next != NULL);
+    for(;new->next != NULL; new = new->next){
+      if (new->next == wp)
+        break;
+    }
     new->next = wp->next;
+    wp->next = free_;
+    free_ = wp;
   }
-  wp->next = free_;
-  free_ = wp;
-  // change some value here
+  
 }
 void make_wp(char* exp){
   WP* wp = new_wp();
