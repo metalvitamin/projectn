@@ -272,8 +272,16 @@ static int main_operator_index(int p, int q){
         ty = TK_MINUS;
         ind = i;
       }
+      break;
+
+    case TK_DOLARS:
+      if ( ty <= TK_DOLARS) continue;
+      else {
+        ty = tokens[i].type;
+        ind = i;
+      }
+      break;
     }
-    
   }
   return ind;
 }
@@ -302,8 +310,13 @@ static uint32_t eval(int p, int q){
       return -1*val1;
       }
     else if (tokens[op].type == TK_POINTER){
+      uint32_t val;
+      val = *((tokens[op+1].str));
+      return val;
+    }
+    else if (tokens[op].type == TK_DOLARS){
       bool s;
-      uint32_t val ;
+      uint32_t val;
       val = isa_reg_str2val(tokens[op+1].str, &s);
       if (s) return val;
       else assert(0);
