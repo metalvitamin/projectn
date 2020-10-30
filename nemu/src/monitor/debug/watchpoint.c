@@ -26,11 +26,9 @@ WP* new_wp(){
   if(head == NULL) {
     head = wp;
     wp->next = NULL;
-    wp->NO = 1;
   }
   else {
     wp->next = head;
-    wp->NO = head->NO + 1;
     head = wp;
   }
   return wp;
