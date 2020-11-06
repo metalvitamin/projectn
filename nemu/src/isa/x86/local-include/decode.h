@@ -54,7 +54,8 @@ static inline def_DopHelper(SI) {
    *
    operand_imm(s, op, load_val, ???, op->width);
    */
-  TODO();
+  int simm = instr_fetch(&s->seq_pc, op->width);
+  operand_imm(s, op, load_val, simm, op->width);
 }
 
 /* I386 manual does not contain this abbreviation.
@@ -173,6 +174,11 @@ static inline def_DHelper(I) {
   decode_op_I(s, id_dest, true);
 }
 
+static inline def_DHelper(call_SI) {
+  decode_op_SI(s, id_src1, false);
+  
+}
+
 static inline def_DHelper(r) {
   decode_op_r(s, id_dest, true);
 }
@@ -265,8 +271,14 @@ static inline def_DHelper(J) {
   s->jmp_pc = id_dest->simm + s->seq_pc;
 }
 
-static inline def_DHelper(push_SI) {
-  decode_op_SI(s, id_dest, true);
+
+
+static inline def_DHelper(push_I) {
+  decode_op_I(s, id_src1, true);
+}
+
+static inline def_DHelper(push_R){
+  decode_op_r(s, id_src1, true);
 }
 
 static inline def_DHelper(in_I2a) {

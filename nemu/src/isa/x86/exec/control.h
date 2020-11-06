@@ -3,7 +3,7 @@
 static inline def_EHelper(jmp) {
   // the target address is calculated at the decode stage
   rtl_j(s, s->jmp_pc);
-
+  s->is_jmp = 1; //i have changed this 
   print_asm("jmp %x", s->jmp_pc);
 }
 
@@ -24,14 +24,20 @@ static inline def_EHelper(jmp_rm) {
 
 static inline def_EHelper(call) {
   // the target address is calculated at the decode stage
-  TODO();
+  //def_EHelper(push)
+  rtl_push(s, &s->seq_pc);
+  s->jmp_pc = s->seq_pc +id_src1->simm;
+  s->is_jmp = 1;
+  rtl_j(s, s->jmp_pc);
 
   print_asm("call %x", s->jmp_pc);
 }
 
 static inline def_EHelper(ret) {
-  TODO();
 
+  rtl_pop(s, &s->jmp_pc);
+  s->is_jmp = 1;
+  rtl_j(s, s->jmp_pc);
   print_asm("ret");
 }
 

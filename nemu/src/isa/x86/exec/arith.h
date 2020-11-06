@@ -17,7 +17,9 @@ static inline void cmp_internal(DecodeExecState *s) {
  
 
 static inline def_EHelper(sub) {
-  TODO();
+  rtl_sub(s, ddest, ddest , dsrc1);
+  print_asm_template2(add);
+
 }
 
 static inline def_EHelper(cmp) {

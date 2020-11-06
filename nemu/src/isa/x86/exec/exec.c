@@ -14,7 +14,7 @@ static inline void set_width(DecodeExecState *s, int width) {
 static inline def_EHelper(gp1) {
   switch (s->isa.ext_opcode) {
     EMPTY(0) EMPTY(1) EMPTY(2) EMPTY(3)
-    EMPTY(4) EMPTY(5) EMPTY(6) EMPTY(7)
+    EMPTY(4) EX(5, sub) EMPTY(6) EMPTY(7)
   }
 }
 
@@ -75,6 +75,16 @@ again:
   s->opcode = opcode;
   switch (opcode) {
     EX   (0x0f, 2byte_esc)
+    IDEX (0x31, G2E, xor)
+    IDEX (0x50, push_R, push)
+    IDEX (0x51, push_R, push)
+    IDEX (0x52, push_R, push)
+    IDEX (0x53, push_R, push)
+    IDEX (0x54, push_R, push)
+    IDEX (0x55, push_R, push)
+    IDEX (0x56, push_R, push)
+    IDEX (0x57, push_R, push)
+    IDEX (0x68, push_I, push)
     IDEXW(0x80, I2E, gp1, 1)
     IDEX (0x81, I2E, gp1)
     IDEX (0x83, SI2E, gp1)
@@ -104,6 +114,7 @@ again:
     IDEX (0xbf, mov_I2r, mov)
     IDEXW(0xc0, gp2_Ib2E, gp2, 1)
     IDEX (0xc1, gp2_Ib2E, gp2)
+    EX   (0xc3, ret)
     IDEXW(0xc6, mov_I2E, mov, 1)
     IDEX (0xc7, mov_I2E, mov)
     IDEXW(0xd0, gp2_1_E, gp2, 1)
@@ -111,6 +122,7 @@ again:
     IDEXW(0xd2, gp2_cl2E, gp2, 1)
     IDEX (0xd3, gp2_cl2E, gp2)
     EX   (0xd6, nemu_trap)
+    IDEX (0xe8, call_SI, call)
     IDEXW(0xf6, E, gp3, 1)
     IDEX (0xf7, E, gp3)
     IDEXW(0xfe, E, gp4, 1)
