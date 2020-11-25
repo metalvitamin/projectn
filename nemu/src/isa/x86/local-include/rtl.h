@@ -41,33 +41,77 @@ static inline def_rtl(pop, rtlreg_t* dest) {
 static inline def_rtl(is_sub_overflow, rtlreg_t* dest,
     const rtlreg_t* res, const rtlreg_t* src1, const rtlreg_t* src2, int width) {
   // dest <- is_overflow(src1 - src2)
-  TODO();
+  *dest = 0;
+  if((*src1 >> (8*width-1)) & 0x1){
+    if(!((*src2 >> (8*width-1)) & 0x1)){
+      if(!((*res >> (8*width-1)) & 0x1)){
+        *dest = 1;
+      }
+    }
+  }
+  else
+  {
+    if((*src2 >> (8*width-1)) & 0x1){
+      if((*res >> (8*width-1)) & 0x1){
+        *dest = 1;
+      }
+    }
+  }
 }
 
 static inline def_rtl(is_sub_carry, rtlreg_t* dest,
     const rtlreg_t* src1, const rtlreg_t* src2) {
   // dest <- is_carry(src1 - src2)
-  TODO();
+  if(*src1 < *src2){
+    *dest = 0;
+  }
+  else{
+    *dest = 1;
+  }
+  
 }
 
 static inline def_rtl(is_add_overflow, rtlreg_t* dest,
     const rtlreg_t* res, const rtlreg_t* src1, const rtlreg_t* src2, int width) {
   // dest <- is_overflow(src1 + src2)
-  TODO();
+  *dest = 0;
+  if((*src1 >> (8*width-1)) & 0x1){
+    if((*src2 >> (8*width-1)) & 0x1){
+      if(!((*res >> (8*width-1)) & 0x1)){
+        *dest = 1;
+      }
+    }
+  }
+  else{
+    if(!((*src2 >> (8*width-1)) & 0x1)){
+      if((*res >> (8*width-1)) & 0x1){
+        *dest = 1;
+      }
+    }
+  }
+  
 }
 
 static inline def_rtl(is_add_carry, rtlreg_t* dest,
     const rtlreg_t* res, const rtlreg_t* src1) {
   // dest <- is_carry(src1 + src2)
-  TODO();
+  if(*res < *src1){
+    *dest = 1;
+  }
+  else{
+    *dest = 0;
+  }
 }
-
+#define cpueflagsCF cpu.eflags.CF
+#define cpueflagsOF cpu.eflags.OF
+#define cpueflagsZF cpu.eflags.ZF
+#define cpueflagsSF cpu.eflags.SF
 #define def_rtl_setget_eflags(f) \
   static inline def_rtl(concat(set_, f), const rtlreg_t* src) { \
-    TODO(); \
+    concat(cpueflags,f)= *src; \
   } \
   static inline def_rtl(concat(get_, f), rtlreg_t* dest) { \
-    TODO(); \
+    *dest = concat(cpueflags,f); \
   }
 
 def_rtl_setget_eflags(CF)
@@ -77,12 +121,37 @@ def_rtl_setget_eflags(SF)
 
 static inline def_rtl(update_ZF, const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
-  TODO();
+  uint32_t tmp = 0;
+  switch (width)
+  {
+  case 1:
+    tmp = *result & 0xff;
+    break;
+  
+  case 2:
+    tmp = *result & 0xffff;
+    break;
+  case 4:
+    tmp = *result & 0xffffffff;
+    break;
+  default:
+    assert(0);
+  }
+  
+  if(tmp != 0){
+    cpueflagsZF = 1;
+  }
+  else
+  {
+    cpueflagsZF = 0;
+  }
+
 }
 
 static inline def_rtl(update_SF, const rtlreg_t* result, int width) {
   // eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
-  TODO();
+  cpueflagsSF = (*result >> (8*width-1)) & 0x1;
+
 }
 
 static inline def_rtl(update_ZFSF, const rtlreg_t* result, int width) {

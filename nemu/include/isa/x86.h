@@ -39,7 +39,26 @@ typedef struct {
       };
     };
   vaddr_t pc;
-  rtlreg_t efalgs;
+  union 
+  {
+    struct
+    {
+      uint8_t CF : 1;
+      uint8_t NOT_USED_1 : 5;
+      uint8_t ZF : 1;
+      uint8_t SF : 1;
+      uint8_t TF : 1;
+      uint8_t IF : 1;
+      uint8_t DF : 1;
+      uint8_t OF : 1;
+      uint32_t UNUSED : 20;
+
+    };
+    
+
+  }eflags;
+  
+  
 } x86_CPU_state;
 
 // decode
