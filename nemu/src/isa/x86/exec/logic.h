@@ -7,6 +7,9 @@ static inline def_EHelper(test) {
 }
 
 static inline def_EHelper(and) {
+  if(id_src1->width != 4){
+    *dsrc1 = (int32_t)*dsrc1;
+  }
   rtl_and(s, ddest, ddest, dsrc1);
   rtl_set_CF(s,rz);
   rtl_set_OF(s,rz);
