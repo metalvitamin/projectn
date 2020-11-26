@@ -54,7 +54,7 @@ static inline def_DopHelper(SI) {
    *
    operand_imm(s, op, load_val, ???, op->width);
    */
-  int simm = instr_fetch(&s->seq_pc, op->width);
+  int8_t simm = instr_fetch(&s->seq_pc, op->width);
   printf("\n\n\n%x\n\n\n", simm);
   operand_imm(s, op, load_val, simm, op->width);
 }
