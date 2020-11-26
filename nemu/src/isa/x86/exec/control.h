@@ -12,6 +12,7 @@ static inline def_EHelper(jcc) {
   uint32_t cc = s->opcode & 0xf;
   rtl_setcc(s, s0, cc);
   rtl_jrelop(s, RELOP_NE, s0, rz, s->jmp_pc);
+  s->is_jmp = 1;
 
   print_asm("j%s %x", get_cc_name(cc), s->jmp_pc);
 }
