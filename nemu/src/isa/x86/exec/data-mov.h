@@ -4,13 +4,13 @@ static inline def_EHelper(mov) {
 }
 
 static inline def_EHelper(push) {
-  rtl_push(s, ddest);
+  rtl_push(s, &s->src1.imm);
 
   print_asm_template1(push);
 }
 
 static inline def_EHelper(pop) {
-  rtl_pop(s, dsrc1);
+  rtl_push(s, dsrc1);
 
   print_asm_template1(pop);
 }
