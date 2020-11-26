@@ -74,6 +74,6 @@ static inline def_EHelper(lea) {
   operand_write(s, id_dest, ddest);
   
   print_asm_template2(lea);
-  assert(0);
+ 
 }
 
