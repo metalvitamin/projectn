@@ -9,7 +9,7 @@ static inline def_EHelper(test) {
 static inline def_EHelper(and) {
   int8_t tem = *dsrc1;
   *dsrc1 = tem;
-  printf("%x",*dsrc1);
+  printf("%x\n",*dsrc1);
   rtl_and(s, ddest, ddest, dsrc1);
   rtl_set_CF(s,rz);
   rtl_set_OF(s,rz);
