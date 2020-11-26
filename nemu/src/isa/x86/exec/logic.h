@@ -7,9 +7,10 @@ static inline def_EHelper(test) {
 }
 
 static inline def_EHelper(and) {
-  if(id_src1->width == 1){
+  if(id_src1->width == 1 && id_dest->width != 1){
     int8_t temp = *dsrc1;
-    *dsrc1 = temp;
+    int temp1 = temp;
+    *dsrc1 = temp1;
   }
   rtl_and(s, ddest, ddest, dsrc1);
   rtl_set_CF(s,rz);
