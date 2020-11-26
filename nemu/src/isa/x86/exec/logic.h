@@ -8,7 +8,7 @@ static inline def_EHelper(test) {
 
 static inline def_EHelper(and) {
   rtl_and(s, ddest, ddest, dsrc1);
-  printf("\n\n\n%d\n\n\n", *dsrc1);
+  printf("\n\n\n\t%d\t\n\n\n", *dsrc1);
   rtl_set_CF(s,rz);
   rtl_set_OF(s,rz);
   rtl_update_ZFSF(s, ddest, id_dest->width);
