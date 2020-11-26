@@ -203,6 +203,7 @@ static inline def_DHelper(SI2E) {
   operand_rm(s, id_dest, true, NULL, false);
   id_src1->width = 1;
   decode_op_SI(s, id_src1, true);
+  printf("\n\t%d\t\n", id_src1->width);
   printf("\n\n\n%d\n\n\n",*dsrc1);
   if (id_dest->width == 2) {
     *dsrc1 &= 0xffff;
