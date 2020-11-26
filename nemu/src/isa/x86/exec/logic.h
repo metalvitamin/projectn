@@ -8,7 +8,7 @@ static inline def_EHelper(test) {
 
 static inline def_EHelper(and) {
   if(id_src1->width != 4){
-    *dsrc1 = (int32_t)*dsrc1;
+    *dsrc1 = (int32_t)(int8_t)*dsrc1;
   }
   rtl_and(s, ddest, ddest, dsrc1);
   rtl_set_CF(s,rz);
