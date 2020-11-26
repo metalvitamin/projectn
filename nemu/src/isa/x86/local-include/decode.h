@@ -126,7 +126,7 @@ static inline def_DHelper(mov_E2G) {
 static inline def_DHelper(lea_M2G) {
 
   operand_rm(s, id_src1, false, id_dest, false); 
-  assert(0);
+  
 }
 
 /* AL <- Ib
