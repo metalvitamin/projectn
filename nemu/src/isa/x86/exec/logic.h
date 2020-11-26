@@ -10,6 +10,8 @@ static inline def_EHelper(and) {
   if(id_src1->width == 1){
     int8_t tem = *dsrc1;
     printf("\n\n\n%d\n\n\n",tem);
+    int temp = tem;
+    printf("\n\n\n%d\n\n\n", temp);
   }
   rtl_and(s, ddest, ddest, dsrc1);
   printf("\n\n\n%d\n\n\n", *dsrc1);
