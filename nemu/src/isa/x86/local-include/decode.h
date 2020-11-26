@@ -55,6 +55,10 @@ static inline def_DopHelper(SI) {
    operand_imm(s, op, load_val, ???, op->width);
    */
   int simm = instr_fetch(&s->seq_pc, op->width);
+  if(op->width == 1){
+  int8_t tem = simm;
+  simm = tem;
+  }
   operand_imm(s, op, load_val, simm, op->width);
 }
 
