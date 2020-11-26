@@ -27,7 +27,17 @@ static inline def_rtl(neg, rtlreg_t *dest, const rtlreg_t* src1) {
 
 static inline def_rtl(sext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
-  TODO();
+  if(width == 1){
+    int8_t tem = *src1;
+    *dest = tem;
+  }
+  else
+  {
+    assert(width == 2);
+    int16_t tem = *src1;
+    *dest = tem;
+  }
+  
 }
 
 static inline def_rtl(zext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
