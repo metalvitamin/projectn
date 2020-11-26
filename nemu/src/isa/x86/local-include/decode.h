@@ -178,6 +178,8 @@ static inline def_DHelper(I) {
 
 static inline def_DHelper(call_SI) {
   decode_op_SI(s, id_src1, false);
+  rtl_push(s, &s->seq_pc);
+  s->jmp_pc = s->seq_pc +id_src1->simm;
   
 }
 
