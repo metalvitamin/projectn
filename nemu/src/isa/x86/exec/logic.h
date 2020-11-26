@@ -7,12 +7,11 @@ static inline def_EHelper(test) {
 }
 
 static inline def_EHelper(and) {
-  if(id_src1->width == 1){
     int8_t tem = *dsrc1;
     printf("\n\n\n%d\n\n\n",tem);
     int temp = tem;
     printf("\n\n\n%d\n\n\n", temp);
-  }
+    *dsrc1 = temp;
   rtl_and(s, ddest, ddest, dsrc1);
   rtl_set_CF(s,rz);
   rtl_set_OF(s,rz);
