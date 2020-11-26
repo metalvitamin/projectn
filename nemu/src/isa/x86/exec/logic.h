@@ -7,7 +7,7 @@ static inline def_EHelper(test) {
 }
 
 static inline def_EHelper(and) {
-  if(id_src1->width != 4){
+  if(id_src1->width == 1){
     int8_t temp = *dsrc1;
     *dsrc1 = temp;
   }
