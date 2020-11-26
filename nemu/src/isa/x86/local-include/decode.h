@@ -176,11 +176,6 @@ static inline def_DHelper(I) {
   decode_op_I(s, id_dest, true);
 }
 
-static inline def_DHelper(call_SI) {
-  decode_op_SI(s, id_src1, false);
-
-  
-}
 
 static inline def_DHelper(r) {
   decode_op_r(s, id_dest, true);
