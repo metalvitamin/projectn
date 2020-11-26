@@ -59,6 +59,7 @@ static inline def_DopHelper(SI) {
   int8_t tem = simm;
   simm = tem;
   }
+
   operand_imm(s, op, load_val, simm, op->width);
 }
 
@@ -122,7 +123,10 @@ static inline def_DHelper(mov_G2E) {
 static inline def_DHelper(E2G) {
   operand_rm(s, id_src1, true, id_dest, true);
 }
-
+static inline def_DHelper(e_E2G) {
+  id_dest->width = s->isa.is_operand_size_16 ? 2 : 4;
+  operand_rm(s, id_src1, true, id_dest, false);
+}
 static inline def_DHelper(mov_E2G) {
   operand_rm(s, id_src1, true, id_dest, false);
 }
