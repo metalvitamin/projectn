@@ -28,7 +28,19 @@ static inline def_EHelper(popa) {
 }
 
 static inline def_EHelper(leave) {
-  TODO();
+  //esp(sp) <- ebp(bp) then pop ebp(bp)
+  if(s->width == 4){
+    reg_l(4) = reg_l(5);
+    rtl_pop(s, &reg_l(5));
+  }else
+  {
+    //assert(width == 2);
+    reg_w(4) = reg_w(5);
+    rtl_pop(s, &reg_l(5));
+    reg_w(5) = reg_l(5) >> 16;
+  }
+  
+  
 
   print_asm("leave");
 }
