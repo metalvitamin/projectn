@@ -89,6 +89,7 @@ again:
   switch (opcode) {
     IDEX (0x01, G2E, add)
     IDEX (0x03, E2G, add)
+    IDEX (0x09, E2G, or)
     EX   (0x0f, 2byte_esc)
     IDEX (0x13, E2G, adc)
     IDEX (0x31, G2E, xor)
