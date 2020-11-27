@@ -99,6 +99,7 @@ static inline def_DopHelper(O) {
   s->isa.moff = instr_fetch(&s->seq_pc, 4);
   s->isa.mbase = rz;
   printf("\n\n%x\n\n", s->isa.moff);
+  printf("\n\n%x\n\n", *s->isa.mbase);
   if (load_val) {
     rtl_lm(s, &op->val, s->isa.mbase, s->isa.moff, op->width);
     op->preg = &op->val;
