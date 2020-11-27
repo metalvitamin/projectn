@@ -8,6 +8,7 @@ static inline def_EHelper(add) {
   rtl_is_add_overflow(s, s1, s0, ddest, dsrc1, id_dest->width);
   rtl_set_OF(s, s1);
   *ddest = *s0;
+  operand_write(s, id_dest, ddest);
   print_asm_template2(add);
 }
 
@@ -30,6 +31,7 @@ static inline def_EHelper(sub) {
   rtl_is_sub_overflow(s, s1, s0, ddest, dsrc1, id_dest->width);
   rtl_set_OF(s, s1);
   *ddest = *s0;
+  operand_write(s, id_dest, ddest);
   print_asm_template2(sub);
 
 }
