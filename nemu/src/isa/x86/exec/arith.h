@@ -45,7 +45,9 @@ static inline def_EHelper(cmp) {
 }
 
 static inline def_EHelper(inc) {
+  printf("\n%d\n",*ddest);
   rtl_addi(s,ddest,ddest,1);
+  printf("\n%d\n",*ddest);
   print_asm_template1(inc);
 }
 
