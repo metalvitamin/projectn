@@ -48,6 +48,7 @@ static inline def_EHelper(inc) {
   printf("\n%d\n",*ddest);
   rtl_addi(s,ddest,ddest,1);
   printf("\n%d\n",*ddest);
+  operand_write(s, id_dest, ddest);
   print_asm_template1(inc);
 }
 
