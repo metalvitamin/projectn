@@ -5,6 +5,7 @@ static inline def_EHelper(add) {
   printf("\n\nresult = %u, src = %u, dest = %u\n\n",*s0,*dsrc1,*ddest);
   rtl_update_ZFSF(s, s0, id_dest->width);
   rtl_is_add_carry(s, s1, ddest, dsrc1);
+  printf("\n\nCF = %d\n\n",*s1);
   rtl_set_CF(s, s1);
   rtl_is_add_overflow(s, s1, s0, ddest, dsrc1, id_dest->width);
   rtl_set_OF(s, s1);
