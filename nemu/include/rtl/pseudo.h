@@ -31,10 +31,8 @@ static inline def_rtl(sext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
     int8_t tem = *src1;
     *dest = tem;
   }
-  else
+  else if(width == 2)
   {
-    printf("\n\n%d\n\n",width);
-    assert(width == 2);
     int16_t tem = *src1;
     *dest = tem;
   }
@@ -47,9 +45,9 @@ static inline def_rtl(zext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
     uint8_t tem = *src1;
     *dest = tem;
   }
-  else
+  else if(width == 2)
   {
-    assert(width == 2);
+
     uint16_t tem = *src1;
     *dest = tem;
   }
