@@ -1,4 +1,5 @@
 static inline def_EHelper(mov) {
+  printf("\n\n%u\n\n", *dsrc1);
   operand_write(s, id_dest, dsrc1);
   print_asm_template2(mov);
 }
