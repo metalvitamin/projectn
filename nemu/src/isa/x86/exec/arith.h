@@ -76,7 +76,6 @@ static inline def_EHelper(adc) {
   rtl_or(s, s0, s0, s2);
   rtl_set_CF(s, s0);
   operand_write(s, id_dest, s1);
-  printf("\n\n%u in E\n\n",*ddest);
   print_asm_template2(adc);
 }
 
