@@ -33,6 +33,7 @@ static inline def_rtl(sext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
   }
   else
   {
+    printf("\n\n%d\n\n",width);
     assert(width == 2);
     int16_t tem = *src1;
     *dest = tem;
