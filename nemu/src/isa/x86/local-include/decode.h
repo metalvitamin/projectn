@@ -124,15 +124,17 @@ static inline def_DHelper(E2G) {
   operand_rm(s, id_src1, true, id_dest, true);
 }
 
+/*used for movzx and movsx except w2l */
 static inline def_DHelper(e_E2G) {
   id_dest->width = s->isa.is_operand_size_16 ? 2 : 4;
   operand_rm(s, id_src1, true, id_dest, false);
 }
+
 static inline def_DHelper(mov_E2G) {
   operand_rm(s, id_src1, true, id_dest, false);
 }
 
-/*used for movswl */
+/*used for movswl and movzwl */
 static inline def_DHelper(mov_wE2lG) {
   id_src1->width = 2;
   operand_rm(s, id_src1, true, id_dest, false);
