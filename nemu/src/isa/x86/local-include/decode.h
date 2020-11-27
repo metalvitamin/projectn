@@ -185,6 +185,7 @@ static inline def_DHelper(I) {
 }
 
 
+
 static inline def_DHelper(r) {
   decode_op_r(s, id_dest, true);
 }
@@ -279,13 +280,7 @@ static inline def_DHelper(J) {
 
 
 
-static inline def_DHelper(push_I) {
-  decode_op_I(s, id_dest, true);
-}
 
-static inline def_DHelper(push_R){
-  decode_op_r(s, id_dest, true);
-}
 
 static inline def_DHelper(in_I2a) {
   id_src1->width = 1;
