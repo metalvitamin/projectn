@@ -90,6 +90,7 @@ again:
     IDEX (0x01, G2E, add)
     IDEX (0x03, E2G, add)
     EX   (0x0f, 2byte_esc)
+    IDEX (0x13, E2G, adc)
     IDEX (0x31, G2E, xor)
     IDEX (0x39, G2E, cmp)
     IDEX (0x3b, E2G, cmp)
