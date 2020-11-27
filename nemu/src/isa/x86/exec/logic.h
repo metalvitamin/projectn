@@ -74,7 +74,7 @@ static inline def_EHelper(setcc) {
 
 static inline def_EHelper(not) {
   printf("\n\n%x\n\n",*ddest);
-  *ddest = !(*ddest);
+  *ddest = ~(*ddest);
   printf("\n\n%x\n\n",*ddest);
   operand_write(s, id_dest, ddest);
   print_asm_template1(not);
