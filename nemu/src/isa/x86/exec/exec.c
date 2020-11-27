@@ -131,6 +131,7 @@ again:
     IDEXW(0x6a, I, push, 1)
     IDEXW(0x74, J, jcc, 1)
     IDEXW(0x75, J, jcc, 1)
+    IDEXW(0x7d, J, jcc, 1)
     IDEXW(0x7e, J, jcc, 1)
     IDEXW(0x7f, J, jcc, 1)
     IDEXW(0x80, I2E, gp1, 1)
