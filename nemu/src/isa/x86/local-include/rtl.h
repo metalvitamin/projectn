@@ -108,7 +108,7 @@ static inline def_rtl(is_add_carry, rtlreg_t* dest,
 #define cpueflagsSF cpu.eflags.SF
 #define def_rtl_setget_eflags(f) \
   static inline def_rtl(concat(set_, f), const rtlreg_t* src) { \
-    concat(cpueflags,f)= *src; \
+    concat(cpueflags,f) = *src; \
   } \
   static inline def_rtl(concat(get_, f), rtlreg_t* dest) { \
     *dest = concat(cpueflags,f); \
