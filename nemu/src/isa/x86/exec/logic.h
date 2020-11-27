@@ -54,7 +54,7 @@ static inline def_EHelper(shr) {
 static inline def_EHelper(setcc) {
   uint32_t cc = s->opcode & 0xf;
   rtl_setcc(s, ddest, cc);
-  printf("\n\n%d\n\n", *ddest);
+  //printf("\n\n%d\n\n", *ddest);
   operand_write(s, id_dest, ddest);
 
   print_asm("set%s %s", get_cc_name(cc), id_dest->str);
