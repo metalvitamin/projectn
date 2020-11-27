@@ -138,7 +138,7 @@ static inline def_rtl(update_ZF, const rtlreg_t* result, int width) {
     assert(0);
   }
   
-  if(tmp != 0){
+  if(tmp == 0){
     cpueflagsZF = 1;
   }
   else
