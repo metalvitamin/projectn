@@ -62,6 +62,7 @@ static inline def_EHelper(neg) {
 
 static inline def_EHelper(adc) {
   rtl_get_CF(s, s0);
+  printf("\n\n%u\n\n",*s0);
   rtl_add(s, s0, dsrc1, s0);
   rtl_add(s, s1, ddest, s0);
   rtl_update_ZFSF(s, s1, id_dest->width);
