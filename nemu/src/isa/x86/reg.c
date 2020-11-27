@@ -43,8 +43,9 @@ void reg_test() {
 
 void isa_reg_display() {
   for (int i = R_EAX; i <= R_EDI; i++){
-    printf("\n%s%u\n",regsl[i],reg_l(i));
+    printf("\n%s = %u\n",regsl[i],reg_l(i));
   }
+  printf("\npc = %u\n",cpu.pc);
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
