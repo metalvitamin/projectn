@@ -71,6 +71,8 @@ int strncmp(const char* s1, const char* s2, size_t n) {
 }
 
 void* memset(void* v,int c,size_t n) {
+  putch('w');
+  assert(0);
   for(size_t i = 0; i < n; i ++){
     ((unsigned char*)v)[i] = c;
   }
@@ -78,11 +80,15 @@ void* memset(void* v,int c,size_t n) {
 }
 
 void* memmove(void* dst,const void* src,size_t n) {
+  putch('a');
   assert(0);
   return NULL;
 }
 
 void* memcpy(void* out, const void* in, size_t n) {
+  assert(0);
+  putch('h');putch('i');
+  putch('w');putch('h');putch('a');putch('t');
   for(size_t i = 0; i < n; i ++){
     *((unsigned char*)out + i) = *((unsigned char*)in + i);
   }
@@ -90,6 +96,8 @@ void* memcpy(void* out, const void* in, size_t n) {
 }
 
 int memcmp(const void* s1, const void* s2, size_t n) {
+  assert(0);
+  putch('i');
   for(size_t i = 0; i < n; i ++){
     unsigned char c1 = ((unsigned char*)s1)[i], c2 = ((unsigned char*)s2)[i];
     if(c1 > c2) return 1;
