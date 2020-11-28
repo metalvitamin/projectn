@@ -98,6 +98,7 @@ again:
     IDEX (0x29, G2E, sub)
     IDEX (0x2b, E2G, sub)
     IDEX (0x31, G2E, xor)
+    IDEXW(0x38, G2E, cmp, 1)
     IDEX (0x39, G2E, cmp)
     IDEX (0x3b, E2G, cmp)
     IDEXW(0x3c, I2a, cmp, 1)
