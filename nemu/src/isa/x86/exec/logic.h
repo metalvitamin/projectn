@@ -72,7 +72,8 @@ static inline def_EHelper(setcc) {
 }
 
 static inline def_EHelper(not) {
-  *ddest = ~(*ddest);
+
+  rtl_not(s,ddest,ddest);
   operand_write(s, id_dest, ddest);
   print_asm_template1(not);
 }
