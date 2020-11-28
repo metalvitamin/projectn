@@ -101,7 +101,7 @@ static inline def_DopHelper(O) {
   printf("\n\n%x\n\n", s->isa.moff);
   printf("\n\n%x\n\n", *s->isa.mbase);
   if (load_val) {
-    rtl_lm(s, &op->val, rz, s->isa.moff, op->width);
+    rtl_lm(s, &op->val, s->isa.mbase, s->isa.moff, op->width);
     op->preg = &op->val;
   }
 
