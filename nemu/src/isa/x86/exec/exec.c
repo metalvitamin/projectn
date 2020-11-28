@@ -94,7 +94,7 @@ again:
     EX   (0x0f, 2byte_esc)
     IDEX (0x13, E2G, adc)
     IDEXW(0x22, E2G, and, 1)
-    IDEX (0x29, E2G, sub)
+    IDEX (0x29, G2E, sub)
     IDEX (0x31, G2E, xor)
     IDEX (0x39, G2E, cmp)
     IDEX (0x3b, E2G, cmp)
