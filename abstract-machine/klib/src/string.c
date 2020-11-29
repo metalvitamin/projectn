@@ -5,6 +5,9 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 size_t strlen(const char *s) {
+  if(s == NULL){
+    return 0;
+  }
   for(size_t i = 0;;i ++){
     if(s[i] == '\0')
       return i;
@@ -13,6 +16,9 @@ size_t strlen(const char *s) {
 }
 
 char *strcpy(char* dst,const char* src) {
+  if(dst == NULL || src == NULL){
+    return NULL;
+  }
   for(size_t i = 0;; i ++){
     dst[i] = src[i];
     if(src[i] == '\0')
@@ -23,6 +29,9 @@ char *strcpy(char* dst,const char* src) {
 }
 
 char* strncpy(char* dst, const char* src, size_t n) {
+  if(dst == NULL || src == NULL){
+    return NULL;
+  }
   size_t i = 0;
   for(; i < n && src[i] != '\0'; i ++){
     dst[i] = src[i];
@@ -34,7 +43,9 @@ char* strncpy(char* dst, const char* src, size_t n) {
 }
 
 char* strcat(char* dst, const char* src) {
-  strcpy(dst+strlen(dst), src);
+  if(dst == NULL || src == NULL){
+    return NULL;
+  }
   size_t j;
   for(j = 0 ;; j ++){
     if(dst[j] == '\0')
@@ -49,6 +60,7 @@ char* strcat(char* dst, const char* src) {
 }
 
 int strcmp(const char* s1, const char* s2) {
+  if(s1 == NULL || s2 == NULL) return 0;
   for(size_t i = 0;; i ++){
     if(s1[i] == '\0' && s2[i] == '\0') return 0; 
     else if(s1[i] == '\0') return -1;
@@ -60,6 +72,7 @@ int strcmp(const char* s1, const char* s2) {
 }
 
 int strncmp(const char* s1, const char* s2, size_t n) {
+  if(s1 == NULL || s2 == NULL) return 0;
   for(size_t i = 0; i < n; i ++){
     if(s1[i] == '\0' && s2[i] == '\0') return 0; 
     else if(s1[i] == '\0') return -1;
@@ -71,33 +84,57 @@ int strncmp(const char* s1, const char* s2, size_t n) {
 }
 
 void* memset(void* v,int c,size_t n) {
-  putch('w');
-  assert(0);
+  if(v == NULL) return NULL;
+  unsigned char* p = (unsigned char*)v;
   for(size_t i = 0; i < n; i ++){
-    ((unsigned char*)v)[i] = c;
+    *p = c;
+    p += 1ul;
   }
   return v;
 }
 
 void* memmove(void* dst,const void* src,size_t n) {
-  putch('a');
-  assert(0);
-  return NULL;
+  if(dst == NULL || src == NULL){
+    return NULL;
+  }
+  char* pout = (char*)dst;
+  char* pin = (char*)src;
+  if(pin > pout){
+    while(n--){
+      *pout = *pin;
+      pout += 1ul;
+      pin += 1ul;
+    }
+  }
+  else if(pin < pout){
+    pout = pout + n - 1ul;
+    pin = pin + n - 1ul;
+    while(n--){
+      *pout = *pin;
+      pout -= 1ul;
+      pin -= 1ul;
+    }
+  }
+  
+  return dst;
 }
 
 void* memcpy(void* out, const void* in, size_t n) {
-  assert(0);
-  putch('h');putch('i');
-  putch('w');putch('h');putch('a');putch('t');
-  for(size_t i = 0; i < n; i ++){
-    *((unsigned char*)out + i) = *((unsigned char*)in + i);
+  if(out == NULL || in == NULL){
+    return NULL;
+  }
+  char* pout = (char*)out;
+  char* pin = (char*)in;
+  while(n--){
+    *pout = *pin;
+    pout += 1ul;
+    pin += 1ul;
   }
   return out;
 }
 
 int memcmp(const void* s1, const void* s2, size_t n) {
-  assert(0);
-  putch('i');
+  if(s1 == NULL || s2 == NULL) return 0;
   for(size_t i = 0; i < n; i ++){
     unsigned char c1 = ((unsigned char*)s1)[i], c2 = ((unsigned char*)s2)[i];
     if(c1 > c2) return 1;
