@@ -69,7 +69,10 @@ static inline def_EHelper(dec) {
 }
 
 static inline def_EHelper(neg) {
-  TODO();
+  rtl_addi(s,s0,rz,1);
+  *ddest == 0 ? rtl_set_CF(s,rz) :rtl_set_CF(s,s0);
+  rtl_neg(s,ddest,ddest);
+  operand_write(s,id_dest,ddest);
   print_asm_template1(neg);
 }
 
