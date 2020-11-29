@@ -122,21 +122,7 @@ def_rtl_setget_eflags(SF)
 static inline def_rtl(update_ZF, const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
   uint32_t tmp = 0;
-  switch (width)
-  {
-  case 1:
-    tmp = *result & 0xff;
-    break;
-  
-  case 2:
-    tmp = *result & 0xffff;
-    break;
-  case 4:
-    tmp = *result & 0xffffffff;
-    break;
-  default:
-    assert(0);
-  }
+  rtl_msb(s,&tmp,result,width);
   
   if(tmp == 0){
     cpueflagsZF = 1;
