@@ -195,6 +195,7 @@ again:
     IDEX (0xd3, gp2_cl2E, gp2)
     EX   (0xd6, nemu_trap)
     IDEX (0xe8, J, call)
+    IDEX (0xe9, J, jmp)
     IDEXW(0xeb, J, jmp, 1)
     IDEXW(0xf6, E, gp3, 1)
     IDEX (0xf7, E, gp3)
