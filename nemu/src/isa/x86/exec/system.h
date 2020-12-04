@@ -83,6 +83,6 @@ static inline def_EHelper(out) {
   default:
     assert(0);
   }
-  operand_write(s,id_dest,ddest);
+
   print_asm_template2(out);
 }
