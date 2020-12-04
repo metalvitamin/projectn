@@ -50,13 +50,39 @@ void pio_write_w(ioaddr_t, uint32_t);
 void pio_write_b(ioaddr_t, uint32_t);
 
 static inline def_EHelper(in) {
-  TODO();
-
+  switch (id_dest->width)
+  {
+  case 1:
+    *s0 = pio_read_b(*dsrc1);
+    break;
+  case 2:
+    *s0 = pio_read_w(*dsrc1);
+    break;
+  case 4:
+    *s0 = pio_read_l(*dsrc1);
+    break;
+  default:
+    assert(0);
+  }
+  operand_write(s,id_dest,s0);
   print_asm_template2(in);
 }
 
 static inline def_EHelper(out) {
-  TODO();
-
+  switch (id_dest->width)
+  {
+  case 1:
+    pio_write_b(*dsrc1,*ddest);
+    break;
+  case 2:
+    pio_write_w(*dsrc1,*ddest);
+    break;
+  case 4:
+    pio_write_l(*dsrc1,*ddest);
+    break;
+  default:
+    assert(0);
+  }
+  operand_write(s,id_dest,ddest);
   print_asm_template2(out);
 }
