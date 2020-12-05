@@ -93,6 +93,7 @@ again:
     IDEXW(0x0a, E2G, or, 1)
     EX   (0x0f, 2byte_esc)
     IDEX (0x13, E2G, adc)
+    IDEX (0x19, G2E, sbb)
     IDEX (0x1b, E2G, sbb)
     IDEXW(0x22, E2G, and, 1)
     IDEX (0x29, G2E, sub)
