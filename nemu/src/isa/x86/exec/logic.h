@@ -77,4 +77,15 @@ static inline def_EHelper(not) {
   operand_write(s, id_dest, ddest);
   print_asm_template1(not);
 }
+static inline def_EHelper(rol) {
 
+  // unnecessary to update CF and OF in NEMU
+  for(int i = 0; i < *dsrc1; i ++){
+  *s0 = (*ddest >> (8*id_dest->width-1)) & 0x1;
+  rtl_shli(s, ddest, ddest, 1);
+  rtl_add(s, ddest, ddest, s0);
+ }
+  rtl_update_ZFSF(s, ddest, id_dest->width);
+  operand_write(s, id_dest, ddest);
+  print_asm_template2(shl);
+}
