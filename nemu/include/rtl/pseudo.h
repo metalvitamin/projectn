@@ -35,6 +35,9 @@ static inline def_rtl(sext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
   {
     int16_t tem = *src1;
     *dest = tem;
+  }else{
+    int32_t tem = *src1;
+    *dest = tem;
   }
   
 }
