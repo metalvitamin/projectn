@@ -87,5 +87,5 @@ static inline def_EHelper(rol) {
  }
   rtl_update_ZFSF(s, ddest, id_dest->width);
   operand_write(s, id_dest, ddest);
-  print_asm_template2(shl);
+  print_asm_template2(rol);
 }
