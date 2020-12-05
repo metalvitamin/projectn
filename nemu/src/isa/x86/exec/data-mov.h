@@ -70,8 +70,9 @@ static inline def_EHelper(movsx) {
 }
 
 static inline def_EHelper(movzx) {
-  printf("\n\nsrc1 = %x\n\n",*dsrc1);
+  
   rtl_zext(s, ddest, dsrc1, id_src1->width);
+  printf("\n\nsrc1 = %x, dest = %x\n\n",*dsrc1, *ddest);
   operand_write(s, id_dest, ddest);
   print_asm_template2(movzx);
 }
