@@ -40,7 +40,7 @@ int printf(const char *fmt, ...) {
     }
     else if(fmt[i + 1] != '\0')
     {
-      char* ch= "";
+      char* ch;
       int d;
       char chtemp[12] = {"+0000000000"};
       switch (fmt[i + 1])
@@ -54,24 +54,9 @@ int printf(const char *fmt, ...) {
         sec_stream(ch);
         break;
       case 'd':
-        
+        ch = "";
         d = va_arg(ap, int);
-        if(d < 0) {chtemp[0] = '-';d = -d;}
-  for(int i = 10; i > 0; i --){
-    int temp = d % 10;
-    chtemp[i] = temp + '0';
-    d = d / 10;
-    if(d == 0) {
-      chtemp[i - 1] = chtemp[0];
-      if(chtemp[0] == '+'){
-        ch = &chtemp[i];
-      }
-      else {
-        ch = &chtemp[i - 1];
-      }
-      break;
-    }
-  }
+        dec_int(ch,chtemp,d);
         sec_stream(ch);
         break;
       
@@ -117,7 +102,22 @@ int sprintf(char *out, const char *fmt, ...) {
       case 'd':
         ch = "";
         d = va_arg(ap, int);
-        dec_int(ch,chtemp,d);
+        if(d < 0) {chtemp[0] = '-';d = -d;}
+  for(int i = 10; i > 0; i --){
+    int temp = d % 10;
+    chtemp[i] = temp + '0';
+    d = d / 10;
+    if(d == 0) {
+      chtemp[i - 1] = chtemp[0];
+      if(chtemp[0] == '+'){
+        ch = &chtemp[i];
+      }
+      else {
+        ch = &chtemp[i - 1];
+      }
+      break;
+    }
+  }
         sec_stream(ch);
         strcat(out,ch);
         break;
