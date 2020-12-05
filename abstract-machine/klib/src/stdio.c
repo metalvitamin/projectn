@@ -6,12 +6,11 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 
-static inline void dec_int(char* ch, int d){
-  char chtemp[12] = {"+0000000000"};
-  if(d < 0) chtemp[0] = '-';
+static inline void dec_int(char* ch, char chtemp[],int d){
+  
+  if(d < 0) {chtemp[0] = '-';d = -d;}
   for(int i = 10; i > 0; i --){
     int temp = d % 10;
-    if (temp < 0) temp = -temp;
     chtemp[i] = temp + '0';
     d = d / 10;
     if(d == 0) {
@@ -43,6 +42,7 @@ int printf(const char *fmt, ...) {
     {
       char* ch;
       int d;
+      char chtemp[12] = {"+0000000000"};
       switch (fmt[i + 1])
       {
       case '%':
@@ -56,7 +56,7 @@ int printf(const char *fmt, ...) {
       case 'd':
         ch = "";
         d = va_arg(ap, int);
-        dec_int(ch,d);
+        dec_int(ch,chtemp,d);
         sec_stream(ch);
         break;
       
@@ -87,6 +87,7 @@ int sprintf(char *out, const char *fmt, ...) {
     {
       char* ch;
       int d;
+      char chtemp[12] = {"+0000000000"};
       switch (fmt[i + 1])
       {
       case '%':
@@ -100,7 +101,7 @@ int sprintf(char *out, const char *fmt, ...) {
       case 'd':
         ch = "";
         d = va_arg(ap, int);
-        dec_int(ch,d);
+        dec_int(ch,chtemp,d);
         strcat(out,ch);
         break;
       
