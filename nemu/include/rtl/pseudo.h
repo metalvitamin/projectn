@@ -53,7 +53,11 @@ static inline def_rtl(zext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
 
     uint16_t tem = *src1;
     *dest = tem;
+  }else{
+    uint32_t tem = *src1;
+    *dest = tem;
   }
+  
 
 }
 
