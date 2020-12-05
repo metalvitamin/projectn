@@ -7,7 +7,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   for(int i = 0; i < 8; i ++){
     if(ref_r->gpr[i]._32 != cpu.gpr[i]._32){
       #ifdef DEBUG
-      printf("wrong reg index %d = %x",i,ref_r->gpr[i]._32);
+      printf("wrong reg index %d = 0x%x",i,ref_r->gpr[i]._32);
       #endif
       return false;
     }
