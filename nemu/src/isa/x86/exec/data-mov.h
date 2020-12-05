@@ -71,7 +71,6 @@ static inline def_EHelper(movsx) {
 
 static inline def_EHelper(movzx) {
   id_dest->width = s->isa.is_operand_size_16 ? 2 : 4;
-  printf("\n\n\tsrc1 = 0x%08x",*dsrc1);
   rtl_zext(s, ddest, dsrc1, id_dest->width);
   operand_write(s, id_dest, ddest);
   print_asm_template2(movzx);
