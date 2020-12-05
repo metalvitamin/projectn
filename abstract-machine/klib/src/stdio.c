@@ -102,23 +102,8 @@ int sprintf(char *out, const char *fmt, ...) {
       case 'd':
         ch = "";
         d = va_arg(ap, int);
-        if(d < 0) {chtemp[0] = '-';d = -d;}
-  for(int i = 10; i > 0; i --){
-    int temp = d % 10;
-    chtemp[i] = temp + '0';
-    d = d / 10;
-    if(d == 0) {
-      chtemp[i - 1] = chtemp[0];
-      if(chtemp[0] == '+'){
-        ch = &chtemp[i];
-      }
-      else {
-        ch = &chtemp[i - 1];
-      }
-      break;
-    }
-  }
-        sec_stream(ch);
+        dec_int( ch, chtemp,d);
+      
         strcat(out,ch);
         break;
       
