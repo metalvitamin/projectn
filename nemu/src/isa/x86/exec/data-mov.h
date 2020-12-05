@@ -86,6 +86,7 @@ static inline def_EHelper(lea) {
 
 static inline def_EHelper(movs) {
   *s0 = reg_l(6);
+  reg_l(6) += 1;
   rtl_msb(s,s1,s0,id_dest->width);
   reg_l(7) = *s1;
 }
