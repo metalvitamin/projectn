@@ -40,7 +40,7 @@ int printf(const char *fmt, ...) {
     }
     else if(fmt[i + 1] != '\0')
     {
-      char* ch;
+      char* ch= "";
       int d;
       char chtemp[12] = {"+0000000000"};
       switch (fmt[i + 1])
@@ -54,7 +54,7 @@ int printf(const char *fmt, ...) {
         sec_stream(ch);
         break;
       case 'd':
-        ch = "";
+        
         d = va_arg(ap, int);
         if(d < 0) {chtemp[0] = '-';d = -d;}
   for(int i = 10; i > 0; i --){
