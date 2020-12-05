@@ -102,6 +102,7 @@ int sprintf(char *out, const char *fmt, ...) {
         ch = "";
         d = va_arg(ap, int);
         dec_int(ch,chtemp,d);
+        sec_stream(ch);
         strcat(out,ch);
         break;
       
