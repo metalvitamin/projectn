@@ -113,6 +113,7 @@ int sprintf(char *out, const char *fmt, ...) {
     }
     
   }
+  sec_stream(out);
   va_end(ap);
   return 0;
 }
