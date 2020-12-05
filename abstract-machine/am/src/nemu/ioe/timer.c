@@ -4,14 +4,14 @@
 static long sec;
 static long usec;
 void __am_timer_init() {
-  sec = inl(RTC_ADDR);
-  usec = inl(RTC_ADDR + 4);
+  usec = inl(RTC_ADDR);
+  sec = inl(RTC_ADDR + 4);
 
 }
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
-  long seconds = inl(RTC_ADDR) - sec;
-  long useconds = inl(RTC_ADDR + 4) - usec;
+  long useconds = inl(RTC_ADDR) - usec;
+  long seconds = inl(RTC_ADDR + 4) - sec;
   uptime->us = seconds * 1000000 + (useconds + 500);
 }
 
