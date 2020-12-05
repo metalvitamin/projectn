@@ -6,13 +6,14 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 
-#define dec_int(ch, chtemp,d) {\
+#define dec_int(ch, chtemp,d,m) {\
   if(d < 0) {chtemp[0] = '-';d = -d;}\
   for(int i = 10; i > 0; i --){\
     int temp = d % 10;\
     chtemp[i] = temp + '0';\
     d = d / 10;\
     if(d == 0) {\
+      if(m > 11 - i) i = 11 - m;\
       chtemp[i - 1] = chtemp[0];\
       if(chtemp[0] == '+'){\
         ch = &chtemp[i];\
@@ -24,6 +25,35 @@
     }\
   }\
 }
+
+#define format_choose(exec)     {\
+      char* ch;\
+      int d;\
+      int min_broad = 0;\
+      char chtemp[12] = {"+0000000000"};\
+format:\
+      switch (fmt[++ i])\
+      {\
+      case '%':\
+        ch = "%";\
+        exec;\
+        break;\
+      case 's':\
+        ch = va_arg(ap,char*);\
+        exec;\
+        break;\
+      case 'd':\
+        ch = "";\
+        d = va_arg(ap, int);\
+        dec_int(ch,chtemp,d,min_broad);\
+        exec;\
+        break;\
+      case '0':case '1':case '2':case '3':case '4':case '5':case '6':case '7':case '8':case '9':\
+        min_broad = fmt[i];\
+        goto format;\
+      }\
+    }
+
 static inline void sec_stream(char* ch){
   for(int i = 0; ch[i] != '\0'; i ++){
     putch(ch[i]);
@@ -37,32 +67,7 @@ int printf(const char *fmt, ...) {
     if(fmt[i] != '%'){
       putch(fmt[i]);
     }
-    else if(fmt[i + 1] != '\0')
-    {
-      char* ch;
-      int d;
-      char chtemp[12] = {"+0000000000"};
-      switch (fmt[i + 1])
-      {
-      case '%':
-        ch = "%";
-        sec_stream(ch);
-        break;
-      case 's':
-        ch = va_arg(ap,char*);
-        sec_stream(ch);
-        break;
-      case 'd':
-        ch = "";
-        d = va_arg(ap, int);
-        dec_int(ch,chtemp,d);
-        sec_stream(ch);
-        break;
-      
-      }
-      
-      i ++;
-    }
+    else if(fmt[i + 1] != '\0') format_choose(sec_stream(ch))
     
   }
   va_end(ap);
@@ -82,33 +87,7 @@ int sprintf(char *out, const char *fmt, ...) {
       char ch[2] = {fmt[i]};
       strcat(out,ch);
     }
-    else if(fmt[i + 1] != '\0')
-    {
-      char* ch;
-      int d;
-      char chtemp[12] = {"+0000000000"};
-      switch (fmt[i + 1])
-      {
-      case '%':
-        ch = "%";
-        strcat(out,ch);
-        break;
-      case 's':
-        ch = va_arg(ap,char*);
-        strcat(out,ch);
-        break;
-      case 'd':
-        ch = "";
-        d = va_arg(ap, int);
-        dec_int(ch,chtemp,d);
-        
-        strcat(out,ch);
-        break;
-      
-      }
-      
-      i ++;
-    }
+    else if(fmt[i + 1] != '\0') format_choose(strcat(out,ch))
     
   }
 
