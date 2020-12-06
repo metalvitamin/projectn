@@ -29,7 +29,6 @@ static inline void invoke_callback(io_callback_t c, paddr_t offset, int len, boo
 
 word_t map_read(paddr_t addr, int len, IOMap *map) {
   assert(len >= 1 && len <= 8);
-  printf("at %p\n",map);
   check_bound(map, addr);
   paddr_t offset = addr - map->low;
   invoke_callback(map->callback, offset, len, false); // prepare data to read
