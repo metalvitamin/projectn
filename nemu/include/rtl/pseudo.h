@@ -28,13 +28,17 @@ static inline def_rtl(neg, rtlreg_t *dest, const rtlreg_t* src1) {
 static inline def_rtl(sext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
   if(width == 1){
-    int8_t tem = *src1;
-    *dest = tem;
+    if((*src1 & 0xff) > 0x80)
+      *dest = 0xffffff00 | (*src1 & 0xff);
+    else
+      *dest = 0 | (*src1 & 0xff);
   }
   else if(width == 2)
   {
-    int16_t tem = *src1;
-    *dest = tem;
+    if((*src1 & 0xffff) > 0x8000)
+      *dest = 0xffff0000 | (*src1 & 0xffff);
+    else
+      *dest = 0 | (*src1 & 0xffff);
   }
   
 }
@@ -42,14 +46,11 @@ static inline def_rtl(sext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
 static inline def_rtl(zext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- zeroext(src1[(width * 8 - 1) .. 0])
   if(width == 1){
-    uint8_t tem = *src1;
-    *dest = tem;
+    *dest = 0 | (*src1 & 0xff);
   }
   else if(width == 2)
   {
-
-    uint16_t tem = *src1;
-    *dest = tem;
+    *dest = 0 | (*src1 & 0xffff);
   }
   
 
