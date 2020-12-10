@@ -27,29 +27,36 @@ static inline def_rtl(neg, rtlreg_t *dest, const rtlreg_t* src1) {
 
 static inline def_rtl(sext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
-  int32_t t;
-  t = (int)(*src1 << (32 - 8 *width)) >> (32 - 8 *width);
+  if(width == 1){
+    int8_t tem = *src1;
+    *dest = tem;
+  }
+  else if(width == 2)
+  {
+    int16_t tem = *src1;
+    *dest = tem;
+  }else{
+    int32_t tem = *src1;
+    *dest = tem;
+  }
   
-  *dest = t;
 }
 
 static inline def_rtl(zext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- zeroext(src1[(width * 8 - 1) .. 0])
-  uint32_t u;
   if(width == 1){
     uint8_t tem = *src1;
-    u = tem;
+    *dest = tem;
   }
   else if(width == 2)
   {
 
     uint16_t tem = *src1;
-    u = tem;
+    *dest = tem;
   }else{
     uint32_t tem = *src1;
-    u = tem;
+    *dest = tem;
   }
-  *dest = u;
   
 
 }
