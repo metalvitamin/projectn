@@ -22,17 +22,16 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   int width = io_read(AM_GPU_CONFIG).width;
-  int height = io_read(AM_GPU_CONFIG).height;
+  //int height = io_read(AM_GPU_CONFIG).height;
   uint32_t *p = (uint32_t *)ctl->pixels;
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
-  fb = fb + (height * ctl->x) + ctl->y;
-  for(int i = 0; i < ctl->w; i ++){
-    for (int j = 0; j < ctl->h; j++)
+  fb = fb + ctl->x + width*ctl->y;
+  for(int j = 0; j < ctl->h; j ++){
+    for (int i = 0; i < ctl->w; i++)
     {
-      fb[j] = p[j];
+      fb[ width* j + i] = p[ctl->h * j + i];
       //fb[x+i][y+j] = p[i][j]
     }
-    fb += width;
     
   }
   if (ctl->sync) {
