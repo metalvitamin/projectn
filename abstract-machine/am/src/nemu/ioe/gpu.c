@@ -21,11 +21,10 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
-  int width = io_read(AM_GPU_CONFIG).width;
+  //int width = io_read(AM_GPU_CONFIG).width;
   int height = io_read(AM_GPU_CONFIG).height;
   uint8_t *p = ctl->pixels;
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
-  for(int i = 0; i < width * height; i ++) fb[i] = 0;
   for(int i = 0; i < ctl->w; i ++){
     for (int j = 0; j < ctl->h; j++)
     {
