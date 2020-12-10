@@ -71,6 +71,9 @@ static inline def_DopHelper(a) {
   operand_reg(s, op, load_val, R_EAX, op->width);
 }
 
+static inline def_DopHelper(c) {
+  operand_reg(s, op, load_val, R_ECX, op->width);
+}
 /* This helper function is use to decode register encoded in the opcode. */
 /* XX: AL, AH, BL, BH, CL, CH, DL, DH
  * eXX: eAX, eCX, eDX, eBX, eSP, eBP, eSI, eDI
@@ -151,6 +154,16 @@ static inline def_DHelper(I2a) {
 static inline def_DHelper(I_E2G) {
   operand_rm(s, id_src2, true, id_dest, false);
   decode_op_I(s, id_src1, true);
+}
+
+static inline def_DHelper(shxd_I_E2G) {
+  operand_rm(s, id_src2, true, id_dest, true);
+  decode_op_I(s, id_src1, true);
+}
+static inline def_DHelper(shxd_c_E2G) {
+  operand_rm(s, id_src2, true, id_dest, true);
+  id_src1->width = 1;
+  decode_op_c(s, id_src1, true);
 }
 
 /* Eb <- Ib
