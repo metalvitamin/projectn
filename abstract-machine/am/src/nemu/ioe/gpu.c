@@ -25,14 +25,11 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   int height = io_read(AM_GPU_CONFIG).height;
   uint32_t *p = (uint32_t *)ctl->pixels;
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
-  for(int i = 0; i < ctl->w; i ++){
-    for (int j = 0; j < ctl->h; j++)
-    {
-      fb[ (ctl->y + j) + height* (ctl->x + i)] = p[i + j * ctl->w];
-      //fb[x+i][y+j] = p[i][j]
-    }
-    
-  }
+  int count = 0;
+  for(int i = 0; i < ctl->h * ctl->w; i ++){
+    fb[(ctl->x + count) * height + ctl->y + i ] = p[i];
+    if(i >= (count + 1) * ctl->w) count ++;
+  } 
   if (ctl->sync) {
     outl(SYNC_ADDR, 1);
   }
