@@ -24,12 +24,12 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
 
   int height = inl(VGACTL_ADDR) & 0xff;
   uint8_t *p = ctl->pixels;
-
+  uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
   for(int i = 0; i < ctl->w; i ++){
     for(int j = 0; j < ctl->h; j ++){
       uint32_t position = height * (ctl->x + i) + (ctl->y + j);
-      //paddr_write(FB_ADDR + position * 4, p[position], 4);
-      outb(FB_ADDR + position,p[position]);
+      //outb(FB_ADDR + position,p[position]);
+      fb[position] = p[position];
     }
   }
   if (ctl->sync) {
