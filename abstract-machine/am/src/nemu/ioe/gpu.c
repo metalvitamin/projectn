@@ -23,13 +23,13 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
 
   int height = inl(VGACTL_ADDR) & 0xff;
-  uint32_t *p = ctl->pixels;
+  uint8_t *p = ctl->pixels;
 
   for(int i = 0; i < ctl->w; i ++){
     for(int j = 0; j < ctl->h; j ++){
       uint32_t position = height * (ctl->x + i) + (ctl->y + j);
       //paddr_write(FB_ADDR + position * 4, p[position], 4);
-      outl(FB_ADDR + position * 4,p[position]);
+      outb(FB_ADDR + position,p[position]);
     }
   }
   if (ctl->sync) {
