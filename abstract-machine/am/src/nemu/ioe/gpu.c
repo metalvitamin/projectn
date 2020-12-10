@@ -29,9 +29,10 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   for(int i = 0; i < ctl->h; i ++){
     for (int j = 0; j < ctl->w; j++)
     {
-      fb[j + width * i] = p[i * ctl->h + j ];
+      fb[j] = p[j];
       //fb[x+i][y+j] = p[i][j]
     }
+    fb += width;
     
   }
   if (ctl->sync) {
