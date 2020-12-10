@@ -29,7 +29,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     for(int j = 0; j < ctl->h; j ++){
       uint32_t position = height * (ctl->x + i) + (ctl->y + j);
       //paddr_write(FB_ADDR + position * 4, p[position], 4);
-      outl(FB_ADDR ,p[position]);
+      outl(FB_ADDR + position * 4,p[position]);
     }
   }
   if (ctl->sync) {
