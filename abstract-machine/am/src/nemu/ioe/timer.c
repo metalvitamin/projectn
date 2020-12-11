@@ -12,7 +12,7 @@ void __am_timer_init() {
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   long useconds = inl(RTC_ADDR) - usec;
   long seconds = inl(RTC_ADDR + 4) - sec;
-  uptime->us = seconds * 1000000 + (useconds + 500);
+  uptime->us = seconds * 1000000 + useconds ;
 }
 
 void __am_timer_rtc(AM_TIMER_RTC_T *rtc) {
