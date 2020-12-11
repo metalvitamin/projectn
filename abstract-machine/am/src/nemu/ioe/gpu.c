@@ -21,11 +21,8 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
-  short width = io_read(AM_GPU_CONFIG).width;
+  //short width = io_read(AM_GPU_CONFIG).width;
   short height = io_read(AM_GPU_CONFIG).height;
-  if(height < width){
-    putch('\n');putch('\n');putch('\n');
-  }
   uint32_t *p = (uint32_t *)ctl->pixels;
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
   fb = fb + height* ctl->x + ctl->y;
