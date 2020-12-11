@@ -38,6 +38,11 @@ format:\
         ch = "%";\
         exec;\
         break;\
+      case 'c':\
+        ch = "0";\
+        ch[0] = fmt[i];\
+        ch[1] = '\0';\
+        exec;\
       case 's':\
         ch = va_arg(ap,char*);\
         exec;\
@@ -49,7 +54,7 @@ format:\
         exec;\
         break;\
       case '0':case '1':case '2':case '3':case '4':case '5':case '6':case '7':case '8':case '9':\
-        min_broad = fmt[i] - '0';\
+        min_broad = min_broad * 10 + fmt[i] - '0';\
         goto format;\
       }\
     }
