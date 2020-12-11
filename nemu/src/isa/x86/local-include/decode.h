@@ -134,10 +134,12 @@ static inline def_DHelper(mov_E2G) {
 
 static inline def_DHelper(movxb_E2G) {
   id_src1->width = 1;
+  id_dest->width = s->isa.is_operand_size_16 ? 2 : 4;
   operand_rm(s, id_src1, true, id_dest, false);
 }
 static inline def_DHelper(movxw_E2G) {
   id_src1->width = 2;
+  id_dest->width = 4;
   operand_rm(s, id_src1, true, id_dest, false);
 }
 
