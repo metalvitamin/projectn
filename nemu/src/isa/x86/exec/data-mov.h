@@ -50,12 +50,12 @@ static inline def_EHelper(cltd) {
 static inline def_EHelper(cwtl) {
   if (s->isa.is_operand_size_16) {
     *s0 = reg_b(0);
-    rtl_sext(s,s1,s0,2);
+    rtl_sext(s,s1,s0,1);
     reg_w(0) = *s1;
   }
   else {
     *s0 = reg_w(0);
-    rtl_sext(s,s1,s0,4);
+    rtl_sext(s,s1,s0,2);
     reg_l(0) = *s1;
   }
 
@@ -72,6 +72,7 @@ static inline def_EHelper(movsx) {
 static inline def_EHelper(movzx) {
   id_dest->width = s->isa.is_operand_size_16 ? 2 : 4;
   rtl_zext(s, ddest, dsrc1, id_src1->width);
+  assert(*dsrc1 == *ddest);
   operand_write(s, id_dest, ddest);
   print_asm_template2(movzx);
 }
