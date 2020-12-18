@@ -121,23 +121,23 @@ def_rtl_setget_eflags(SF)
 
 static inline def_rtl(update_ZF, const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
-  uint32_t tmp = 0;
-  rtl_msb(s,&tmp,result,width);
+
+  rtl_msb(s,t0,result,width);
   
-  if(tmp == 0){
+  if(*t0 == 0){
     cpueflagsZF = 1;
   }
   else
   {
     cpueflagsZF = 0;
   }
-
+  assert(cpueflagsZF == 1 || cpueflagsZF == 0);
 }
 
 static inline def_rtl(update_SF, const rtlreg_t* result, int width) {
   // eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
   cpueflagsSF = (*result >> (8*width-1)) & 0x1;
-
+  assert(cpueflagsSF == 1 || cpueflagsSF == 0);
 }
 
 static inline def_rtl(update_ZFSF, const rtlreg_t* result, int width) {
