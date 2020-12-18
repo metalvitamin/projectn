@@ -54,7 +54,13 @@ static inline def_DopHelper(SI) {
    *
    operand_imm(s, op, load_val, ???, op->width);
    */
-  TODO();
+  int simm = instr_fetch(&s->seq_pc, op->width);
+  if(op->width == 1){
+  int8_t tem = simm;
+  simm = tem;
+  }
+
+  operand_imm(s, op, load_val, simm, op->width);
 }
 
 /* I386 manual does not contain this abbreviation.
@@ -65,6 +71,9 @@ static inline def_DopHelper(a) {
   operand_reg(s, op, load_val, R_EAX, op->width);
 }
 
+static inline def_DopHelper(c) {
+  operand_reg(s, op, load_val, R_ECX, op->width);
+}
 /* This helper function is use to decode register encoded in the opcode. */
 /* XX: AL, AH, BL, BH, CL, CH, DL, DH
  * eXX: eAX, eCX, eDX, eBX, eSP, eBP, eSI, eDI
@@ -96,7 +105,6 @@ static inline def_DopHelper(O) {
     rtl_lm(s, &op->val, s->isa.mbase, s->isa.moff, op->width);
     op->preg = &op->val;
   }
-
   print_Dop(op->str, OP_STR_SIZE, "0x%x", s->isa.moff);
 }
 
@@ -118,12 +126,18 @@ static inline def_DHelper(E2G) {
   operand_rm(s, id_src1, true, id_dest, true);
 }
 
+
+
 static inline def_DHelper(mov_E2G) {
   operand_rm(s, id_src1, true, id_dest, false);
 }
 
+
+
 static inline def_DHelper(lea_M2G) {
-  operand_rm(s, id_src1, false, id_dest, false);
+
+  operand_rm(s, id_src1, false, id_dest, false); 
+  
 }
 
 /* AL <- Ib
@@ -140,6 +154,16 @@ static inline def_DHelper(I2a) {
 static inline def_DHelper(I_E2G) {
   operand_rm(s, id_src2, true, id_dest, false);
   decode_op_I(s, id_src1, true);
+}
+
+static inline def_DHelper(shxd_I_E2G) {
+  operand_rm(s, id_src2, true, id_dest, true);
+  decode_op_I(s, id_src1, true);
+}
+static inline def_DHelper(shxd_c_E2G) {
+  operand_rm(s, id_src2, true, id_dest, true);
+  id_src1->width = 1;
+  decode_op_c(s, id_src1, true);
 }
 
 /* Eb <- Ib
@@ -172,6 +196,8 @@ static inline def_DHelper(mov_I2r) {
 static inline def_DHelper(I) {
   decode_op_I(s, id_dest, true);
 }
+
+
 
 static inline def_DHelper(r) {
   decode_op_r(s, id_dest, true);
@@ -265,9 +291,9 @@ static inline def_DHelper(J) {
   s->jmp_pc = id_dest->simm + s->seq_pc;
 }
 
-static inline def_DHelper(push_SI) {
-  decode_op_SI(s, id_dest, true);
-}
+
+
+
 
 static inline def_DHelper(in_I2a) {
   id_src1->width = 1;

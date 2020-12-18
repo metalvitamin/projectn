@@ -4,6 +4,8 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 static unsigned long int next = 1;
+extern char _heap_start;
+static void *addr = (void *)&_heap_start;
 
 int rand(void) {
   // RAND_MAX assumed to be 32767
@@ -30,10 +32,12 @@ int atoi(const char* nptr) {
 }
 
 void *malloc(size_t size) {
-  return NULL;
+  void *place = addr;
+  addr += size;
+  return place;
 }
 
 void free(void *ptr) {
-}
+}//now just void
 
 #endif

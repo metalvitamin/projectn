@@ -17,27 +17,54 @@ static inline def_rtl(mv, rtlreg_t* dest, const rtlreg_t *src1) {
 
 static inline def_rtl(not, rtlreg_t *dest, const rtlreg_t* src1) {
   // dest <- ~src1
-  TODO();
+  *dest = ~(*src1);
 }
 
 static inline def_rtl(neg, rtlreg_t *dest, const rtlreg_t* src1) {
   // dest <- -src1
-  TODO();
+  *dest = -(*src1);
 }
 
 static inline def_rtl(sext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
-  TODO();
+  if(width == 1){
+    *dest = (int8_t)*src1;
+  }
+  else if(width == 2)
+  {
+    *dest = (int16_t)*src1;
+  }
+  else
+  {
+    *dest = (int32_t)*src1;
+  }
+  
+  
 }
 
 static inline def_rtl(zext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- zeroext(src1[(width * 8 - 1) .. 0])
-  TODO();
+  *dest = *src1;  
+
 }
 
 static inline def_rtl(msb, rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- src1[width * 8 - 1]
-  TODO();
+  switch (width)
+  {
+  case 1:
+    *dest = *src1 & 0xff;
+    break;
+  
+  case 2:
+    *dest = *src1 & 0xffff;
+    break;
+  case 4:
+    *dest = *src1 & 0xffffffff;
+    break;
+  default:
+    assert(0);
+  }
 }
 
 #endif
