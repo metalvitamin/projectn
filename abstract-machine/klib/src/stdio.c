@@ -101,6 +101,19 @@ int sprintf(char *out, const char *fmt, ...) {
 }
 
 int snprintf(char *out, size_t n, const char *fmt, ...) {
+  *out = '\0';
+  va_list ap;
+  va_start(ap,fmt);
+  for(int i = 0; fmt[i] != '\0' && i < n; i ++){
+    if(fmt[i] != '%'){
+      char ch[2] = {fmt[i]};
+      strcat(out,ch);
+    }
+    else if(fmt[i + 1] != '\0' && i != n - 1) format_choose(strcat(out,ch))
+    
+  }
+
+  va_end(ap);
   return 0;
 }
 
