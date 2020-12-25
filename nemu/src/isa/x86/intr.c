@@ -7,6 +7,7 @@ void raise_intr(DecodeExecState *s, uint32_t NO, vaddr_t ret_addr) {
    */
   vaddr_t access = cpu.IDTR.idt + NO * cpu.IDTR.length / 0x100;
   uint32_t first = vaddr_read(access ++, 4);
+  assert(0);
   uint32_t last = vaddr_read(access, 4);
   uint8_t valid = (last >> 15) & 0x1;
   if (valid == 1){
