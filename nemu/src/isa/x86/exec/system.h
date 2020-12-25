@@ -7,8 +7,8 @@ static inline def_EHelper(lidt) {
     int16_t length;
     uint32_t idt;
   }__attribute__((packed)) IDTR;
-  cpu.IDTR.length = ((IDTR *)ddest)->length;
-  cpu.IDTR.idt = ((IDTR *)ddest)->idt;
+  cpu.IDTR.length = vaddr_read(*ddest, 2);
+  cpu.IDTR.idt = vaddr_read(*ddest + 2, 4);
 
   print_asm_template1(lidt);
 }
@@ -31,7 +31,7 @@ static inline def_EHelper(mov_cr2r) {
 
 static inline def_EHelper(int) {
   void raise_intr(DecodeExecState*, uint32_t, vaddr_t);
-  raise_intr(s, *ddest, cpu.pc);
+  raise_intr(s, *ddest, s->seq_pc);
 
   print_asm("int %s", id_dest->str);
 
