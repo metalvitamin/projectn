@@ -17,8 +17,8 @@ static inline def_EHelper(pop) {
 }
 
 static inline def_EHelper(pusha) {
-  printf("eax = %d, edx = %d, ecx = %d, ebx = %d, esp = %d, "
-         "ebp = %d, esi = %d, edi = %d\n", cpu.eax, cpu.edx, 
+  printf("eax = %x, edx = %x, ecx = %x, ebx = %x, esp = %x, "
+         "ebp = %x, esi = %x, edi = %x\n", cpu.eax, cpu.edx, 
          cpu.ecx, cpu.ebx, cpu.esp, cpu.ebp, cpu.esi, cpu.edi);
   if(s->isa.is_operand_size_16){
     *s0 = reg_l(4);

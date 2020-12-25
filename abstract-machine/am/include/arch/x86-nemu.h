@@ -2,7 +2,7 @@
 #define ARCH_H__
 
 struct Context {
-  uintptr_t eflags, cs, eip, eax, edx, ecx, ebx, esp, ebp, esi, edi;
+  uintptr_t eax, edx, ecx, ebx, esp, ebp, esi, edi, eip, cs, eflags;
   void *cr3;
   int irq;
 };
