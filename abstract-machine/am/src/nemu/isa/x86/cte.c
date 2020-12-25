@@ -21,6 +21,7 @@ Context* __am_irq_handle(Context *c) {
                 "ebp = %d, esi = %d, edi = %d\n",c->eflags, c->cs, 
                 c->eip,c->eax, c->ecx, c->edx, c->ebx, c->esp, 
                 c->ebp, c->esi, c->edi);
+  printf(" irq = %d\n", c->irq);
   if (user_handler) {
     Event ev = {0};
     switch (c->irq) {
