@@ -25,17 +25,37 @@ static inline const char* get_cc_name(int subcode) {
 
 static inline void rtl_setcc(DecodeExecState *s, rtlreg_t* dest, uint32_t subcode) {
   uint32_t invert = subcode & 0x1;
+  // *implemented s1, s2!!!!!!!!!!!!!!!!!
+  // rtlreg_t *t1 = 0; ???? segmentation fault
 
   // TODO: Query EFLAGS to determine whether the condition code is satisfied.
   // dest <- ( cc is satisfied ? 1 : 0)
   switch (subcode & 0xe) {
-    case CC_O: *dest = (cpueflagsOF ? 1 : 0); break;
-    case CC_B: *dest = (cpueflagsCF ? 1 : 0); break;
-    case CC_E: *dest = (cpueflagsZF ? 1 : 0); break;
-    case CC_BE:*dest = ((cpueflagsCF || cpueflagsZF) ? 1 : 0); break;
-    case CC_S: *dest = (cpueflagsSF ? 1 : 0); break;
-    case CC_L: *dest = ((cpueflagsSF != cpueflagsOF) ? 1 : 0); break;
-    case CC_LE:*dest = ((cpueflagsZF ||  (cpueflagsSF != cpueflagsOF)) ? 1 : 0); break;
+    case CC_O: rtl_get_OF(s, dest); break;
+    case CC_B: rtl_get_CF(s, dest); break;
+    case CC_E: rtl_get_ZF(s, dest); break;
+    case CC_BE: {
+      rtl_get_CF(s, t0);
+      rtl_get_ZF(s, s2);
+      rtl_or(s, dest, t0, s2);
+      break;
+    }
+    case CC_S: rtl_get_SF(s, dest); break;
+    case CC_L: {
+      rtl_get_SF(s, t0);
+      rtl_get_OF(s, s2);
+      rtl_xor(s, dest, t0, s2);
+      break;
+    }
+    case CC_LE: {
+      rtl_get_SF(s, t0);
+      rtl_get_OF(s, s2);
+      rtl_xor(s, dest, t0, s2);
+      rtl_get_ZF(s, t0);
+      rtl_or(s, dest, dest, t0);
+      break;
+    }
+    // TODO();
     default: panic("should not reach here");
     case CC_P: panic("PF is not supported");
   }

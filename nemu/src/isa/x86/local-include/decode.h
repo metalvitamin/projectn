@@ -21,10 +21,13 @@ static inline void operand_reg(DecodeExecState *s, Operand *op, bool load_val, i
 static inline void operand_imm(DecodeExecState *s, Operand *op, bool load_val, word_t imm, int width) {
   op->type = OP_TYPE_IMM;
   op->imm = imm;
+  // op->simm = imm;
+
   if (load_val) {
     rtl_li(s, &op->val, imm);
     op->preg = &op->val;
   }
+
   print_Dop(op->str, OP_STR_SIZE, "$0x%x", imm);
 }
 
@@ -54,12 +57,9 @@ static inline def_DopHelper(SI) {
    *
    operand_imm(s, op, load_val, ???, op->width);
    */
-  int simm = instr_fetch(&s->seq_pc, op->width);
-  if(op->width == 1){
-  int8_t tem = simm;
-  simm = tem;
-  }
-
+  // TODO();
+  word_t simm = instr_fetch(&s->seq_pc, op->width);
+  rtl_sext(s, &simm, &simm, op->width);
   operand_imm(s, op, load_val, simm, op->width);
 }
 
@@ -71,9 +71,6 @@ static inline def_DopHelper(a) {
   operand_reg(s, op, load_val, R_EAX, op->width);
 }
 
-static inline def_DopHelper(c) {
-  operand_reg(s, op, load_val, R_ECX, op->width);
-}
 /* This helper function is use to decode register encoded in the opcode. */
 /* XX: AL, AH, BL, BH, CL, CH, DL, DH
  * eXX: eAX, eCX, eDX, eBX, eSP, eBP, eSI, eDI
@@ -105,6 +102,7 @@ static inline def_DopHelper(O) {
     rtl_lm(s, &op->val, s->isa.mbase, s->isa.moff, op->width);
     op->preg = &op->val;
   }
+
   print_Dop(op->str, OP_STR_SIZE, "0x%x", s->isa.moff);
 }
 
@@ -126,18 +124,12 @@ static inline def_DHelper(E2G) {
   operand_rm(s, id_src1, true, id_dest, true);
 }
 
-
-
 static inline def_DHelper(mov_E2G) {
   operand_rm(s, id_src1, true, id_dest, false);
 }
 
-
-
 static inline def_DHelper(lea_M2G) {
-
-  operand_rm(s, id_src1, false, id_dest, false); 
-  
+  operand_rm(s, id_src1, false, id_dest, false);
 }
 
 /* AL <- Ib
@@ -154,16 +146,6 @@ static inline def_DHelper(I2a) {
 static inline def_DHelper(I_E2G) {
   operand_rm(s, id_src2, true, id_dest, false);
   decode_op_I(s, id_src1, true);
-}
-
-static inline def_DHelper(shxd_I_E2G) {
-  operand_rm(s, id_src2, true, id_dest, true);
-  decode_op_I(s, id_src1, true);
-}
-static inline def_DHelper(shxd_c_E2G) {
-  operand_rm(s, id_src2, true, id_dest, true);
-  id_src1->width = 1;
-  decode_op_c(s, id_src1, true);
 }
 
 /* Eb <- Ib
@@ -197,8 +179,6 @@ static inline def_DHelper(I) {
   decode_op_I(s, id_dest, true);
 }
 
-
-
 static inline def_DHelper(r) {
   decode_op_r(s, id_dest, true);
 }
@@ -212,7 +192,8 @@ static inline def_DHelper(setcc_E) {
 }
 
 static inline def_DHelper(gp7_E) {
-  operand_rm(s, id_dest, false, NULL, false);
+  operand_rm(s, id_dest, false, NULL, false);  // ??? false
+  // operand_rm(s, id_dest, true, NULL, false);
 }
 
 /* used by test in group3 */
@@ -248,7 +229,8 @@ static inline def_DHelper(gp2_1_E) {
 static inline def_DHelper(gp2_cl2E) {
   operand_rm(s, id_dest, true, NULL, false);
   // shift instructions will eventually use the lower
-  // 5 bits of %cl, therefore it is OK to load %ecx
+  // 5 bits of %cl, therefore it is OK to load %ecx 
+  //  ????????????????????????????? rol ????????
   operand_reg(s, id_src1, true, R_ECX, 4);
 }
 
@@ -291,9 +273,9 @@ static inline def_DHelper(J) {
   s->jmp_pc = id_dest->simm + s->seq_pc;
 }
 
-
-
-
+static inline def_DHelper(push_SI) {
+  decode_op_SI(s, id_dest, true);
+}
 
 static inline def_DHelper(in_I2a) {
   id_src1->width = 1;
