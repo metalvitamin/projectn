@@ -17,7 +17,36 @@ static inline def_EHelper(pop) {
 }
 
 static inline def_EHelper(pusha) {
-  TODO();
+  if(s->isa.is_operand_size_16){
+    *s0 = reg_l(4);
+    rtl_push(s, &reg_l(0));
+    rtl_push(s, &reg_l(1));
+    rtl_push(s, &reg_l(2));
+    rtl_push(s, &reg_l(3));
+    rtl_push(s, s0);
+    rtl_push(s, &reg_l(5));
+    rtl_push(s, &reg_l(6));
+    rtl_push(s, &reg_l(7));
+  }
+  else
+  {
+    *s0 = reg_w(4);
+    *s1 = reg_w(0);
+    rtl_push(s, s1);
+    *s1 = reg_w(1);
+    rtl_push(s, s1);
+    *s1 = reg_w(2);
+    rtl_push(s, s1);
+    *s1 = reg_w(3);
+    rtl_push(s, s1);
+    rtl_push(s, s0);
+    *s1 = reg_w(5);
+    rtl_push(s, s1);
+    *s1 = reg_w(6);
+    rtl_push(s, s1);
+    *s1 = reg_w(7);
+    rtl_push(s, s1);
+  }
 
   print_asm("pusha");
 }
