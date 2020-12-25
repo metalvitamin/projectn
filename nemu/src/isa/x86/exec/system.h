@@ -1,14 +1,9 @@
 #include <monitor/difftest.h>
 
 static inline def_EHelper(lidt) {
-  printf("dest = %x\n", *ddest);
-  typedef struct 
-  {
-    int16_t length;
-    uint32_t idt;
-  }__attribute__((packed)) IDTR;
-  cpu.IDTR.length = vaddr_read(*ddest, 2);
-  cpu.IDTR.idt = vaddr_read(*ddest + 2, 4);
+  *s0 = reg_l(0);
+  cpu.IDTR.length = vaddr_read(*s0, 2);
+  cpu.IDTR.idt = vaddr_read(*s0 + 2, 4);
 
   print_asm_template1(lidt);
 }
