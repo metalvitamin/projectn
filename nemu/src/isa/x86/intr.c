@@ -7,7 +7,7 @@ void raise_intr(DecodeExecState *s, uint32_t NO, vaddr_t ret_addr) {
    */
   //printf("IDTR = %u\n", cpu.IDTR.idt);
   printf("in cpu before:\n");
-  printf("eflags = %u, cs = %u, eip = %u", cpu.eflags.EFLAGS, cpu.cs, cpu.pc);
+  printf("eflags = %d, cs = %d, eip = %d\n", cpu.eflags.EFLAGS, cpu.cs, cpu.pc);
   rtl_push(s, &cpu.eflags.EFLAGS);
   rtl_push(s, &cpu.cs);
   rtl_push(s, &ret_addr);
