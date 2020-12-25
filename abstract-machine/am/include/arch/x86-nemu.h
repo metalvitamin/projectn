@@ -3,9 +3,10 @@
 
 struct Context {
   void *cr3;
+  
+  uintptr_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
   int irq;
-  uintptr_t edi, esi, ebp, esp, ebx, edx, ecx, eax, eflags, eip, cs;
-
+  uintptr_t  eflags, eip, cs;
 };
 
 #define GPR1 eax
