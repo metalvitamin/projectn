@@ -15,6 +15,11 @@ void __am_vecnull();
 
 
 Context* __am_irq_handle(Context *c) {
+  printf("in context:\n");
+  printf("eax = %x, edx = %x, ecx = %x, ebx = %x, esp = %x, "
+         "ebp = %x, esi = %x, edi = %x, eflags = %x, cs = %x,"
+         " eip = %x", c->eax, c->edx, c->ecx, c->ebx, c->esp, c->ebp,
+          c->esi, c->edi, c->eflags, c->cs, c->eip);
   if (user_handler) {
     Event ev = {0};
     switch (c->irq) {

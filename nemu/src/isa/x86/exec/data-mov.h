@@ -17,6 +17,9 @@ static inline def_EHelper(pop) {
 }
 
 static inline def_EHelper(pusha) {
+  printf("eax = %x, edx = %x, ecx = %x, ebx = %x, esp = %x, "
+         "ebp = %x, esi = %x, edi = %x", cpu.eax, cpu.edx, 
+         cpu.ecx, cpu.ebx, cpu.esp, cpu.ebp, cpu.esi, cpu.edi);
   if(s->isa.is_operand_size_16){
     *s0 = reg_l(4);
     rtl_push(s, &reg_l(0));
