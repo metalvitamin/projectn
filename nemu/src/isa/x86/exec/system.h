@@ -1,6 +1,7 @@
 #include <monitor/difftest.h>
 
 static inline def_EHelper(lidt) {
+  printf("dest = %d\n", *ddest);
   typedef struct 
   {
     int16_t length;

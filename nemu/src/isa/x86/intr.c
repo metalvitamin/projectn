@@ -5,7 +5,7 @@ void raise_intr(DecodeExecState *s, uint32_t NO, vaddr_t ret_addr) {
   /* TODO: Trigger an interrupt/exception with ``NO''.
    * That is, use ``NO'' to index the IDT.
    */
-  printf("IDTR = %u, NO = %u\n", cpu.IDTR.idt, NO);
+  printf("IDTR = %u\n", cpu.IDTR.idt);
   vaddr_t access = cpu.IDTR.idt + NO * 8;
   printf("access addr = %u\n", access);
   uint32_t first = vaddr_read(access, 4);
