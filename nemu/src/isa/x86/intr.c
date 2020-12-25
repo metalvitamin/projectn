@@ -8,13 +8,13 @@ void raise_intr(DecodeExecState *s, uint32_t NO, vaddr_t ret_addr) {
   //printf("IDTR = %u\n", cpu.IDTR.idt);
   rtl_push(s, &cpu.eflags.EFLAGS);
   vaddr_t access = cpu.IDTR.idt + NO * 8;
-  printf("access addr = %u\n", access);
   *s0 = vaddr_read(access, 4);
 
   *s1 = vaddr_read(access + 4, 4);
   uint8_t valid = (*s1 >> 15) & 0x1;
   if (valid == 1){
     vaddr_t gate = (*s0 & 0xffff) |(*s1 & ~0xffff);
+    printf("gate = %x", gate);
     rtl_j(s,gate);
   }
   else
