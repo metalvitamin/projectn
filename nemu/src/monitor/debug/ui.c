@@ -62,7 +62,7 @@ static int cmd_x(char* args){   //todo: change this to a complete one
   bool success = true;
   p = expr(q,&success);
   if (success){
-    int  n = atoi(args);
+    int n = atoi(args);
     for (int i = 0; i < n; i ++)
       printf("%x\n",paddr_read(p+4*i,1));
     return 0;
@@ -130,10 +130,12 @@ static int cmd_help(char *args) {
 }
 
 void ui_mainloop() {
+  #ifndef DEBUG
   if (is_batch_mode()) {
     cmd_c(NULL);
-    return;
+    return; 
   }
+  #endif
 
   for (char *str; (str = rl_gets()) != NULL; ) {
     char *str_end = str + strlen(str);
