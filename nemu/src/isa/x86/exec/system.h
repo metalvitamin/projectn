@@ -39,6 +39,10 @@ static inline def_EHelper(iret) {
   rtl_pop(s, &s->jmp_pc);printf("pc = 0x%08x\n", s->jmp_pc);
   rtl_j(s, s->jmp_pc);
   s->is_jmp = 1;
+  rtl_pop(s,s0);
+  cpu.cs = *s0;
+  rtl_pop(s,s0);
+  cpu.eflags.EFLAGS = *s0;
 
   print_asm("iret");
 
