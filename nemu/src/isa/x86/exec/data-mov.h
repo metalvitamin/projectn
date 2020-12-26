@@ -55,7 +55,36 @@ static inline def_EHelper(pusha) {
 }
 
 static inline def_EHelper(popa) {
-  TODO();
+  if(!s->isa.is_operand_size_16){
+    rtl_pop(s,&reg_l(7));
+    rtl_pop(s,&reg_l(6));
+    rtl_pop(s,&reg_l(5));
+    rtl_pop(s,t0);
+    rtl_pop(s,&reg_l(3));
+    rtl_pop(s,&reg_l(2));
+    rtl_pop(s,&reg_l(1));
+    rtl_pop(s,&reg_l(0));
+
+  }
+  else
+  {
+    rtl_pop(s,s0);
+    reg_w(7) = *s0;
+    rtl_pop(s,s0);
+    reg_w(6) = *s0;
+    rtl_pop(s,s0);
+    reg_w(5) = *s0;
+    rtl_pop(s,t0);
+    rtl_pop(s,s0);
+    reg_w(3) = *s0;
+    rtl_pop(s,s0);
+    reg_w(2) = *s0;
+    rtl_pop(s,s0);
+    reg_w(1) = *s0;
+    rtl_pop(s,s0);
+    reg_w(0) = *s0;
+  }
+  
 
   print_asm("popa");
 }
