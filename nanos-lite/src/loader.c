@@ -21,10 +21,10 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   printf("vaddr = 0x%x\n", ehdr.e_entry);
   printf("phdraddr = %x\n",phdraddr);
   int count = ehdr.e_phnum;
-  Elf_Phdr *phdr[ehdr.e_phnum];
+  Elf_Phdr *phdr[ehdr.e_phnum];ramdisk_read(phdr[0], phdraddr, sizeof(Elf_Phdr));
   for(int i = 0; i < count; i ++){
     
-    ramdisk_read(phdr[i], phdraddr, sizeof(Elf_Phdr));
+    
     putch('\n');putch('\n');putch('\n');
     if(phdr[i]->p_type == PT_LOAD){
       size_t buf[phdr[i]->p_filesz];
