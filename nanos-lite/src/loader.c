@@ -13,8 +13,8 @@ size_t ramdisk_read(void*, size_t, size_t);
 size_t ramdisk_write(const void*, size_t, size_t);
 static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr ehdr;
-  putch('\n');putch('\n');putch('\n');
-  ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
+  
+  ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));putch('\n');putch('\n');putch('\n');
   size_t phdraddr = ehdr.e_phoff;
   int count = ehdr.e_phnum;
   Elf_Phdr *phdr[ehdr.e_phnum];
