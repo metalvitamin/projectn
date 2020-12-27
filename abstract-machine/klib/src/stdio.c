@@ -19,7 +19,7 @@
   }\
 }
 
-#define dec_uint(ch, chtemp,d,m){\
+#define dec_uint(ch,chtemp,d,m){\
   for(int i = 10; i > 0; i --){\
     unsigned temp = d % 10;\
     chtemp[i] = temp + '0';\
@@ -33,7 +33,7 @@
   }\
 }
 
-#define dec_int(ch, chtemp,d,m) {\
+#define dec_int(ch,chtemp,d,m) {\
   uint32_t u = d;\
   if(d < 0) {chtemp[0] = '-';u = -d;}\
   for(int i = 10; i > 0; i --){\
@@ -54,7 +54,7 @@
   }\
 }
 
-#define format_choose(exec)     {\
+#define format_choose(exec){\
       char* ch;\
       int d;\
       uint32_t u;\
