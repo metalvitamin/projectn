@@ -13,7 +13,6 @@ size_t ramdisk_read(void*, size_t, size_t);
 size_t ramdisk_write(const void*, size_t, size_t);
 static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr ehdr;
-  
   ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
   uint64_t phdraddr = ehdr.e_phoff;
   // printf("type = %d\n",ehdr.e_type);
@@ -24,7 +23,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Phdr *phdr = NULL;
   for(int i = 0; i < count; i ++){
     ramdisk_read(phdr, phdraddr, sizeof(Elf_Phdr));
-    //putch('\n');putch('\n');putch('\n');
+    putch('\n');putch('\n');putch('\n');
     if(phdr->p_type == PT_LOAD){
       size_t buf[phdr->p_filesz];
       void *entrance;entrance = (void *)phdr->p_vaddr;
@@ -45,8 +44,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
 void naive_uload(PCB *pcb, const char *filename) {
   uintptr_t entry = loader(pcb, filename);
-  //Log("Jump to entry = %p", entry);
-  printf("jump\n");
+  Log("Jump to entry = %p", entry);
   ((void(*)())entry) ();
 }
 
