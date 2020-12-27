@@ -19,10 +19,11 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   printf("type = %d\n",ehdr.e_type);
   printf("poffset = 0x%x, phnum = %d, ehsize = 0x%x\n",ehdr.e_phoff, ehdr.e_phnum,ehdr.e_ehsize);
   printf("vaddr = 0x%x\n", ehdr.e_entry);
+  printf("phdraddr = %x\n",phdraddr);
   int count = ehdr.e_phnum;
   Elf_Phdr *phdr[ehdr.e_phnum];
   for(int i = 0; i < count; i ++){
-    // printf("phdraddr = %x\n",phdraddr);
+    
     ramdisk_read(phdr[i], phdraddr, sizeof(Elf_Phdr));
     putch('\n');putch('\n');putch('\n');
     if(phdr[i]->p_type == PT_LOAD){
