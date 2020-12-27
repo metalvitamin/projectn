@@ -29,9 +29,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       ramdisk_read(buf, phdr.p_offset, phdr.p_filesz);
       //printf("vaddr = %x\n", phdr->p_vaddr);
       memcpy((void *)phdr.p_vaddr, buf, phdr.p_filesz);
-      uint8_t zero[phdr.p_memsz - phdr.p_filesz] ;
-      memset(zero, 0, sizeof(zero));
-      memcpy((void *)(phdr.p_vaddr + phdr.p_filesz) ,zero , phdr.p_memsz - phdr.p_filesz);
+      memset((void *)(phdr.p_vaddr + phdr.p_filesz) ,0 , phdr.p_memsz - phdr.p_filesz);
       
     }
     phdraddr += sizeof(phdr);
