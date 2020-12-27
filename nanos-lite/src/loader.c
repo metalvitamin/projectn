@@ -22,8 +22,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     ramdisk_read(phdr[i], phdraddr, sizeof(Elf_Phdr));
     if(phdr[i]->p_type == PT_LOAD){
       size_t buf[phdr[i]->p_filesz];
+      void *entrance;entrance = (void *)phdr[i]->p_vaddr;
       ramdisk_read(buf, phdr[i]->p_offset, phdr[i]->p_filesz);
-      ramdisk_write(buf ,phdr[i]->p_vaddr, phdr[i]->p_vaddr + phdr[i]->p_filesz);
+      memcpy(buf ,entrance, phdr[i]->p_vaddr + phdr[i]->p_filesz);
       size_t zero[phdr[i]->p_memsz - phdr[i]->p_filesz];
       ramdisk_write(zero ,phdr[i]->p_vaddr + phdr[i]->p_filesz, phdr[i]->p_vaddr + phdr[i]->p_memsz);
     }

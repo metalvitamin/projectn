@@ -125,7 +125,7 @@ void* memcpy(void* out, const void* in, size_t n) {
   }
   char* pout = (char*)out;
   char* pin = (char*)in;
-  printf("size: %d", n);
+  //printf("size: %d", n);
   while(n--){
     *pout = *pin;
     pout += 1ul;
