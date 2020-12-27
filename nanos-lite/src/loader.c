@@ -36,7 +36,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       memcpy(entrance ,zero , phdr.p_memsz - phdr.p_filesz);
       
     }
-    phdraddr += sizeof(Elf_Phdr);
+    phdraddr += sizeof(phdr);
     
   }
   return ehdr.e_entry;
