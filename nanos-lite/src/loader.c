@@ -26,14 +26,12 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     //putch('\n');putch('\n');putch('\n');
     if(phdr.p_type == PT_LOAD){
       uint8_t buf[phdr.p_filesz];
-      void *entrance;entrance = (void *)phdr.p_vaddr;
       ramdisk_read(buf, phdr.p_offset, phdr.p_filesz);
       //printf("vaddr = %x\n", phdr->p_vaddr);
-      memcpy(entrance, buf, phdr.p_filesz);
+      memcpy((void *)phdr.p_vaddr, buf, phdr.p_filesz);
       uint8_t zero[phdr.p_memsz - phdr.p_filesz] ;
       memset(zero, 0, sizeof(zero));
-      entrance += phdr.p_filesz;
-      memcpy(entrance ,zero , phdr.p_memsz - phdr.p_filesz);
+      memcpy((void *)(phdr.p_vaddr + phdr.p_filesz) ,zero , phdr.p_memsz - phdr.p_filesz);
       
     }
     phdraddr += sizeof(phdr);
