@@ -24,7 +24,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   for(int i = 0; i < count; i ++){
     ramdisk_read(phdr, phdraddr, sizeof(Elf_Phdr));
     //putch('\n');putch('\n');putch('\n');
-    if(phdr->p_type == PT_LOAD){
+    //if(phdr->p_type == PT_LOAD){
       uint8_t buf[phdr->p_filesz];
       void *entrance;entrance = (void *)phdr->p_vaddr;
       ramdisk_read(buf, phdr->p_offset, phdr->p_filesz);
@@ -35,7 +35,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       entrance += phdr->p_filesz;
       memcpy(entrance ,zero , phdr->p_memsz - phdr->p_filesz);
       
-    }
+    //}
     phdraddr += sizeof(Elf_Phdr);
     
   }
