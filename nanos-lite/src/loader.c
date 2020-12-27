@@ -20,24 +20,25 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   printf("poffset = 0x%x, phnum = %d, ehsize = 0x%x\n",ehdr.e_phoff, ehdr.e_phnum,ehdr.e_ehsize);
   printf("vaddr = 0x%x\n", ehdr.e_entry);
   printf("phdraddr = %x\n",phdraddr);
-  int count = ehdr.e_phnum;
-  Elf_Phdr *phdr[ehdr.e_phnum];ramdisk_read(phdr[0], phdraddr, sizeof(Elf_Phdr));
-  for(int i = 0; i < count; i ++){
+  //int count = ehdr.e_phnum;
+  Elf_Phdr *phdr[ehdr.e_phnum];
+  //for(int i = 0; i < count; i ++){
     
-    
-    putch('\n');putch('\n');putch('\n');
-    if(phdr[i]->p_type == PT_LOAD){
-      size_t buf[phdr[i]->p_filesz];
-      void *entrance;entrance = (void *)phdr[i]->p_vaddr;
-      ramdisk_read(buf, phdr[i]->p_offset, phdr[i]->p_filesz);
-      printf("vaddr = %x\n", phdr[i]->p_vaddr);
-      memcpy(entrance, buf, phdr[i]->p_filesz);
-      size_t zero[phdr[i]->p_memsz - phdr[i]->p_filesz];
-      memset(zero, 0, phdr[i]->p_memsz - phdr[i]->p_filesz);
-      entrance += phdr[i]->p_filesz;
-      memcpy(entrance ,zero , phdr[i]->p_memsz - phdr[i]->p_filesz);
+    ramdisk_read(phdr[0], phdraddr, sizeof(Elf_Phdr));
+    putch('\n');putch('\n');putch('\n');assert(0);
+    if(phdr[0]->p_type == PT_LOAD){
+      size_t buf[phdr[0]->p_filesz];
+      void *entrance;entrance = (void *)phdr[0]->p_vaddr;
+      ramdisk_read(buf, phdr[0]->p_offset, phdr[0]->p_filesz);
+      printf("vaddr = %x\n", phdr[0]->p_vaddr);
+      memcpy(entrance, buf, phdr[0]->p_filesz);
+      size_t zero[phdr[0]->p_memsz - phdr[0]->p_filesz];
+      memset(zero, 0, phdr[0]->p_memsz - phdr[0]->p_filesz);
+      entrance += phdr[0]->p_filesz;
+      memcpy(entrance ,zero , phdr[0]->p_memsz - phdr[0]->p_filesz);
     }
-  }
+    
+  //}
   return 0;
 }
 
