@@ -19,13 +19,13 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   printf("type = %d\n",ehdr.e_type);
   printf("poffset = 0x%x, phnum = %d, ehsize = 0x%x\n",ehdr.e_phoff, ehdr.e_phnum,ehdr.e_ehsize);
   printf("vaddr = 0x%x\n", ehdr.e_entry);
-  printf("phdraddr = %x\n",phdraddr);
+  printf("phdraddr = 0x%x\n",phdraddr);
   int count = ehdr.e_phnum;
   Elf_Phdr *phdr[ehdr.e_phnum];ramdisk_read(phdr[0], phdraddr, sizeof(Elf_Phdr));
   for(int i = 0; i < count; i ++){
     
     
-    putch('\n');putch('\n');putch('\n');assert(0);
+    putch('\n');putch('\n');putch('\n');
     if(phdr[0]->p_type == PT_LOAD){
       size_t buf[phdr[0]->p_filesz];
       void *entrance;entrance = (void *)phdr[0]->p_vaddr;
