@@ -23,7 +23,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Phdr *phdr = NULL;
   for(int i = 0; i < count; i ++){
     ramdisk_read(phdr, phdraddr, sizeof(Elf_Phdr));
-    putch('\n');putch('\n');putch('\n');
+    //putch('\n');putch('\n');putch('\n');
     if(phdr->p_type == PT_LOAD){
       size_t buf[phdr->p_filesz];
       void *entrance;entrance = (void *)phdr->p_vaddr;
