@@ -20,9 +20,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   printf("poffset = 0x%x, phnum = %d, ehsize = 0x%x\n",ehdr.e_phoff, ehdr.e_phnum,ehdr.e_ehsize);
   printf("vaddr = 0x%x\n", ehdr.e_entry);
   printf("phdraddr = %x\n",phdraddr);
-  //int count = ehdr.e_phnum;
+  int count = ehdr.e_phnum;
   Elf_Phdr *phdr[ehdr.e_phnum];
-  //for(int i = 0; i < count; i ++){
+  for(int i = 0; i < count; i ++){
     
     ramdisk_read(phdr[0], phdraddr, sizeof(Elf_Phdr));
     putch('\n');putch('\n');putch('\n');assert(0);
@@ -36,9 +36,11 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       memset(zero, 0, phdr[0]->p_memsz - phdr[0]->p_filesz);
       entrance += phdr[0]->p_filesz;
       memcpy(entrance ,zero , phdr[0]->p_memsz - phdr[0]->p_filesz);
+      phdraddr += sizeof(Elf_Phdr);
+      assert(0);
     }
     
-  //}
+  }
   return 0;
 }
 
