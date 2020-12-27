@@ -91,7 +91,7 @@ format:\
       case 'x':\
         ch = "";\
         u = va_arg(ap,unsigned);\
-        dec_uint(ch,chtemp,u,min_broad);\
+        dec_xint(ch,chtemp,u,min_broad);\
         exec;\
         break;\
       case '0':case '1':case '2':case '3':case '4':case '5':case '6':case '7':case '8':case '9':\
