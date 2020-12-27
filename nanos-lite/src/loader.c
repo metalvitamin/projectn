@@ -13,18 +13,19 @@ size_t ramdisk_read(void*, size_t, size_t);
 size_t ramdisk_write(const void*, size_t, size_t);
 static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr ehdr;
+  putch('\n');putch('\n');putch('\n');
   ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
   size_t phdraddr = ehdr.e_phoff;
   int count = ehdr.e_phnum;
   Elf_Phdr *phdr[ehdr.e_phnum];
   for(int i = 0; i < count; i ++){
-    printf("vaddr = %x\n", phdr[i]->p_vaddr);
+    
     ramdisk_read(phdr[i], phdraddr, sizeof(Elf_Phdr));
     if(phdr[i]->p_type == PT_LOAD){
       size_t buf[phdr[i]->p_filesz];
       void *entrance;entrance = (void *)phdr[i]->p_vaddr;
       ramdisk_read(buf, phdr[i]->p_offset, phdr[i]->p_filesz);
-      
+      printf("vaddr = %x\n", phdr[i]->p_vaddr);
       memcpy(entrance, buf, phdr[i]->p_filesz);
       size_t zero[phdr[i]->p_memsz - phdr[i]->p_filesz];
       memset(zero, 0, phdr[i]->p_memsz - phdr[i]->p_filesz);
