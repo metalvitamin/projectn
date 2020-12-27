@@ -25,6 +25,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       void *entrance;entrance = (void *)phdr[i]->p_vaddr;
       ramdisk_read(buf, phdr[i]->p_offset, phdr[i]->p_filesz);
       memcpy(entrance, buf, phdr[i]->p_filesz);
+      putch('\n');putch('\n');putch('\n');
       size_t zero[phdr[i]->p_memsz - phdr[i]->p_filesz];
       memset(zero, 0, phdr[i]->p_memsz - phdr[i]->p_filesz);
       entrance += phdr[i]->p_filesz;
