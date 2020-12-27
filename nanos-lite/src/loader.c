@@ -18,11 +18,11 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   int count = ehdr.e_phnum;
   Elf_Phdr *phdr[ehdr.e_phnum];
   for(int i = 0; i < count; i ++){
-    
+    printf("vaddr = %x\n", phdr[i]->p_vaddr);
     ramdisk_read(phdr[i], phdraddr, sizeof(Elf_Phdr));
     if(phdr[i]->p_type == PT_LOAD){
       size_t buf[phdr[i]->p_filesz];
-      void *entrance;entrance = (void *)phdr[i]->p_vaddr;printf("vaddr = %x\n", phdr[i]->p_vaddr);
+      void *entrance;entrance = (void *)phdr[i]->p_vaddr;
       ramdisk_read(buf, phdr[i]->p_offset, phdr[i]->p_filesz);
       
       memcpy(entrance, buf, phdr[i]->p_filesz);
