@@ -18,10 +18,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   // printf("type = %d\n",ehdr.e_type);
   // printf("poffset = 0x%x, phnum = %d, ehsize = 0x%x\n",ehdr.e_phoff, ehdr.e_phnum,ehdr.e_ehsize);
   printf("vaddr = 0x%x\n", ehdr.e_entry);
-  // printf("phdraddr = 0x%x\n",phdraddr);
-  int count = ehdr.e_phnum;
+  printf("phdraddr = 0x%x\n",phdraddr);
   Elf_Phdr phdr = {0};
-  for(int i = 0; i < count; i ++){
+  for(int i = 0; i < ehdr.e_phnum; i ++){
     putch('\n');putch('\n');putch('\n');
     ramdisk_read(&phdr, phdraddr, sizeof(Elf_Phdr));
     printf("type = %d\n", phdr.p_type);
@@ -29,7 +28,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     if(phdr.p_type == PT_LOAD){
       uint8_t buf[phdr.p_filesz];
       ramdisk_read(buf, phdr.p_offset, phdr.p_filesz);
-      printf("vaddr = %x\n", phdr.p_vaddr);
       memcpy((void *)phdr.p_vaddr, buf, phdr.p_filesz);
       memset((void *)(phdr.p_vaddr + phdr.p_filesz) ,0 , phdr.p_memsz - phdr.p_filesz);
       
