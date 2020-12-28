@@ -58,6 +58,7 @@
       char* ch;\
       int d;\
       uint32_t u;\
+      void *p;\
       int min_broad = 0;\
       char chtemp[12] = {"+0000000000"};\
 format:\
@@ -92,6 +93,13 @@ format:\
         ch = "";\
         u = va_arg(ap,unsigned);\
         dec_xint(ch,chtemp,u,min_broad);\
+        exec;\
+        break;\
+      case 'p':\
+        ch = "0x";\
+        p = va_arg(ap,void *);\
+        u = (uint32_t)p;\
+        dec_xint(ch,chtemp,u,min_broad)\
         exec;\
         break;\
       case '0':case '1':case '2':case '3':case '4':case '5':case '6':case '7':case '8':case '9':\
