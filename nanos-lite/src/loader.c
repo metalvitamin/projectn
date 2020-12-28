@@ -24,7 +24,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   for(int i = 0; i < count; i ++){
     ramdisk_read(&phdr, phdraddr, sizeof(phdr));
     //putch('\n');putch('\n');putch('\n');
-    printf("type = 0x%x, vaddr = 0x%x\n", phdr.p_type, phdr.p_vaddr);
+    printf("type = %d, vaddr = 0x%x\n", phdr.p_type, phdr.p_vaddr);
     if(phdr.p_type == PT_LOAD){
       uint8_t buf[phdr.p_filesz];
       ramdisk_read(buf, phdr.p_offset, phdr.p_filesz);
