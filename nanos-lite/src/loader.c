@@ -22,8 +22,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   int count = ehdr.e_phnum;
   Elf32_Phdr phdr = {0};
   for(int i = 0; i < count; i ++){
-    ramdisk_read(&phdr, phdraddr, sizeof(Elf32_Phdr));
     putch('\n');putch('\n');putch('\n');
+    printf("phdr access = 0x%x\n", phdraddr);
+    ramdisk_read(&phdr, phdraddr, sizeof(Elf32_Phdr));
     printf("offset = 0x%x\n", phdr.p_offset);
     printf("type = %d, vaddr = 0x%x, filesize = 0x%x\n", phdr.p_type, phdr.p_vaddr, phdr.p_filesz);
     if(phdr.p_type == PT_LOAD){
