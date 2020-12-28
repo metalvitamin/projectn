@@ -24,7 +24,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   for(int i = 0; i < count; i ++){
     printf("i = %d\n",i);
     putch('\n');putch('\n');putch('\n');
-    printf("phdr access = 0x%x\n", phdraddr);
+    printf("phdr access = %d\n", phdraddr);
     ramdisk_read(&phdr, phdraddr, sizeof(Elf_Phdr));
     printf("offset = 0x%x\n", phdr.p_offset);
     printf("type = %d, vaddr = 0x%x, filesize = 0x%x\n", phdr.p_type, phdr.p_vaddr, phdr.p_filesz);
