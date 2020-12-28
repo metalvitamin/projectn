@@ -16,7 +16,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
   uint64_t phdraddr = ehdr.e_phoff;
   // printf("type = %d\n",ehdr.e_type);
-  printf("poffset = 0x%x, phnum = %d, ehsize = 0x%x\n",ehdr.e_phoff, ehdr.e_phnum,ehdr.e_ehsize);
+  // printf("poffset = 0x%x, phnum = %d, ehsize = 0x%x\n",ehdr.e_phoff, ehdr.e_phnum,ehdr.e_ehsize);
   printf("vaddr = 0x%x\n", ehdr.e_entry);
   // printf("phdraddr = 0x%x\n",phdraddr);
   int count = ehdr.e_phnum;
@@ -34,7 +34,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       memset((void *)(phdr.p_vaddr + phdr.p_filesz) ,0 , phdr.p_memsz - phdr.p_filesz);
       
     }
-    assert(0);
+    
     phdraddr += sizeof(phdr);
     
   }
