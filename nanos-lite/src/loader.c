@@ -22,6 +22,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   int count = ehdr.e_phnum;
   Elf_Phdr phdr = {0};
   for(int i = 0; i < count; i ++){
+    printf("i = %d\n",i);
     putch('\n');putch('\n');putch('\n');
     printf("phdr access = 0x%x\n", phdraddr);
     ramdisk_read(&phdr, phdraddr, sizeof(Elf_Phdr));
