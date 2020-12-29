@@ -36,7 +36,7 @@ static inline def_EHelper(int) {
 }
 
 static inline def_EHelper(iret) {
-  rtl_pop(s, &s->jmp_pc);printf("pc = 0x%08x\n", s->jmp_pc);
+  rtl_pop(s, &s->jmp_pc);//printf("pc = 0x%08x\n", s->jmp_pc);
   rtl_j(s, s->jmp_pc);
   s->is_jmp = 1;
   rtl_pop(s,s0);
