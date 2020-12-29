@@ -11,7 +11,7 @@ void do_syscall(Context *c) {
     case 1: yield();break;    //SYS_yield
     case 4: if(a[1] == 1 || a[1] == 2)
               for(int i = 0; i < a[3]; i ++) 
-                putch(*(char *)a[2]); 
+                putch(*(char *)a[2]++); 
             break;            //SYS_write
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
