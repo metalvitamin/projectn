@@ -70,10 +70,10 @@ void *_sbrk(intptr_t increment) {
   char buf[300];
   if(program_break == NULL){
     program_break = &_end;
-    sprintf(buf,"%p\n", program_break);
-    _write(1,buf,11);
+    
   }
-  
+  sprintf(buf,"%p\n", program_break);
+  _write(1,buf,11);
   void *temp = program_break + increment;
   if(_syscall_(SYS_brk, (intptr_t)temp, 0, 0) == 0){
     program_break = temp;
