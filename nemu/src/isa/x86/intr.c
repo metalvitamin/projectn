@@ -18,7 +18,7 @@ void raise_intr(DecodeExecState *s, uint32_t NO, vaddr_t ret_addr) {
   uint8_t valid = (*s1 >> 15) & 0x1;
   if (valid == 1){
     vaddr_t gate = (*s0 & 0xffff) |(*s1 & ~0xffff);
-    printf("gate = %x\n", gate);
+    // printf("gate = %x\n", gate);
     rtl_j(s,gate);
   }
   else
