@@ -72,6 +72,7 @@ void *_sbrk(intptr_t increment) {
     program_break = &_end;
     
   }
+  assert(0);
   sprintf(buf,"%p\n", program_break);
   _write(1,buf,11);
   void *temp = program_break + increment;
