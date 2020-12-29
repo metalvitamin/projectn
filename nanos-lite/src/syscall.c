@@ -9,11 +9,12 @@ void do_syscall(Context *c) {
   switch (a[0]) {
     case 0: halt(a[0]);break;    //SYS_exit    //???
     case 1: yield();break;    //SYS_yield
-    case 4: if(a[1] == 1 || a[1] == 2)
+    case 4: Log("\n");
+            if(a[1] == 1 || a[1] == 2)
               for(int i = 0; i < a[3]; i ++) 
                 putch(*(char *)a[2]++); 
             break;            //SYS_write
-    case 9: a[0] = 0; break;
+    case 9: a[0] = 0; break;  //SYS_brk
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 }
