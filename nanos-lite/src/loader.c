@@ -20,7 +20,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   fs_read(fd, &ehdr, sizeof(ehdr));
   uint64_t phdroffset = ehdr.e_phoff;
   Elf_Phdr phdr = {0};
-  fs_lseek(fd, phdroffset, 1);
   for(int i = 0; i < ehdr.e_phnum; i ++){
     fs_read(fd, &phdr, sizeof(phdr));
     if(phdr.p_type == PT_LOAD){
@@ -28,10 +27,10 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       fs_lseek(fd, phdr.p_offset, 1);
       fs_read(fd, buf, phdr.p_filesz);
       memcpy((void *)phdr.p_vaddr, buf, phdr.p_filesz);
-      memset((void *)(phdr.p_vaddr + phdr.p_filesz) ,0 , phdr.p_memsz - phdr.p_filesz);
+      memset((void *)(phdr.p_vaddr + phdr.p_filesz), 0, phdr.p_memsz - phdr.p_filesz);
+      fs_lseek(fd, phdroffset, 1);
     }
     phdroffset += sizeof(phdr);
-    fs_lseek(fd, phdroffset, 1);
     
   }
   fs_close(fd);
