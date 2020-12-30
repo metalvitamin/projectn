@@ -93,7 +93,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
   if(fd < FD_FB) return 0;
   switch (whence)
   {
-  case SEEK_SET:
+  case SEEK_SET:printf("%d\n",offset);
     Foffset[fd] = offset;
     break;
   case SEEK_CUR:
