@@ -97,9 +97,9 @@ size_t fs_lseek(int fd, size_t offset, int whence){
     break;
   // case SEEK_END:
   //   Foffset[fd] = offset + file_table[fd].size;
-    break;
+    // break;
   default:
-    Log("unsupported whence");
+    printf("unsupported whence\n");
     return -1;
   }
   return Foffset[fd];
