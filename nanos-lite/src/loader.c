@@ -9,34 +9,32 @@
 # define Elf_Phdr Elf32_Phdr
 #endif
 
-size_t ramdisk_read(void*, size_t, size_t);
+int fs_open(const char *pathname, int flags, int mode);
+size_t fs_read(int fd, void *buf, size_t len);
+size_t fs_lseek(int fd, size_t offset, int whence);
+int fs_close(int fd);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr ehdr;
-  ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
-  uint64_t phdraddr = ehdr.e_phoff;
-  // printf("type = %d\n",ehdr.e_type);
-  // printf("poffset = 0x%x, phnum = %d, ehsize = 0x%x\n",ehdr.e_phoff, ehdr.e_phnum,ehdr.e_ehsize);
-  // printf("vaddr = 0x%x\n", ehdr.e_entry);
-  // printf("phdraddr = 0x%x\n",phdraddr);
+  int fd = fs_open(filename, 0 ,0);
+  fs_read(fd, &ehdr, sizeof(ehdr));
+  uint64_t phdroffset = ehdr.e_phoff;
   Elf_Phdr phdr = {0};
+  fs_lseek(fd, phdroffset, 1);
   for(int i = 0; i < ehdr.e_phnum; i ++){
-    // putch('\n');putch('\n');putch('\n');
-    ramdisk_read(&phdr, phdraddr, sizeof(Elf_Phdr));
-    // printf("type = %d\n", phdr.p_type);
-    // printf("offset = 0x%x, vaddr = 0x%x, paddr = 0x%x, filesize = 0x%x, memsize = 0x%x, flags = 0x%x, align = 0x%x\n"
-          // , phdr.p_offset, phdr.p_vaddr, phdr.p_paddr, phdr.p_filesz, phdr.p_memsz, phdr.p_flags, phdr.p_align);
+    fs_read(fd, &phdr, sizeof(phdr));
     if(phdr.p_type == PT_LOAD){
       uint8_t buf[phdr.p_filesz];
-      ramdisk_read(buf, phdr.p_offset, phdr.p_filesz);
+      fs_lseek(fd, phdr.p_offset, 1);
+      fs_read(fd, buf, phdr.p_filesz);
       memcpy((void *)phdr.p_vaddr, buf, phdr.p_filesz);
       memset((void *)(phdr.p_vaddr + phdr.p_filesz) ,0 , phdr.p_memsz - phdr.p_filesz);
-      
     }
-    
-    phdraddr += sizeof(phdr);
+    phdroffset += sizeof(phdr);
+    fs_lseek(fd, phdroffset, 1);
     
   }
+  fs_close(fd);
   return ehdr.e_entry;
 }
 
