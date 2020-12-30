@@ -76,11 +76,11 @@ void *_sbrk(intptr_t increment) {
   sprintf(buf, "0x%08x\n", (unsigned)program_break);
   _write(1,buf,12);
   void *temp = program_break + increment;
-  if(_syscall_(SYS_brk, (intptr_t)temp, 0, 0) == 0){
+  // if(_syscall_(SYS_brk, (intptr_t)temp, 0, 0) == 0){
     program_break = temp;
     return program_break - increment;
-  }
-  else return (void *)-1;
+  // }
+  // else return (void *)-1;
 }//untested!!!!!!!!!!!!!!!!
 
 int _read(int fd, void *buf, size_t count) {
