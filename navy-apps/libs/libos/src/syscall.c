@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <time.h>
 #include "syscall.h"
-
+#include <stdio.h>
 // helper macros
 #define _concat(x, y) x ## y
 #define concat(x, y) _concat(x, y)
@@ -65,13 +65,13 @@ int _write(int fd, void *buf, size_t count) {
   return count;
 }
 extern char _end;
-static void *program_break = NULL;
+static void *program_break = &_end;
 void *_sbrk(intptr_t increment) {
   char buf[300];
-  if(program_break == NULL){
-    program_break = &_end;
+  // if(program_break == NULL){
+  //   program_break = &_end;
     
-  }
+  // }
   // assert(0);
   sprintf(buf, "%p\n", program_break);
   _write(1,buf,11);
