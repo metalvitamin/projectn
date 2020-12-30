@@ -25,7 +25,7 @@ void init_proc() {
   Log("Initializing processes...");
 
   // load program here
-  naive_uload(NULL,"/share/music/little-star.ogg");
+  naive_uload(NULL,"/bin/hello");
 
 }
 
