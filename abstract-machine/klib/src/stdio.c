@@ -97,6 +97,7 @@ format:\
         break;\
       case 'p':\
         ch = "0x";\
+        exec;\
         p = va_arg(ap,void *);\
         u = (uint32_t)p;\
         dec_xint(ch,chtemp,u,min_broad)\
