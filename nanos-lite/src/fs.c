@@ -76,6 +76,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
   if(fd < sizeof(file_table)/sizeof(Finfo)){
     size_t maxlen = file_table[fd].size;
     size_t offset = file_table[fd].disk_offset + Foffset[fd];
+    printf("offset = %d, len = %d, size = %d\n",Foffset[fd], len,maxlen);
     if(Foffset[fd] + len > maxlen) panic("your offset or len is out of bound!");
     ramdisk_write(buf, offset, len);
     Foffset[fd] += len;
@@ -93,7 +94,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
   if(fd < FD_FB) return 0;
   switch (whence)
   {
-  case SEEK_SET:printf("%d\n",offset);
+  case SEEK_SET:
     Foffset[fd] = offset;
     break;
   case SEEK_CUR:
