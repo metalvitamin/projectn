@@ -26,11 +26,11 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     printf("type = %d, offset = 0x%x, filesz = 0x%x\n", phdr.p_type,phdr.p_offset,phdr.p_filesz);
     if(phdr.p_type == PT_LOAD){
       uint8_t buf[phdr.p_filesz];
-      fs_lseek(fd, phdr.p_offset, 1);
+      fs_lseek(fd, phdr.p_offset, 0);
       fs_read(fd, buf, phdr.p_filesz);
       memcpy((void *)phdr.p_vaddr, buf, phdr.p_filesz);
       memset((void *)(phdr.p_vaddr + phdr.p_filesz), 0, phdr.p_memsz - phdr.p_filesz);
-      fs_lseek(fd, phdroffset, 1);
+      fs_lseek(fd, phdroffset, 0);
     }
     
     
