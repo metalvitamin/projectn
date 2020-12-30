@@ -12,7 +12,7 @@ void do_syscall(Context *c) {
     case 4: //Log("\n");
             if(a[1] == 1 || a[1] == 2)
               for(int i = 0; i < a[3]; i ++) 
-                putch(*(char *)a[2]++); 
+                putch(*(char *)(a[2]++)); 
             break;            //SYS_write
     case 9: a[0] = 0; break;  //SYS_brk
     default: panic("Unhandled syscall ID = %d", a[0]);

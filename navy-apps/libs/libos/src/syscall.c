@@ -67,12 +67,12 @@ int _write(int fd, void *buf, size_t count) {
 extern char _end;
 static void *program_break = &_end;
 void *_sbrk(intptr_t increment) {
-  char buf[300];
+  char buf[30];
   // if(program_break == NULL){
   //   program_break = &_end;
     
   // }
-  assert(0);
+  // assert(0);
   sprintf(buf, "0x%08x\n", (unsigned)program_break);
   _write(1,buf,12);
   void *temp = program_break + increment;
