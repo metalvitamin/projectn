@@ -110,7 +110,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
 }
 
 int fs_close(int fd){
-  printf("close\n");
+  printf("\nclose\n");
   return 0;
 }
 
