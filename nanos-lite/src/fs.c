@@ -66,8 +66,8 @@ size_t fs_write(int fd, const void *buf, size_t len){
   if(fd == FD_STDIN) return 0;
   else if(fd < FD_FB){
     for(int i = 0; i < len; i ++)
-      putch(*(char *)buf);
-    return 0;
+      putch(*(char *)(buf+i));
+    return len;
   }
   
   if(fd < sizeof(file_table)/sizeof(Finfo)){
