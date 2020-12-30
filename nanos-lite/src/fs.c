@@ -52,7 +52,7 @@ size_t fs_read(int fd, void *buf, size_t len){
   if(fd < sizeof(file_table)/sizeof(Finfo)){
     size_t maxlen = file_table[fd].size;
     size_t offset = file_table[fd].disk_offset + Foffset[fd];
-    printf("offset = %d, len = %d, size = %d\n",Foffset[fd], len,maxlen);
+    // printf("offset = %d, len = %d, size = %d\n",Foffset[fd], len,maxlen);
     if(Foffset[fd] + len > maxlen){
       len = maxlen - Foffset[fd];
       Log("cause the filesize is fixed, you can just read %d bytes", len);
@@ -80,7 +80,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
   if(fd < sizeof(file_table)/sizeof(Finfo)){
     size_t maxlen = file_table[fd].size;
     size_t offset = file_table[fd].disk_offset + Foffset[fd];
-    printf("offset = %d, len = %d, size = %d\n",Foffset[fd], len,maxlen);
+    // printf("offset = %d, len = %d, size = %d\n",Foffset[fd], len,maxlen);
     if(Foffset[fd] + len > maxlen){
       len = maxlen - Foffset[fd];
       Log("cause the filesize is fixed, you can just read %d bytes", len);
