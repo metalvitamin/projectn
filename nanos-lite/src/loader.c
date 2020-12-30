@@ -23,7 +23,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   for(int i = 0; i < ehdr.e_phnum; i ++){
     fs_read(fd, &phdr, sizeof(phdr));
     phdroffset += sizeof(phdr);
-    printf("type = %d, offset = 0x%x, filesz = 0x%x\n", phdr.p_type,phdr.p_offset,phdr.p_filesz);
+    //printf("type = %d, offset = 0x%x, filesz = 0x%x\n", phdr.p_type,phdr.p_offset,phdr.p_filesz);
     if(phdr.p_type == PT_LOAD){
       uint8_t buf[phdr.p_filesz];
       fs_lseek(fd, phdr.p_offset, 0);
