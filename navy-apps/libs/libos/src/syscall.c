@@ -73,7 +73,7 @@ void *_sbrk(intptr_t increment) {
     
   // }
   // assert(0);
-  sprintf(buf, "%p\n", program_break);
+  sprintf(buf, "0x%08x\n", (unsigned)program_break);
   _write(1,buf,11);
   void *temp = program_break + increment;
   if(_syscall_(SYS_brk, (intptr_t)temp, 0, 0) == 0){
