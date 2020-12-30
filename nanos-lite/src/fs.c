@@ -53,7 +53,10 @@ size_t fs_read(int fd, void *buf, size_t len){
     size_t maxlen = file_table[fd].size;
     size_t offset = file_table[fd].disk_offset + Foffset[fd];
     printf("offset = %d, len = %d, size = %d\n",Foffset[fd], len,maxlen);
-    if(Foffset[fd] + len > maxlen) panic("your offset or len is out of bound!");
+    if(Foffset[fd] + len > maxlen){
+      len = maxlen - Foffset[fd];
+      Log("cause the filesize is fixed, you can just read %d bytes", len);
+    }
     ramdisk_read(buf, offset, len);
     Foffset[fd] += len;
     return len;
@@ -78,7 +81,10 @@ size_t fs_write(int fd, const void *buf, size_t len){
     size_t maxlen = file_table[fd].size;
     size_t offset = file_table[fd].disk_offset + Foffset[fd];
     printf("offset = %d, len = %d, size = %d\n",Foffset[fd], len,maxlen);
-    if(Foffset[fd] + len > maxlen) panic("your offset or len is out of bound!");
+    if(Foffset[fd] + len > maxlen){
+      len = maxlen - Foffset[fd];
+      Log("cause the filesize is fixed, you can just read %d bytes", len);
+    }
     ramdisk_write(buf, offset, len);
     Foffset[fd] += len;
     return len;
