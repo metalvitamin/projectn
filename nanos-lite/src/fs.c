@@ -47,6 +47,7 @@ int fs_open(const char *pathname, int flags, int mode){
 }
 
 size_t fs_read(int fd, void *buf, size_t len){
+  printf("read ");
   if(fd < FD_FB) return 0;
   if(fd < sizeof(file_table)/sizeof(Finfo)){
     size_t maxlen = file_table[fd].size;
@@ -64,6 +65,7 @@ size_t fs_read(int fd, void *buf, size_t len){
 }
 
 size_t fs_write(int fd, const void *buf, size_t len){
+  printf("write ");
   if(fd == FD_STDIN) return 0;
   else if(fd < FD_FB){
     for(int i = 0; i < len; i ++)
@@ -87,6 +89,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
 }
 
 size_t fs_lseek(int fd, size_t offset, int whence){
+  printf("lseek ");
   if(fd < FD_FB) return 0;
   switch (whence)
   {
