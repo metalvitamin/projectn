@@ -27,7 +27,6 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   if(ev.keycode == AM_KEY_NONE) return 0;
   char* ch = "";
   sprintf(ch,"k%d %s",ev.keycode ? 'd' : 'u', keyname[ev.keycode]);
-  printf("%s",ch);
   if(copy_len + strlen(ch) > len) return 0;
   copy_len += strlen(ch);
   strcpy(buf,ch);
