@@ -33,7 +33,10 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   return copy_len;
 }
 
+size_t ramdisk_read(void*, size_t, size_t);
+
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
+  ramdisk_read(buf, offset, len);
   return 0;
 }
 

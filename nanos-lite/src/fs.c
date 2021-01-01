@@ -15,6 +15,7 @@ enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_EVENTS, FD_FB};
 
 size_t serial_write(const void *buf, size_t offset, size_t len);
 size_t events_read(void *buf, size_t offset, size_t len);
+size_t dispinfo_read(void *buf, size_t offset, size_t len);
 
 size_t invalid_read(void *buf, size_t offset, size_t len) {
   panic("should not reach here");
@@ -42,17 +43,19 @@ size_t ramdisk_write(const void*, size_t, size_t);
 
 int fs_open(const char *pathname, int flags, int mode){
   // printf("open %s\n",pathname);
-  for(int i = 3; i < sizeof(file_table)/sizeof(Finfo); i ++)
+  
+  for(int i = 3; i < sizeof(file_table)/sizeof(Finfo); i ++){
+    if(strcmp("/proc/dispinfo", file_table[i].name) == 0) file_table[i].read = dispinfo_read;
     if(strcmp(file_table[i].name, pathname) == 0) {
       return i;
     }
-
+  }
   panic("you can't create a file");
 }
 
 size_t fs_read(int fd, void *buf, size_t len){
   // printf("read ");
-  if(file_table[fd].read != NULL) return file_table[fd].read(buf,0,len);
+  if(file_table[fd].read != NULL) return file_table[fd].read(buf, file_table[fd].disk_offset, len);
 
 
   if(fd < sizeof(file_table)/sizeof(Finfo)){
@@ -76,7 +79,7 @@ size_t fs_read(int fd, void *buf, size_t len){
 
 size_t fs_write(int fd, const void *buf, size_t len){
   // printf("write ");
-  if(file_table[fd].write != NULL) return file_table[fd].write(buf,0,len);
+  if(file_table[fd].write != NULL) return file_table[fd].write(buf, file_table[fd].disk_offset, len);
   
   if(fd < sizeof(file_table)/sizeof(Finfo)){
     size_t maxlen = file_table[fd].size;
