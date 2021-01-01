@@ -42,7 +42,7 @@ size_t ramdisk_write(const void*, size_t, size_t);
 
 int fs_open(const char *pathname, int flags, int mode){
   printf("open %s\n",pathname);
-  for(int i = FD_FB; i < sizeof(file_table)/sizeof(Finfo); i ++)
+  for(int i = 3; i < sizeof(file_table)/sizeof(Finfo); i ++)
     if(strcmp(file_table[i].name, pathname) == 0) {
       return i;
     }
