@@ -2,7 +2,7 @@
 #include <nemu.h>
 
 #define SYNC_ADDR (VGACTL_ADDR + 4)
-
+int printf(const char *, ...);
 void __am_gpu_init() {
   /*int i;
   int w = io_read(AM_GPU_CONFIG).width ;  // TODO: get the correct width
@@ -18,6 +18,7 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
     .width = inw(VGACTL_ADDR + 2), .height = inw(VGACTL_ADDR),
     .vmemsz = 0
   };
+  printf("w = %d, h = %d\n",cfg->width,cfg->height);
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
