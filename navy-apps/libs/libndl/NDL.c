@@ -15,8 +15,11 @@ uint32_t NDL_GetTicks() {
   return seconds.tv_sec * 1000 + seconds.tv_usec / 1000;
 }
 
+int open(const char *path, int flags, ...);
 int NDL_PollEvent(char *buf, int len) {
   // printf("NDL\n");
+  printf("number = %d\n",
+  open("/dev/events", 0));
   int ret = read(3 , buf, len);
   // printf("ret = %d\n",ret);
   if(ret != 0 )return 1;
