@@ -73,6 +73,7 @@ format:\
         d = va_arg(ap, int);\
         ch[0] = d;\
         exec;\
+        break;\
       case 's':\
         ch = va_arg(ap,char*);\
         exec;\
