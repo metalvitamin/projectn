@@ -45,7 +45,7 @@ void NDL_OpenCanvas(int *w, int *h) {
   else
   {
     char buf[30];
-    fread(buf, 1, 23, fopen("/proc/dispinfo", NULL));
+    read(open("/proc/dispinfo", 0), buf, 23);
     sscanf(buf,"%d%d",w,h);
     printf("width = %d, height = %d",*w,*h);
   }
