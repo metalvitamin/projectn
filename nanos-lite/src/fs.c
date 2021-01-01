@@ -69,7 +69,7 @@ size_t fs_read(int fd, void *buf, size_t len){
   }
   else
   {
-    panic("your fd is too large!");
+    panic("your fd = %d is too large!", fd);
     return -1;
   }
 }
