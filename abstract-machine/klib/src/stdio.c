@@ -70,7 +70,8 @@ format:\
         break;\
       case 'c':\
         ch = "0";\
-        ch[0] = fmt[i];\
+        d = va_arg(ap, int);\
+        ch[0] = d;\
         ch[1] = '\0';\
         exec;\
       case 's':\
