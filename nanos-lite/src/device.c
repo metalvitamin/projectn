@@ -26,7 +26,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
   if(ev.keycode == AM_KEY_NONE) return 0;
   char* ch = (ev.keydown ? "kd " : "ku ");
-  strcat(ch, keyname[ev.keycode]);strcat(ch,"\n");
+  strcat(ch, keyname[ev.keycode]);
   if(copy_len + strlen(ch) > len) return 0;
   copy_len += strlen(ch);
   strcpy(buf,ch);
