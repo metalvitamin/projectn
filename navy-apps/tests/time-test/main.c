@@ -4,6 +4,7 @@
 
 
 int main(){
+    NDL_Init(0);
     int i = 1;
     while (1)
     {
