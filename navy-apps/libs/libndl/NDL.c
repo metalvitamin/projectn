@@ -18,9 +18,10 @@ uint32_t NDL_GetTicks() {
 int open(const char *path, int flags, ...);
 int NDL_PollEvent(char *buf, int len) {
   // printf("NDL\n");
-  int ret = read(open("/dev/events", 0) , buf, len);
+  evtdev = 3;
+  int ret = read(evtdev , buf, len);
   // printf("ret = %d\n",ret);
-  close(3);
+  close(evtdev);
   if(ret != 0 )return 1;
   else return 0;
 }
