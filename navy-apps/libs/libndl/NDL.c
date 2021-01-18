@@ -77,9 +77,9 @@ int NDL_Init(uint32_t flags) {
   if (getenv("NWM_APP")) {
     evtdev = 3;
   }
-  char buf[30];
-  read(open("/proc/dispinfo", 0), buf, 23);
-  sscanf(buf,"%d%d",&screen_w,&screen_h);
+  // char buf[30];
+  // read(open("/proc/dispinfo", 0), buf, 23);
+  // sscanf(buf,"%d%d",&screen_w,&screen_h);
   return 0;
 }
 
