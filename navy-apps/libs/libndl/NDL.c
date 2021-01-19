@@ -48,10 +48,14 @@ void NDL_OpenCanvas(int *w, int *h) {
   {
     char buf[30];
     read(open("/proc/dispinfo", 0), buf, 23);
-    sscanf(buf,"%d%d",w,h);
+    // printf("%s\n",buf);
+    sscanf(buf,"WIDTH: %d \nHEIGHT: %d",&screen_w,&screen_h);
+    // screen_w = 400;
+    // screen_h = 300;
+    printf("screen is %d*%d\n",screen_w,screen_h);
     screen_w = (screen_w - *w) / 2;
     screen_h = (screen_h - *h) / 2;
-    printf("width = %d, height = %d",screen_w,screen_h);
+    printf("width = %d, height = %d\n",*w,*h);
   }
   
 }
