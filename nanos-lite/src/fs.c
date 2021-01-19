@@ -16,7 +16,7 @@ enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_EVENTS, FD_FB};
 size_t serial_write(const void *buf, size_t offset, size_t len);
 size_t events_read(void *buf, size_t offset, size_t len);
 size_t dispinfo_read(void *buf, size_t offset, size_t len);
-
+size_t fb_write(const void *buf, size_t offset, size_t len);
 size_t invalid_read(void *buf, size_t offset, size_t len) {
   panic("should not reach here");
   return 0;
@@ -33,6 +33,7 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDOUT] = {"stdout", 0, 0, invalid_read, serial_write},
   [FD_STDERR] = {"stderr", 0, 0, invalid_read, serial_write},
   [FD_EVENTS] = {"/dev/events", 0, 0, events_read, invalid_write},
+  [FD_FB] = {"/dev/fb", 0, 0, invalid_read, fb_write},
 #include "files.h"
 };
 
@@ -44,7 +45,7 @@ size_t ramdisk_write(const void*, size_t, size_t);
 int fs_open(const char *pathname, int flags, int mode){
   printf("open %s\n",pathname);
   
-  for(int i = FD_FB; i < sizeof(file_table)/sizeof(Finfo); i ++){
+  for(int i = FD_EVENTS; i < sizeof(file_table)/sizeof(Finfo); i ++){
     if(strcmp("/proc/dispinfo", file_table[i].name) == 0) file_table[i].read = dispinfo_read;
     if(strcmp(file_table[i].name, pathname) == 0) {
       return i;
@@ -128,4 +129,7 @@ int fs_close(int fd){
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
+  int fbsize = 400 * 300 * 4;
+  file_table[FD_FB].size += fbsize;
+  
 }

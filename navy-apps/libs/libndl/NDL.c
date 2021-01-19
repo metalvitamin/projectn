@@ -18,7 +18,7 @@ uint32_t NDL_GetTicks() {
 int open(const char *path, int flags, ...);
 int NDL_PollEvent(char *buf, int len) {
   // printf("NDL\n");
-  evtdev = 3;
+  evtdev = open("/dev/events", 0);
   int ret = read(evtdev , buf, len);
   // printf("ret = %d\n",ret);
   close(evtdev);
@@ -47,7 +47,8 @@ void NDL_OpenCanvas(int *w, int *h) {
   else
   {
     char buf[30];
-    read(open("/proc/dispinfo", 0), buf, 23);
+    evtdev = 3;
+    read(evtdev, buf, 23);
     // printf("%s\n",buf);
     sscanf(buf,"WIDTH: %d \nHEIGHT: %d",&screen_w,&screen_h);
     // screen_w = 400;
@@ -61,6 +62,11 @@ void NDL_OpenCanvas(int *w, int *h) {
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
+  fbdev = open("/dev/fb", 0);
+  printf("draw a %d*%d at (%d,%d) on the canva\n", w, h, x, y);
+  
+  lseek(fbdev,((screen_w + x) << 16) | (screen_h + y), 0);
+  write(fbdev, pixels, (w << 16) | h);
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {
