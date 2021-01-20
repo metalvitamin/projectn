@@ -15,7 +15,7 @@ void raise_intr(DecodeExecState *s, uint32_t NO, vaddr_t ret_addr) {
   vaddr_t access = cpu.IDTR.idt + NO * 8;
   *s0 = vaddr_read(access, 4);
   *s1 = vaddr_read(access + 4, 4);
-  printf("%x\n%x\n",*s1,*s0);
+  // printf("%x\n%x\n",*s1,*s0);
   uint8_t valid = (*s1 >> 15) & 0x1;
   if (valid == 1){
     vaddr_t gate = (*s0 & 0xffff) |(*s1 & ~0xffff);
