@@ -4,7 +4,7 @@ static inline def_EHelper(lidt) {
   *s0 = reg_l(0);
   cpu.IDTR.length = vaddr_read(*s0, 2);
   cpu.IDTR.idt = vaddr_read(*s0 + 2, 4);
-
+  printf("length 0x800 = %d, entry 0x1d60a0 = %d",cpu.IDTR.length,cpu.IDTR.idt);
   print_asm_template1(lidt);
 }
 
