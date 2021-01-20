@@ -54,8 +54,8 @@ void NDL_OpenCanvas(int *w, int *h) {
     // screen_w = 400;
     // screen_h = 300;
     printf("screen is %d*%d\n",screen_w,screen_h);
-    screen_w = (screen_w - *w) / 2;
-    screen_h = (screen_h - *h) / 2;
+    // screen_w = (screen_w - *w) / 2;
+    // screen_h = (screen_h - *h) / 2;
     printf("width = %d, height = %d\n",*w,*h);
   }
   
@@ -64,9 +64,12 @@ void NDL_OpenCanvas(int *w, int *h) {
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   fbdev = open("/dev/fb", 0);
   printf("draw a %d*%d at (%d,%d) on the canva\n", w, h, x, y);
+  lseek(fbdev, x*screen_w + y, 0);
+  for(int i = 0; i < h; i ++){
+    write(fbdev, pixels + i * w, 4*w);
+    lseek(fbdev, 4*screen_w - 4*w, 1);
+  }
   
-  lseek(fbdev,((screen_w + x) << 16) | (screen_h + y), 0);
-  write(fbdev, pixels, (w << 16) | h);
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {
