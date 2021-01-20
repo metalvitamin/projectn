@@ -11,6 +11,7 @@ void raise_intr(DecodeExecState *s, uint32_t NO, vaddr_t ret_addr) {
   rtl_push(s, &cpu.eflags.EFLAGS);
   rtl_push(s, &cpu.cs);
   rtl_push(s, &ret_addr);
+  printf("NO = %d\n",NO);
   vaddr_t access = cpu.IDTR.idt + NO * 8;
   *s0 = vaddr_read(access, 4);
 
