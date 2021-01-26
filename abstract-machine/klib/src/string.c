@@ -87,8 +87,8 @@ void* memset(void* v,int c,size_t n) {
   if(v == NULL) return NULL;
   unsigned char* p = (unsigned char*)v;
   for(size_t i = 0; i < n; i ++){
-    *p = c;
-    p += 1ul;
+    *p++ = c;
+
   }
   return v;
 }
@@ -125,6 +125,7 @@ void* memcpy(void* out, const void* in, size_t n) {
   }
   char* pout = (char*)out;
   char* pin = (char*)in;
+  //printf("size: %d", n);
   while(n--){
     *pout = *pin;
     pout += 1ul;

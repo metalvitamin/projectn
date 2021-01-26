@@ -1,8 +1,10 @@
 #include <monitor/difftest.h>
 
 static inline def_EHelper(lidt) {
-  TODO();
-
+  *s0 = reg_l(0);
+  cpu.IDTR.length = vaddr_read(*s0, 2);
+  cpu.IDTR.idt = vaddr_read(*s0 + 2, 4);
+  // printf("length 0x800 = 0x%x, entry 0x1d60a0 = 0x%x\n",cpu.IDTR.length,cpu.IDTR.idt);
   print_asm_template1(lidt);
 }
 
@@ -23,7 +25,8 @@ static inline def_EHelper(mov_cr2r) {
 }
 
 static inline def_EHelper(int) {
-  TODO();
+  void raise_intr(DecodeExecState*, uint32_t, vaddr_t);
+  raise_intr(s, *ddest, s->seq_pc);
 
   print_asm("int %s", id_dest->str);
 
@@ -33,7 +36,13 @@ static inline def_EHelper(int) {
 }
 
 static inline def_EHelper(iret) {
-  TODO();
+  rtl_pop(s, &s->jmp_pc);//printf("pc = 0x%08x\n", s->jmp_pc);
+  rtl_j(s, s->jmp_pc);
+  s->is_jmp = 1;
+  rtl_pop(s,s0);
+  cpu.cs = *s0;
+  rtl_pop(s,s0);
+  cpu.eflags.EFLAGS = *s0;
 
   print_asm("iret");
 

@@ -54,9 +54,19 @@ typedef struct {
       uint32_t UNUSED : 20;
 
     };
+    rtlreg_t EFLAGS;
     
 
   }eflags;
+  
+  rtlreg_t cs;
+
+  struct 
+  {
+    int16_t length;
+    uint32_t idt;
+  }__attribute__((packed)) IDTR;
+  
   
   
 } x86_CPU_state;

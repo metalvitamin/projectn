@@ -26,9 +26,15 @@ static inline def_rtl(sr, int r, const rtlreg_t* src1, int width) {
 
 static inline def_rtl(push, const rtlreg_t* src1) {
   // esp <- esp - 4
+<<<<<<< HEAD
   *s0 = *src1;
   reg_l(4) -= 4;
   rtl_sm(s, rz, reg_l(4), s0, 4);
+=======
+  *t0 = *src1;
+  reg_l(4) -= 4;
+  rtl_sm(s, rz, reg_l(4), t0, 4);
+>>>>>>> pa3
   // M[esp] <- src1
 }
 
