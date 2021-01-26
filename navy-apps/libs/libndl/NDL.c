@@ -47,29 +47,34 @@ void NDL_OpenCanvas(int *w, int *h) {
   else
   {
     char buf[30];
-    evtdev = 3;
-    read(evtdev, buf, 23);
+    int fbctl = open("/proc/dispinfo", 0);
+    read(fbctl, buf, 23);
     // printf("%s\n",buf);
     sscanf(buf,"WIDTH: %d \nHEIGHT: %d",&screen_w,&screen_h);
     // screen_w = 400;
     // screen_h = 300;
-    printf("screen is %d*%d\n",screen_w,screen_h);
+    // printf("screen is %d*%d\n",screen_w,screen_h);
     // screen_w = (screen_w - *w) / 2;
     // screen_h = (screen_h - *h) / 2;
-    printf("width = %d, height = %d\n",*w,*h);
+    if(*w == 0 && *h == 0) {
+      *w = screen_w;
+      *h = screen_h;
+    }
+    // printf("width = %d, height = %d\n",*w,*h);
+    close(fbctl);
   }
   
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   fbdev = open("/dev/fb", 0);
-  printf("draw a %d*%d at (%d,%d) on the canva\n", w, h, x, y);
+  // printf("draw a %d*%d at (%d,%d) on the canva\n", w, h, x, y);
   lseek(fbdev, x*screen_w + y, 0);
   for(int i = 0; i < h; i ++){
     write(fbdev, pixels + i * w, 4*w);
     lseek(fbdev, 4*screen_w - 4*w, 1);
   }
-  
+  close(fbdev);
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {

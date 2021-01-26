@@ -7,12 +7,58 @@
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
+  uint32_t *srcpi = src->pixels;
+  uint32_t *dstpi = dst->pixels;
+  if(srcrect != NULL){
+    srcpi += srcrect->y * srcrect->w + srcrect->x;
+    if(dstrect != NULL){
+      for (int j = 0; j < srcrect->h && srcrect->y + j < srcrect->h; j ++) {
+        memcpy(&dstpi[(dstrect->y + j) * srcrect->w + dstrect->x], srcpi, sizeof(uint32_t) * (srcrect->w < src->w - srcrect->x ? srcrect->w : src->w - srcrect->x));
+        srcpi += srcrect->w;
+      }
+    }
+    else
+    {
+      for (int j = 0; j < srcrect->h && srcrect->y + j < srcrect->h; j ++) {
+        memcpy(&dstpi[j * srcrect->w], srcpi, sizeof(uint32_t) * (srcrect->w < src->w - srcrect->x ? srcrect->w : src->w - srcrect->x));
+        srcpi += srcrect->w;
+      }
+    }
+  }
+  else
+  {
+    if(dstrect != NULL){
+      for (int j = 0; j < src->h; j ++) {
+        memcpy(&dstpi[(dstrect->y + j) * src->w + dstrect->x], srcpi, sizeof(uint32_t) * src->w);
+        srcpi += src->w;
+      }
+    }
+    else
+    {
+      for (int j = 0; j < src->h; j ++) {
+        memcpy(&dstpi[j * src->w], srcpi, sizeof(uint32_t) * src->w);
+        srcpi += src->w;
+      }
+    }
+  }
+  
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
+  uint32_t *buf = dst->pixels;
+  if(dstrect == NULL){
+    memset(buf, color, sizeof(uint32_t) * dst->w * dst->h);
+  }else{
+    for (int j = 0; j < dstrect->h && dstrect->y + j < dst->h; j ++) {
+      memset(&buf[(dstrect->y + j) * dst->w + dstrect->x], color, sizeof(uint32_t) * (dstrect->w < dst->w - dstrect->x ? dstrect->w : dst->w - dstrect->x));
+    }
+  }
+  
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
+  NDL_OpenCanvas(&w, &h);
+  NDL_DrawRect((uint32_t*)s->pixels,x,y,w,h); //locked undefined
 }
 
 // APIs below are already implemented.
